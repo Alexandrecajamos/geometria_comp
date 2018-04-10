@@ -23,24 +23,18 @@ int Particione_original(double* vetor, int p, int r) {
     trocar(vetor[i+1], vetor[r]);
     return i+1;
 }
-
 int Particione_aleat(double* vetor, int p, int r) {
     srand (time(NULL));
     int pos_pivo = p + rand()%(r-p+1);
     trocar(vetor[pos_pivo], vetor[r]);
     return Particione_original(vetor,p,r);
 }
-
 void QuickSort(double* vetor, int p, int r) {
     if (p>=r) return;
     int q = Particione_aleat(vetor,p,r);
     QuickSort(vetor,p,q-1);
     QuickSort(vetor,q+1,r);
 }
-
-
-//
-
 void InsertionSort(double* vetor, int p, int r) {
     int i,j; double carta;
     for (j=p+1;j<=r;j++) {
@@ -53,9 +47,6 @@ void InsertionSort(double* vetor, int p, int r) {
         vetor[i+1] = carta;
     }
 }
-
-//
-
 void Merge(double* vetor, int p, int q, int r) {
     int infinito = INT_MAX;
     int N1 = q-p+1;
@@ -77,7 +68,6 @@ void Merge(double* vetor, int p, int q, int r) {
     delete[] esq;
     delete[] dir;
 }
-
 void MergeSort(double* vetor, int p, int r) {
     if (p>=r) return;
     int q = (p+r)/2;
@@ -85,9 +75,5 @@ void MergeSort(double* vetor, int p, int r) {
     MergeSort(vetor,q+1,r);
     Merge(vetor,p,q,r);
 }
-
-//
-
-
 
 #endif // ORDENACAO_H

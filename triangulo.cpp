@@ -10,7 +10,6 @@ triangulo::triangulo(Coord_3D _P1, Coord_3D _P2, Coord_3D _P3){
     this->P3=&_P3;
     this->attNormal();
 }
-
 triangulo::triangulo(Coord_3D *_P1, Coord_3D *_P2, Coord_3D *_P3)
 {
     this->P1=_P1;
@@ -19,7 +18,6 @@ triangulo::triangulo(Coord_3D *_P1, Coord_3D *_P2, Coord_3D *_P3)
     this->attNormal();
 
 }
-
 Coord_3D triangulo::calcNormal(){
 
     Coord_3D p1=*(this->P1);
@@ -35,21 +33,19 @@ Coord_3D triangulo::calcNormal(){
     return p1;
 
 }
-
 void triangulo::attNormal(){
     this->Normal= this->calcNormal();
 }
-
 void triangulo::Barycentric(Coord_3D p, Coord_3D a, Coord_3D b, Coord_3D c, float &u, float &v, float &w)
 {
     Coord_3D v0 = b; Coord_3D v1 = c; Coord_3D v2 = p;
     v0.operator -=(&a); v1.operator -=(&a); v2.operator -=(&a);
 
-    float d00 = v0.Produto_Escalar_Vetor(&v0);
-    float d01 = v0.Produto_Escalar_Vetor(&v1);
-    float d11 = v1.Produto_Escalar_Vetor(&v1);
-    float d20 = v2.Produto_Escalar_Vetor(&v0);
-    float d21 = v2.Produto_Escalar_Vetor(&v1);
+    float d00 = ProdutoEscalar3D(v0,v0); //v0v0
+    float d01 = ProdutoEscalar3D(v0,v1); //v0v1
+    float d11 = ProdutoEscalar3D(v1,v1);
+    float d20 = ProdutoEscalar3D(v2,v0);
+    float d21 = ProdutoEscalar3D(v2,v1);
 
     float denom = (d00 * d11) - (d01 * d01);
 
@@ -58,7 +54,6 @@ void triangulo::Barycentric(Coord_3D p, Coord_3D a, Coord_3D b, Coord_3D c, floa
     u = 1-v-w;
 
 }
-
 float triangulo::Ray_intersept(Coord_3D Po, Coord_3D D){
     float t = -1;
 
@@ -68,7 +63,7 @@ float triangulo::Ray_intersept(Coord_3D Po, Coord_3D D){
     p3= *(this->P3);
 
     Coord_3D nF = this->Normal;
-    float PE = D.Produto_Escalar_Vetor(&nF);
+    float PE = ProdutoEscalar3D(D,nF);
     if(PE<0){
 
         Coord_3D v1 = p2;

@@ -7,6 +7,8 @@ SOURCES += main.cpp \
     coord_3d.cpp \
     coord_2d.cpp \
     triangulo.cpp \
+    esfera.cpp \
+    objeto.cpp \
     transformacoes.cpp
 
 HEADERS += \
@@ -14,4 +16,7 @@ HEADERS += \
     coord_2d.h \
     ordenacao.h \
     triangulo.h \
-    transformacoes.h
+    transformacoes.h \
+    esfera.h \
+    objeto.h \
+    vetor.h

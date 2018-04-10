@@ -9,8 +9,6 @@ public:
     void Identidade(float I[TAM][TAM]);
     void Escala(float E[TAM][TAM], float e[TAM-1]);
     void Translacao(float T[TAM][TAM], float t[TAM-1]);
-
-
     void MxM(float A[TAM][TAM],float B[TAM][TAM],float C[TAM][TAM]);
     void MxV(float M[TAM][TAM], Coord_3D *P);
     void Imp(float M[TAM][TAM]);

@@ -1,6 +1,6 @@
 #ifndef TRIANGULO_H
 #define TRIANGULO_H
-#include "coord_3d.h"
+#include "vetor.h"
 #include "transformacoes.h"
 
 class triangulo
