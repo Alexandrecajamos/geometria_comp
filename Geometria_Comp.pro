@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     triangulo.cpp \
     esfera.cpp \
     objeto.cpp \
-    transformacoes.cpp
+    transformacoes.cpp \
+    vetor.cpp
 
 HEADERS += \
     coord_3d.h \

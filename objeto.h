@@ -8,6 +8,8 @@
 #include "esfera.h"
 #include <fstream>
 #include "transformacoes.h"
+
+
 #define TAM 4
 
 class Objeto
