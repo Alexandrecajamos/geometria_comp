@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     esfera.cpp \
     objeto.cpp \
     transformacoes.cpp \
-    vetor.cpp
+    vetor.cpp \
+    poligono.cpp
 
 HEADERS += \
     coord_3d.h \
@@ -20,4 +21,5 @@ HEADERS += \
     transformacoes.h \
     esfera.h \
     objeto.h \
-    vetor.h
+    vetor.h \
+    poligono.h
