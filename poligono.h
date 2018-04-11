@@ -3,6 +3,7 @@
 #include "vector"
 #include "vetor.h"
 
+
 class Poligono
 {
 public:
@@ -12,10 +13,13 @@ public:
     void addPoint(float x, float y);
     Coord_2D Centro();
     float Area();
-    int MaiorX(); //Retorna Indice
+    int MaiorX();//Retorna Indice
     int MenorX();//Retorna Indice
     int MaiorY();//Retorna Indice
     int MenorY();//Retorna Indice
+    void Imp();
+    void Ordena(bool controle);
+
 
 };
 

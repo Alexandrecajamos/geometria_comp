@@ -1,6 +1,82 @@
 #include "objeto.h"
 #include<cmath>
 
+
+
+void trocar(std::vector<Coord_3D*> vetor, int i, int j) {
+
+    int N = vetor.size();
+
+    if(i>=0 && j < N){
+        Coord_3D* aux = new Coord_3D(vetor.at(i)->x,vetor.at(i)->y, vetor.at(i)->z);
+
+        vetor.at(i)->x = vetor.at(j)->x;
+        vetor.at(i)->y = vetor.at(j)->y;
+        vetor.at(i)->z = vetor.at(j)->z;
+
+        vetor.at(j)->x = aux->x;
+        vetor.at(j)->y = aux->y;
+        vetor.at(j)->z = aux->z;
+    }
+
+}
+int Particione_X(std::vector<Coord_3D*> vetor, int p, int r) {
+    float pivo = vetor.at(r)->x;
+    int i=p-1;
+    for (int j=p; j<r; j++) {
+        if (vetor.at(j)->x <= pivo) {
+            i++;
+            trocar(vetor,i,j);
+        }
+    }
+    trocar(vetor,i+1, r);
+    return i+1;
+}
+int Particione_Y(std::vector<Coord_3D*> vetor, int p, int r) {
+    float pivo = vetor.at(r)->y;
+    int i=p-1;
+    for (int j=p; j<r; j++) {
+        if (vetor.at(j)->y <= pivo) {
+            i++;
+            trocar(vetor,i,j);
+        }
+    }
+    trocar(vetor,i+1, r);
+    return i+1;
+}
+int Particione_Z(std::vector<Coord_3D*> vetor, int p, int r) {
+    float pivo = vetor.at(r)->z;
+    int i=p-1;
+    for (int j=p; j<r; j++) {
+        if (vetor.at(j)->z <= pivo) {
+            i++;
+            trocar(vetor,i,j);
+        }
+    }
+    trocar(vetor,i+1, r);
+    return i+1;
+}
+int Particione_aleat(std::vector<Coord_3D*> vetor, int p, int r, int eixo) {
+    srand (time(NULL));
+    int pos_pivo = p + rand()%(r-p+1);
+    trocar(vetor,pos_pivo,r);
+
+    if(eixo == 0)
+        return Particione_X(vetor,p,r);
+    if(eixo == 1)
+        return Particione_Y(vetor,p,r);
+
+    return Particione_Z(vetor,p,r);
+
+}
+void QuickSort(std::vector<Coord_3D*> vetor, int p, int r, int eixo) {
+    if (p>=r) return;
+    int q = Particione_aleat(vetor,p,r,eixo);
+    QuickSort(vetor,p,q-1,eixo);
+    QuickSort(vetor,q+1,r,eixo);
+}
+
+
 Objeto::Objeto()
 {
     Coord_3D C(0,0,0);
@@ -59,7 +135,21 @@ void Objeto::calc_Esfera(){
 
 }
 
+void Objeto::Ordena(int eixo){
+    int N = this->points.size();
+    QuickSort(this->points, 0, N-1, eixo);
+}
 
+void Objeto::ImpPoints(){
+    std::cout << "\n Imprimindo Pontos do Objeto: \n";
+    for(std::vector<Coord_3D*>::iterator i = this->points.begin(); i!= this->points.end(); i++)
+    {
+        Coord_3D *P = (*i);
+        std::cout << "\nx,y,z = " << P->x << ", " << P->y << ", " << P->z <<";";
+
+    }
+
+}
 /*
 float Objeto::Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace){
 

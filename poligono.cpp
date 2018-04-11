@@ -1,5 +1,59 @@
 #include "poligono.h"
 
+
+void trocar(std::vector<Coord_2D*> vetor, int i, int j) {
+
+    int N = vetor.size();
+    if(i>=0 && j < N){
+        Coord_2D* z = new Coord_2D(vetor.at(i)->x,vetor.at(i)->y);
+        vetor.at(i)->x = vetor.at(j)->x;
+        vetor.at(i)->y = vetor.at(j)->y;
+        vetor.at(j)->x = z->x;
+        vetor.at(j)->y = z->y;
+       }
+
+}
+int Particione_X(std::vector<Coord_2D*> vetor, int p, int r) {
+    float pivo = vetor.at(r)->x;
+    int i=p-1;
+    for (int j=p; j<r; j++) {
+        if (vetor.at(j)->x <= pivo) {
+            i++;
+            trocar(vetor,i,j);
+        }
+    }
+    trocar(vetor,i+1, r);
+    return i+1;
+}
+int Particione_Y(std::vector<Coord_2D*> vetor, int p, int r) {
+    float pivo = vetor.at(r)->y;
+    int i=p-1;
+    for (int j=p; j<r; j++) {
+        if (vetor.at(j)->y <= pivo) {
+            i++;
+            trocar(vetor,i,j);
+        }
+    }
+    trocar(vetor,i+1, r);
+    return i+1;
+}
+int Particione_aleat(std::vector<Coord_2D*> vetor, int p, int r, bool eixo) {
+    srand (time(NULL));
+    int pos_pivo = p + rand()%(r-p+1);
+    trocar(vetor,pos_pivo,r);
+    if(eixo)
+        return Particione_Y(vetor,p,r);
+    else
+        return Particione_X(vetor,p,r);
+}
+void QuickSort(std::vector<Coord_2D*> vetor, int p, int r, bool eixo) {
+    if (p>=r) return;
+    int q = Particione_aleat(vetor,p,r,eixo);
+    QuickSort(vetor,p,q-1,eixo);
+    QuickSort(vetor,q+1,r,eixo);
+}
+
+
 Poligono::Poligono()
 {
 
@@ -85,6 +139,18 @@ int Poligono::MenorY(){
         }
     }
     return ind;
+}
+
+
+void Poligono::Imp(){
+    for(std::vector<Coord_2D*>::iterator i = this->points.begin(); i!= this->points.end(); i++)
+        (*i)->ImpCoord_2D();
+}
+
+
+void Poligono::Ordena(bool eixo){
+    int N = this->points.size();
+    QuickSort(this->points, 0, (N-1),eixo);
 }
 
 

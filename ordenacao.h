@@ -35,6 +35,7 @@ void QuickSort(double* vetor, int p, int r) {
     QuickSort(vetor,p,q-1);
     QuickSort(vetor,q+1,r);
 }
+
 void InsertionSort(double* vetor, int p, int r) {
     int i,j; double carta;
     for (j=p+1;j<=r;j++) {

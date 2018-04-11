@@ -26,6 +26,7 @@ public:
     void ImpPoints();
     bool Obstaculo(Coord_3D Pint, Coord_3D l);
     void Libera();
+    void Ordena(int eixo);
 
 
     Esfera Esf;
