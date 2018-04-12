@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     objeto.cpp \
     transformacoes.cpp \
     vetor.cpp \
-    poligono.cpp
+    poligono.cpp \
+    fecho2d.cpp
 
 HEADERS += \
     coord_3d.h \
@@ -22,4 +23,5 @@ HEADERS += \
     esfera.h \
     objeto.h \
     vetor.h \
-    poligono.h
+    poligono.h \
+    fecho2d.h

@@ -5,6 +5,11 @@
 float NormaVetor2D(Coord_2D V){
     return sqrt(V.x*V.x + V.y*V.y);
 }
+void NormalizaVetor2D(Coord_2D *V){
+    float len = NormaVetor2D((*V));
+    V->x/=len; V->y /= len;
+}
+
 float ProdutoEscalar2D(Coord_2D V1, Coord_2D V2){
     return ((V1.x*V2.x)+(V1.y*V2.y));
 }
@@ -48,6 +53,17 @@ float PseudoAngulo_Quad2D(Coord_2D V){
     return (8 - ((-V.y)/V.x));
 
 }
+float ProdutoVetorial2D(Coord_2D V1, Coord_2D V2){
+    return (V1.x*V2.y)-(V1.y*V2.x);
+}
+
+bool CCW2D(Coord_2D V1, Coord_2D V2){
+    float k = ProdutoVetorial2D(V1, V2);
+    if(k>0)
+        return true;
+    else
+        return false;
+}
 
 //3D:
 
@@ -74,16 +90,6 @@ float Angulo3D(Coord_3D V1, Coord_3D V2){
     float n1 = NormaVetor3D(V1);
     float n2 = NormaVetor3D(V2);
     return acos(PE/(n1*n2))* 180.0 / PI;
-}
-float ProdutoVetorial2D(Coord_3D V1, Coord_3D V2){
-    return (V1.x*V2.y)-(V1.y*V2.x);
-}
-bool CCW3D(Coord_3D V1, Coord_3D V2){
-    float k = ProdutoVetorial2D(V1, V2);
-    if(k>0)
-        return true;
-    else
-        return false;
 }
 void NormalizaVetor3D(Coord_3D *V){
     float len = NormaVetor3D((*V));
