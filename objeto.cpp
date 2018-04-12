@@ -76,14 +76,12 @@ void QuickSort(std::vector<Coord_3D*> vetor, int p, int r, int eixo) {
     QuickSort(vetor,q+1,r,eixo);
 }
 
-
 Objeto::Objeto()
 {
     Coord_3D C(0,0,0);
     this->Esf.centro=C;
     this->Esf.raio=0;
 }
-
 void Objeto::addPoint(float x, float y, float z){
     Coord_3D *p = new Coord_3D(x,y,z);
     this->points.push_back(p);
@@ -93,8 +91,6 @@ void Objeto::addFace(int iP1, int iP2, int iP3){
     triangulo *F = new triangulo(this->points.at(iP1),this->points.at(iP2),this->points.at(iP3));
     this->faces.push_back(F);
 }
-
-
 void Objeto::calc_Esfera(){
     float mX=this->points.at(0)->x;
     float mY=this->points.at(0)->y;
@@ -134,12 +130,10 @@ void Objeto::calc_Esfera(){
     this->Esf.raio=(d/2);
 
 }
-
 void Objeto::Ordena(int eixo){
     int N = this->points.size();
     QuickSort(this->points, 0, N-1, eixo);
 }
-
 void Objeto::ImpPoints(){
     std::cout << "\n Imprimindo Pontos do Objeto: \n";
     for(std::vector<Coord_3D*>::iterator i = this->points.begin(); i!= this->points.end(); i++)
@@ -150,6 +144,87 @@ void Objeto::ImpPoints(){
     }
 
 }
+
+int Objeto::MaiorX(){
+    float MX = this->points.at(0)->x;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float x = this->points.at(i)->x;
+        if(x>MX){
+            MX = x;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int Objeto::MenorX(){
+    float MX = this->points.at(0)->x;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float x = this->points.at(i)->x;
+        if(x<MX){
+            MX = x;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int Objeto::MaiorY(){
+    float MY = this->points.at(0)->y;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float y = this->points.at(i)->y;
+        if(y>MY){
+            MY = y;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int Objeto::MenorY(){
+    float MY = this->points.at(0)->y;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float y = this->points.at(i)->y;
+        if(y<MY){
+            MY = y;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int Objeto::MaiorZ(){
+    float MZ = this->points.at(0)->z;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float z = this->points.at(i)->z;
+        if(z>MZ){
+            MZ = z;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int Objeto::MenorZ(){
+    float MZ = this->points.at(0)->z;
+    int ind = 0;
+    int N = points.size();
+    for(int i=1; i < N;i++){
+        float z = this->points.at(i)->z;
+        if(z<MZ){
+            MZ = z;
+            ind=i;
+        }
+    }
+    return ind;
+}
+
+
 /*
 float Objeto::Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace){
 

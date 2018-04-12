@@ -28,6 +28,13 @@ public:
     void Libera();
     void Ordena(int eixo);
 
+    int MaiorX();//Retorna Indice
+    int MenorX();//Retorna Indice
+    int MaiorY();//Retorna Indice
+    int MenorY();//Retorna Indice
+    int MaiorZ();//Retorna Indice
+    int MenorZ();//Retorna Indice
+
 
     Esfera Esf;
 

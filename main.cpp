@@ -1,7 +1,7 @@
 #include "vetor.h"
 #include "poligono.h"
 #include "objeto.h"
-#include "fecho2d.h"
+#include "quickhull3d.h"
 
 
 
@@ -9,6 +9,33 @@
 int main()
 {
 
+    Objeto *P1 = new Objeto();
+
+    P1->addPoint(0,0,5);
+    P1->addPoint(5,0,0);
+    P1->addPoint(0,0,-5);
+    P1->addPoint(0,5,0);
+
+    P1->addPoint(5,5,5);
+
+    P1->ImpPoints();
+
+    Coord_3D* a  = new Coord_3D(0,0,0);
+    Coord_3D* b = new Coord_3D(0,0,0);
+    Coord_3D* c  = new Coord_3D(0,0,0);
+
+
+    P1 = QuickHull(P1);
+    cout << "teste" << endl;
+    P1->ImpPoints();
+
+
+    //P1 = Particiona(P1,a,b,c);
+
+    //P1->ImpPoints();
+
+
+    /*
     Poligono *P1 = new Poligono();
 
     P1->addPoint(0,0);
@@ -43,6 +70,8 @@ int main()
 
 
     P1->Imp();
+*/
+
 
     return 0;
 }
