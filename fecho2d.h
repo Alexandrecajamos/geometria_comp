@@ -3,7 +3,8 @@
 #include "vetor.h"
 #include "poligono.h"
 
-Poligono* QuickHull(Poligono* Pol, Coord_2D* a, Coord_2D*b);
+Poligono* QHRec(Poligono* Pol, Coord_2D* a, Coord_2D*b);
+Poligono* QuickHull(Poligono* Pol);
 Poligono* Particiona(Poligono* Pol, Coord_2D* a, Coord_2D*b);
 Coord_2D* Pmax(Poligono* Pol, Coord_2D* a, Coord_2D*b);
 
