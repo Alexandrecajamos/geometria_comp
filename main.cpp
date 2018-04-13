@@ -15,23 +15,27 @@ int main()
 
     P1->addPoint(0,0,0);
     P1->addPoint(2,0,0);
-    P1->addPoint(2,0,2);
-    P1->addPoint(0,0,2);
+    P1->addPoint(2,0,-2);
+    P1->addPoint(0,0,-2);
     P1->addPoint(0,2,0);
     P1->addPoint(2,2,0);
-    P1->addPoint(2,2,2);
-    P1->addPoint(0,2,2);
+    P1->addPoint(2,2,-2);
+    P1->addPoint(0,2,-2);
 
 
     P1->ImpPoints();
 
-   // bool Validos[5] = {1,1,1,1,1};
-//    bool* valC1 = CopiaValidos(Validos,5);
+//    bool Validos[8] = {1,1,1,1,1,1,1,1};
+//    bool* valC1 = CopiaValidos(Validos,8);
 
-//    Particiona(P1, 0,2,3,valC1);
+//    Particiona(P1, 1,0,4,valC1);
 
+//    cout << endl;
+//    for(int i = 0; i<8;i++)
+//        cout << valC1[i];
+//    int max = Pmax(P1, 1,2,4, valC1);
 
-
+//    cout << "Max: " << max << endl;
 
     QuickHull(P1);
     P1->ImpFaces();
