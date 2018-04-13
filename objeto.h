@@ -8,7 +8,7 @@
 #include "esfera.h"
 #include <fstream>
 #include "transformacoes.h"
-
+#include "face.h"
 
 #define TAM 4
 
@@ -24,9 +24,11 @@ public:
     void calc_Esfera();
     void Transforoma(float A[TAM][TAM]);
     void ImpPoints();
+    void ImpFaces();
     bool Obstaculo(Coord_3D Pint, Coord_3D l);
     void Libera();
     void Ordena(int eixo);
+    void CopiaPontos(Objeto* O);
 
     int MaiorX();//Retorna Indice
     int MenorX();//Retorna Indice
@@ -39,7 +41,7 @@ public:
     Esfera Esf;
 
     std::vector<Coord_3D*> points;
-    std::vector<triangulo*> faces;
+    std::vector<Face*> faces;
 
 };
 

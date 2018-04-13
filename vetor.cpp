@@ -95,3 +95,8 @@ void NormalizaVetor3D(Coord_3D *V){
     float len = NormaVetor3D((*V));
     V->x/=len; V->y /= len; V->z /= len;
 }
+bool CCW3D(Coord_3D V1, Coord_3D V2){
+    Coord_2D A(V1.x,V1.y);
+    Coord_2D B(V2.x,V2.y);
+    return CCW2D(A,B);
+}

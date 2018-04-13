@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     vetor.cpp \
     poligono.cpp \
     fecho2d.cpp \
-    quickhull3d.cpp
+    quickhull3d.cpp \
+    face.cpp
 
 HEADERS += \
     coord_3d.h \
@@ -26,4 +27,5 @@ HEADERS += \
     vetor.h \
     poligono.h \
     fecho2d.h \
-    quickhull3d.h
+    quickhull3d.h \
+    face.h

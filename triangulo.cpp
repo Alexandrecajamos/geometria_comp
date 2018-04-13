@@ -93,4 +93,11 @@ float triangulo::Ray_intersept(Coord_3D Po, Coord_3D D){
     }
     return t;
 }
+void triangulo::Imp(){
+    cout<<endl<< "Face formada pelos pontos: " <<endl;
+    this->P1->ImpCoord_3D();
+    this->P2->ImpCoord_3D();
+    this->P3->ImpCoord_3D();
+    cout<<endl;
 
+}

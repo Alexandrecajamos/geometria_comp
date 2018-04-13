@@ -24,5 +24,6 @@ float Distancia3D(Coord_3D V1, Coord_3D V2);
 Coord_3D ProdutoVetorial3D(Coord_3D V1, Coord_3D V2);
 float Angulo3D(Coord_3D V1, Coord_3D V2);
 void NormalizaVetor3D(Coord_3D *V);
+bool CCW3D(Coord_3D V1, Coord_3D V2);
 
 #endif // VETOR_H

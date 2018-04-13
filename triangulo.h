@@ -15,6 +15,7 @@ public:
     float Inter(Coord_3D P);
     void Barycentric(Coord_3D p, Coord_3D a, Coord_3D b, Coord_3D c, float &u, float &v, float &w);
     float Ray_intersept(Coord_3D Po, Coord_3D D);
+    void Imp();
 };
 
 #endif // TRIANGULO_H

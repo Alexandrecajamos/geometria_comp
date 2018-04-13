@@ -88,7 +88,8 @@ void Objeto::addPoint(float x, float y, float z){
 
 }
 void Objeto::addFace(int iP1, int iP2, int iP3){
-    triangulo *F = new triangulo(this->points.at(iP1),this->points.at(iP2),this->points.at(iP3));
+    //triangulo *F = new triangulo(this->points.at(iP1),this->points.at(iP2),this->points.at(iP3));
+    Face *F = new Face(iP1, iP2, iP3);
     this->faces.push_back(F);
 }
 void Objeto::calc_Esfera(){
@@ -142,7 +143,16 @@ void Objeto::ImpPoints(){
         std::cout << "\nx,y,z = " << P->x << ", " << P->y << ", " << P->z <<";";
 
     }
+    cout << endl;
 
+}
+void Objeto::ImpFaces(){
+    std::cout << "\n Imprimindo "<< faces.size() << " Faces do Objeto: \n";
+    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++)
+
+        std::cout << "\nP1,P2,P3 = " << (*i)->P1 << ", " << (*i)->P2 << ", " << (*i)->P3 <<";";
+
+    cout << endl;
 }
 
 int Objeto::MaiorX(){
@@ -224,6 +234,13 @@ int Objeto::MenorZ(){
     return ind;
 }
 
+void Objeto::CopiaPontos(Objeto *O){
+
+    for(std::vector<Coord_3D*>::iterator i = O->points.begin(); i!= O->points.end(); i++)
+    {
+        addPoint((*i)->x,(*i)->y,(*i)->z);
+    }
+}
 
 /*
 float Objeto::Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace){

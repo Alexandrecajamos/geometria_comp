@@ -4,12 +4,10 @@
 #include "vetor.h"
 #include "objeto.h"
 
-Objeto* QuickHull(Objeto* Pol);
+void QuickHull(Objeto* Pol);
 
-Objeto* QuickHull_Recursivo(Objeto* Pol, Coord_3D* a, Coord_3D*b, Coord_3D*c);
-Objeto* Particiona(Objeto* Pol, Coord_3D* a, Coord_3D*b, Coord_3D*c);
-Coord_3D* Pmax(Objeto* Pol, Coord_3D* a, Coord_3D*b, Coord_3D*c);
-
-
+void QuickHull_Recursivo(Objeto* Pol, int a, int b, int c, bool *validos);
+void Particiona(Objeto* Pol, int a, int b, int c, bool *validos);
+int Pmax(Objeto* Pol, int a, int b, int c, bool *validos);
 
 #endif // QUICKHULL3D_H

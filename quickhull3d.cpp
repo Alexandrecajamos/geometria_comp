@@ -1,71 +1,72 @@
 #include "quickhull3d.h"
 
-Objeto* Combina(Objeto *P1, Objeto *P2, Objeto *P3){
-    Objeto *Res = new Objeto();
-
-    for(std::vector<Coord_3D*>::iterator i = P1->points.begin(); i!= P1->points.end(); i++)
-        Res->addPoint((*i)->x,(*i)->y, (*i)->z);
-    for(std::vector<Coord_3D*>::iterator i = P2->points.begin(); i!= P2->points.end(); i++)
-        Res->addPoint((*i)->x,(*i)->y, (*i)->z);
-    for(std::vector<Coord_3D*>::iterator i = P3->points.begin(); i!= P3->points.end(); i++)
-        Res->addPoint((*i)->x,(*i)->y, (*i)->z);
-    return Res;
+int ContaValidos(bool* validos, int N){
+    int Val=0;
+    for(int i=0;i<N;i++){
+        if(validos[i])
+            Val++;
+    }
+    return Val;
 }
-Objeto* Combina2(Objeto *P1, Objeto *P2){
-    Objeto *Res = new Objeto();
+bool* CopiaValidos(bool* validos, int N){
 
-    for(std::vector<Coord_3D*>::iterator i = P1->points.begin(); i!= P1->points.end(); i++)
-        Res->addPoint((*i)->x,(*i)->y, (*i)->z);
-    for(std::vector<Coord_3D*>::iterator i = P2->points.begin(); i!= P2->points.end(); i++)
-        Res->addPoint((*i)->x,(*i)->y, (*i)->z);
-
-    return Res;
+    bool *Ret = (bool*)malloc(sizeof(bool)*N);
+    for(int i=0;i<N;i++)
+        Ret[i] = validos[i];
+    return Ret;
 }
+bool Coplanares(int A, int B, int P, Objeto* Pol){
 
-Objeto* QuickHull(Objeto* Pol){
+    Coord_3D AB = *(Pol->points.at(B));
+    Coord_3D AP = *(Pol->points.at(P));
+    AB.operator -=(Pol->points.at(A));
+    AP.operator -=(Pol->points.at(A));
+    NormalizaVetor3D(&AB);
+    NormalizaVetor3D(&AP);
+    int PE = ProdutoEscalar3D(AB,AP);
+    //cout << endl << A << B << P << PE;
 
-    Coord_3D *a, *b, *c;
+    if(PE == 1)
+        return true;
+    return false;
+}
+int MaiorY(int MX, Objeto* O){
+    float MY = O->points.at(0)->y;
+    int ind = 0;
+    int N = O->points.size();
+    for(int i=1; i < N;i++){
+        float y = O->points.at(i)->y;
+        if(y>MY && i != MX){
+            MY = y;
+            ind=i;
+        }
+    }
+    return ind;
+}
+int MaiorZ(int MX, int MY, Objeto* O){
+    float MZ = O->points.at(0)->z;
+    int ind = 0;
+    int N = O->points.size();
+    for(int i=1; i < N;i++){
+        float z = O->points.at(i)->z;
+        if(z>MZ && i != MX && i != MY){
+            MZ = z;
+            ind=i;
+        }
+    }
+    return ind;
+}
+Face Extremos(Objeto* Pol){
 
-    a = Pol->points.at(Pol->MaiorX());
-    b = Pol->points.at(Pol->MaiorY());
-    c = Pol->points.at(Pol->MaiorZ());
+    int MX = Pol->MaiorX();
+    int MY = MaiorY(MX, Pol);
+    int MZ = MaiorZ(MX,MY,Pol);
 
-    Objeto* Cima = Particiona(Pol, a,b,c);
-    Objeto* Baixo = Particiona(Pol, a,c,b);
+    Face F(MX,MY,MZ);
 
-    Cima = QuickHull_Recursivo(Cima, a,b,c);
-    Baixo = QuickHull_Recursivo(Pol,a,c,b);
-
-    Objeto* Hull = Combina2(Cima, Baixo);
-
-    Hull->addPoint(a->x, a->y, a->z);
-    Hull->addPoint(b->x, b->y, b->z);
-    Hull->addPoint(c->x, c->y, c->z);
-
-    return Hull;
+    return F;
 
 }
-Objeto* QuickHull_Recursivo(Objeto *Pol, Coord_3D *a, Coord_3D *b, Coord_3D *c){
-    int N = Pol->points.size();
-    if(N<2)
-        return Pol;
-
-    Coord_3D* max = Pmax(Pol, a,b,c);
-
-    Objeto *C1, *C2, *C3;
-
-    C1 = Particiona(Pol, a,b,max);
-    C2 = Particiona(Pol, b,c,max);
-    C3 = Particiona(Pol, c,a,max);
-
-    C1 = QuickHull_Recursivo(C1, a,b,max);
-    C2 = QuickHull_Recursivo(C1, b,c,max);
-    C3 = QuickHull_Recursivo(C1, c,a,max);
-
-    return Combina(C1,C2,C3);
-
-}
-
 Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
 
     Coord_3D p1=*(P1);
@@ -82,47 +83,190 @@ Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
     return p1;
 
 }
-Objeto* Particiona(Objeto* Pol, Coord_3D* a, Coord_3D*b, Coord_3D*c){
-    Objeto* Res = new Objeto();
-    Coord_3D nF = Normal(a,b,c);
+
+
+
+void QuickHull(Objeto* Pol){
 
     int N = Pol->points.size();
-    for(int i=0; i < N;i++){
-        Coord_3D temp = *(Pol->points.at(i));
-        temp.operator -=(a);
-        float pE = ProdutoEscalar3D(temp, nF);
-        if(pE>0)
-            Res->addPoint(Pol->points.at(i)->x, Pol->points.at(i)->y, Pol->points.at(i)->z);
+    bool *Validos = (bool*)malloc(sizeof(bool)*N);
+
+    for(int i=0;i<N;i++){
+        Validos[i] = 1;
     }
 
-    return Res;
+    Face Ext = Extremos(Pol);
+
+    int a = Ext.P1;
+    int b = Ext.P2;
+    int c = Ext.P3;
+
+
+
+    cout << "Extremos : " << a << b << c << endl;
+
+
+    bool* valC1 = CopiaValidos(Validos,N);
+    bool* valC2 = CopiaValidos(Validos,N);
+
+
+    Particiona(Pol, a,b,c, valC1);
+
+    cout << endl;
+    Particiona(Pol, a,c,b, valC2);
+
+
+    for(int i=0;i<N;i++)
+        cout << valC1[i];
+
+    cout << endl;
+    for(int i=0;i<N;i++)
+        cout << valC2[i];
+
+    QuickHull_Recursivo(Pol, a,b,c, valC1);
+    QuickHull_Recursivo(Pol,a,c,b, valC2);
+
+
+
+    for(int i=0;i<N;i++)
+        if(!valC1[i] && !valC2[i])
+            Validos[i] = false;
+
+    Validos[a]=1;
+    Validos[b]=1;
+    Validos[c]=1;
+
+
+    cout <<endl;cout <<endl;
+    cout << "Indices de Pontos do Fecho: " << endl;
+    for(int i=0;i<N;i++)
+        cout << Validos[i];
+    cout << endl;
+
+    cout << "Número de Faces: " << Pol->faces.size()<<endl;
 
 }
-Coord_3D* Pmax(Objeto* Pol, Coord_3D* a, Coord_3D*b, Coord_3D*c){
+void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos){
+
+    int N = Pol->points.size();
+    int Pontos_Validos = ContaValidos(validos,N);
+
+    if(Pontos_Validos == 0){
+        Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
+        if(nF.z > 0)
+            Pol->addFace(iA, iB,iC);
+        else
+            Pol->addFace(iA, iC,iB);
+        return;
+    }
+
+    int max;
+
+    if(Pontos_Validos == 1){
+
+        int iP;
+        for(int i=0;i<N;i++)
+            if(validos[i])
+                iP = i;
+        max = iP;
+
+    }else
+        max = Pmax(Pol, iA,iB,iC, validos);
+    cout<< endl << "Max : "<< max;
+
+    bool* valC1 = CopiaValidos(validos,N);
+    bool* valC2 = CopiaValidos(validos,N);
+    bool* valC3 = CopiaValidos(validos,N);
+
+
+    Particiona(Pol, iA,iB,max, valC1);
+    Particiona(Pol, iB,iC,max, valC2);
+    Particiona(Pol, iC,iA,max, valC3);
+
+    cout <<endl;
+    for(int i=0; i<N;i++)
+        cout << " " << valC1[i];
+    cout <<endl;
+    cout <<endl;
+    for(int i=0; i<N;i++)
+        cout << " " << valC2[i];
+    cout <<endl;
+    cout <<endl;
+    for(int i=0; i<N;i++)
+        cout << " " << valC3[i];
+    cout <<endl;
+
+    QuickHull_Recursivo(Pol, iA,iB,max, valC1);
+    QuickHull_Recursivo(Pol, iB,iC,max, valC2);
+    QuickHull_Recursivo(Pol, iC,iA,max, valC3);
+
+
+    for(int i=0;i<N;i++)
+        if(!valC1[i] && !valC2[i] && !valC3[i])
+            validos[i] = false;
+
+
+}
+int Pmax(Objeto* Pol, int iA, int iB, int iC, bool *validos){
+
+    Coord_3D* a = Pol->points.at(iA);
+    Coord_3D* b = Pol->points.at(iB);
+    Coord_3D* c = Pol->points.at(iC);
+
     float MairVolume = 0;
+
     Coord_3D nF = Normal(a,b,c);
 
-    Coord_3D* Ret;
-
+    int Ind = -1;
     int N = Pol->points.size();
-    if(N>=1)
-        Ret = Pol->points.at(0);
 
-    for(int i=1; i < N;i++){
-        Coord_3D temp = *(Pol->points.at(i));
-        temp.operator -=(a);
-        float pE = ProdutoEscalar3D(temp, nF);
-        if(pE>MairVolume){
-            MairVolume = pE;
-            Ret->x=Pol->points.at(i)->x;
-            Ret->y=Pol->points.at(i)->y;
-            Ret->z=Pol->points.at(i)->z;
+    for(int i=0; i < N;i++){
 
-
+        if(validos[i]){
+            Coord_3D temp = *(Pol->points.at(i));
+            temp.operator -=(a);
+            float pE = ProdutoEscalar3D(temp, nF);
+            if(pE>MairVolume){
+                MairVolume = pE;
+                Ind = i;
+            }
         }
-            //Res->addPoint(Pol->points.at(i)->x, Pol->points.at(i)->y, Pol->points.at(i)->z);
+
+
     }
 
-    return Ret;
+    return Ind;
 
 }
+void Particiona(Objeto* Pol, int iA, int iB, int iC, bool *validos){
+
+    Coord_3D* a = Pol->points.at(iA);
+    Coord_3D* b = Pol->points.at(iB);
+    Coord_3D* c = Pol->points.at(iC);
+
+    Coord_3D nF = Normal(a,b,c);
+
+
+    int N = Pol->points.size();
+
+
+    for(int i=0; i < N;i++){
+        if(validos[i] && i != iA && i!= iB && i!= iC){
+            Coord_3D temp = *(Pol->points.at(i));
+            temp.operator -=(a);
+
+            float pE = ProdutoEscalar3D(temp, nF);
+            if(pE<=0)
+                validos[i] = false;
+        }
+    }
+
+
+    validos[iA]=false;
+    validos[iB]=false;
+    validos[iC]=false;
+
+
+}
+
+
