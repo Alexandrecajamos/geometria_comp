@@ -27,6 +27,8 @@ GLWidget::GLWidget(QWidget *parent) :
 //    connect(timer,SIGNAL(timeout()),this,SLOT(updateGL()));
 //    timer->start(0);
 }
+
+
 void GLWidget::PintaPontos(Objeto *P){
     glBegin(GL_POINTS);
     for(std::vector<Coord_3D*>::iterator i = P->points.begin(); i!= P->points.end(); i++){
@@ -35,9 +37,6 @@ void GLWidget::PintaPontos(Objeto *P){
     glEnd();
 }
 void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
-
-
-
 
     glBegin(GL_TRIANGLES);
     glVertex3f(Pol->points.at(iA)->x,Pol->points.at(iA)->y,Pol->points.at(iA)->z);
@@ -53,7 +52,7 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
 
     int N = Pol->points.size();
     int Pontos_Validos = ContaValidos(validos,N);
-   // cout << endl<< "Teste Pontos Validos: "<<Pontos_Validos<<endl;
+
     if(Pontos_Validos == 0){
         if(Pol->Pertence(iA,iB,iC)){
             return;
@@ -62,18 +61,19 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
         if(max != -1){
             return;
         }
-
         Pol->addFace(iA, iB,iC);
         PintaFace(iA,iB,iC,Pol);
         Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true;
         return;
     }
     int max;
+
     if(Pontos_Validos == 1){
         int iP;
         for(int i=0;i<N;i++)
             if(validos[i])
                 iP = i;
+
 
         Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
         if(Coplanares(nF,iA,iP,Pol)){
@@ -87,7 +87,12 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
                 return;
             }
 
-           // cout << endl<< iA << iB <<iC << iP;
+            int max = Pmax(Pol,iA,iB,iC,validos,Fecho);
+            if(max != -1 && max != iP){
+                 cout << endl<< iA << iB <<iC << iP;
+                validos[iP] = false;
+                return;
+            }
 
                 Pol->addFace(iA, iB,iC);
                 PintaFace(iA,iB,iC,Pol);
@@ -210,7 +215,7 @@ void GLWidget::QuickHull_Animado(Objeto* Pol){
     cout << "Número de Faces: " << Pol->faces.size()<<endl;
 
 }
-void GLWidget::RenderizaFaces(Objeto* Pol){
+void GLWidget::PintaFaces(Objeto* Pol){
     for(std::vector<Face*>::iterator i = Pol->faces.begin(); i!= Pol->faces.end(); i++){
         PintaFace((*i)->P1,(*i)->P2,(*i)->P3,Pol);
     }
@@ -256,6 +261,20 @@ void GLWidget::initializeGL()
        //glEnable(GL_DEPTH_TEST);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+    Obj = new Objeto();
+
+
+    //Obj->addPoint(15,5,5);
+    Obj->addPoint(0,0,0);
+    Obj->addPoint(10,0,0);
+    Obj->addPoint(10,0,-10);
+    Obj->addPoint(0,0,-10);
+    Obj->addPoint(0,10,0);
+    Obj->addPoint(10,10,0);
+    Obj->addPoint(10,10,-10);
+    Obj->addPoint(0,10,-10);
+
+
 }
 void GLWidget::paintGL()
 {
@@ -284,7 +303,6 @@ void GLWidget::paintGL()
 
 
 }
-
 void GLWidget::resizeGL(int w, int h)
 {
 
@@ -298,81 +316,37 @@ void GLWidget::resizeGL(int w, int h)
     updateGL();
 }
 
+
+
 void GLWidget::Fecho(){
 
-    free(Obj);
-    Obj = new Objeto();
-    Obj->addPoint(0,0,0);
-    Obj->addPoint(10,0,0);
-    Obj->addPoint(10,0,-10);
-    Obj->addPoint(0,0,-10);
-    Obj->addPoint(0,10,0);
-    Obj->addPoint(10,10,0);
-    Obj->addPoint(10,10,-10);
-    Obj->addPoint(0,10,-10);
+
+    Objeto *fecho = new Objeto();
+    fecho->CopiaPontos(Obj);
+
    // Obj->addPoint(5,15,-5);
 
 
-glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-float Material[4]={0.745098039, 0.745098039, 0.745098039, 1.0};
+            float Material[4]={0.745098039, 0.745098039, 0.745098039, 1.0};
 
-glMatrixMode(GL_MODELVIEW);
+            glMatrixMode(GL_MODELVIEW);
 
-glMaterialfv(GL_FRONT, GL_AMBIENT, Material);
-glMaterialfv(GL_FRONT, GL_DIFFUSE, Material);
-glMaterialfv(GL_FRONT, GL_SPECULAR, Material);
-glMaterialf  (GL_FRONT, GL_SHININESS, 100.0);
+            glMaterialfv(GL_FRONT, GL_AMBIENT, Material);
+            glMaterialfv(GL_FRONT, GL_DIFFUSE, Material);
+            glMaterialfv(GL_FRONT, GL_SPECULAR, Material);
+            glMaterialf  (GL_FRONT, GL_SHININESS, 100.0);
 
-glLoadIdentity();
-gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
+            glLoadIdentity();
+            gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
 
-
-            PintaPontos(Obj);
+            PintaPontos(fecho);
             //delay(1000);
+            QuickHull_Animado(fecho);
+            fecho->ImpFaces();
+            free(fecho);
 
-            QuickHull_Animado(Obj);
-    //RendFecho = true;
-
-
-//   float grama[4]={0.4196, 0.5568, 0.1372, 1.0};
-//   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-//  // gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
-
-//   glMatrixMode(GL_MODELVIEW);
-
-
-//   glMaterialfv(GL_FRONT, GL_AMBIENT, grama);
-//   glMaterialfv(GL_FRONT, GL_DIFFUSE, grama);
-//   glMaterialfv(GL_FRONT, GL_SPECULAR, grama);
-//   glMaterialf  (GL_FRONT, GL_SHININESS, 100.0);
-
-//   glLoadIdentity();
-//   gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
-
-////    float grama[4]={0.4196, 0.5568, 0.1372, 1.0};
-//    Obj = new Objeto();
-
-//    Obj->addPoint(0,0,0);
-//    Obj->addPoint(10,0,0);
-//    Obj->addPoint(10,0,-10);
-//    Obj->addPoint(0,0,-10);
-//    Obj->addPoint(0,10,0);
-//    Obj->addPoint(10,10,0);
-//    Obj->addPoint(10,10,-10);
-//    Obj->addPoint(0,10,-10);
-//    //Obj->addPoint(0.9,0.8,-1);
-
-//   // Obj->addPoint(3,1,-1);
-
-//    //Obj->ImpPoints();
-
-//    QuickHull_Animado(Obj);
-
-//    for(std::vector<Face*>::iterator i = Obj->faces.begin(); i!= Obj->faces.end(); i++){
-//        PintaFace((*i)->P1,(*i)->P2,(*i)->P3,Obj);
-//    }
 
 }
 
@@ -389,7 +363,6 @@ void GLWidget::Eye_Z(double x){
     Ez=(float)x;
     updateGL();
 }
-
 void GLWidget::Lo_X(double x){
     Lox=(float)x;
     updateGL();
@@ -402,7 +375,6 @@ void GLWidget::Lo_Z(double x){
     Loz=(float)x;
     updateGL();
 }
-
 void GLWidget::Av_X(double x){
     Avx=(float)x;
     updateGL();

@@ -177,6 +177,12 @@ void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos, boo
                 validos[iP]=false;
                 return;
             }
+            max = Pmax(Pol,iA,iB,iC,validos,Fecho);
+            if(max != -1 && max != iP){
+                 cout << endl<< iA << iB <<iC << iP;
+                validos[iP] = false;
+                return;
+            }
 
            // cout << endl<< iA << iB <<iC << iP;
 

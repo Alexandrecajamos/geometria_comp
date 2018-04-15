@@ -20,7 +20,7 @@ public:
     void PintaPontos(Objeto* Pol);
     void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho);
     void QuickHull_Animado(Objeto* Pol);
-    void RenderizaFaces(Objeto* Pol);
+    void PintaFaces(Objeto* Pol);
 
     float Ex=50, Ey=50, Ez=50;
     float Lox=0, Loy=0, Loz=0;
