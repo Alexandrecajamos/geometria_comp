@@ -4,10 +4,8 @@
 #include<vector>
 #include "stdio.h"
 #include "coord_3d.h"
-#include "triangulo.h"
 #include "esfera.h"
 #include <fstream>
-#include "transformacoes.h"
 #include "face.h"
 
 #define TAM 4
@@ -22,7 +20,6 @@ public:
     float Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace);
     bool Tiro(Coord_3D Ponto);
     void calc_Esfera();
-    void Transforoma(float A[TAM][TAM]);
     void ImpPoints();
     void ImpFaces();
     bool Obstaculo(Coord_3D Pint, Coord_3D l);

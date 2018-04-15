@@ -12,6 +12,12 @@ int main()
 
     Objeto *P1 = new Objeto();
 
+//    P1->addPoint(0,0,0);
+//    P1->addPoint(2,0,0);
+//    P1->addPoint(0,2,0);
+//    P1->addPoint(0,0,2);
+//    P1->addPoint(1,1,1);
+//    P1->addPoint(0.5,0.5,0.5);
 
     P1->addPoint(0,0,0);
     P1->addPoint(2,0,0);
@@ -21,8 +27,10 @@ int main()
     P1->addPoint(2,2,0);
     P1->addPoint(2,2,-2);
     P1->addPoint(0,2,-2);
+    P1->addPoint(0.9,0.8,-1);
 
-
+    P1->addPoint(3,1,-1);
+//
     P1->ImpPoints();
 
 //    bool Validos[8] = {1,1,1,1,1,1,1,1};
@@ -36,6 +44,9 @@ int main()
 //    int max = Pmax(P1, 1,2,4, valC1);
 
 //    cout << "Max: " << max << endl;
+//    Coord_3D nF = Normal(P1->points.at(2),P1->points.at(3),P1->points.at(6));
+//    nF.ImpCoord_3D();
+//    //cout << endl<< Coplanares(nF,1,6,P1) << endl;
 
     QuickHull(P1);
     P1->ImpFaces();

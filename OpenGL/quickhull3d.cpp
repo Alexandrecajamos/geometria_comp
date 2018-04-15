@@ -1,4 +1,7 @@
 #include "quickhull3d.h"
+#include <GL/glu.h>
+#include <GL/glut.h>
+
 
 int ContaValidos(bool* validos, int N){
     int Val=0;
@@ -90,6 +93,7 @@ Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
 
 void QuickHull(Objeto* Pol){
 
+
     int N = Pol->points.size();
     bool *Validos = (bool*)malloc(sizeof(bool)*N);
     bool *Fecho = (bool*)malloc(sizeof(bool)*N);
@@ -105,7 +109,6 @@ void QuickHull(Objeto* Pol){
     int b = Ext.P2;
     int c = Ext.P3;
 
-   // cout << "Extremos : " << a << b << c << endl;
 
 
     bool* valC1 = CopiaValidos(Validos,N);
