@@ -1,6 +1,5 @@
 #include "quickhull3d.h"
-#include <GL/glu.h>
-#include <GL/glut.h>
+
 
 
 int ContaValidos(bool* validos, int N){

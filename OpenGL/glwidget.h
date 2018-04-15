@@ -16,16 +16,23 @@ public:
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);
+    void PintaFace(int iA, int iB,int iC, Objeto* Pol);
+    void PintaPontos(Objeto* Pol);
+    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho);
+    void QuickHull_Animado(Objeto* Pol);
+    void RenderizaFaces(Objeto* Pol);
 
-    float Ex=-150, Ey=150, Ez=-150;
-    float Lox=50, Loy=0, Loz=50;
-    float Avx=50, Avy=100, Avz=50;
+    float Ex=50, Ey=50, Ez=50;
+    float Lox=0, Loy=0, Loz=0;
+    float Avx=0, Avy=10, Avz=0;
     Objeto* Obj = new Objeto();
+    bool RendFecho = false;
 
 signals:
 
 public slots:
     void Fecho();
+    //void ImpPontos();
     void Eye_X(double);
     void Eye_Y(double);
     void Eye_Z(double);
