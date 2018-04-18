@@ -14,7 +14,9 @@ float ProdutoVetorial2D(Coord_2D V1, Coord_2D V2);
 float Distancia2D(Coord_2D V1, Coord_2D V2);
 float Angulo2D(Coord_2D V1, Coord_2D V2);
 float AnguloOrientado2D(Coord_2D V);
+float PseudoAng2D(Coord_2D V1, Coord_2D V2);
 float PseudoAngulo_Quad2D(Coord_2D V);
+float PseudoAngulo(Coord_2D V1, Coord_2D V2);
 bool CCW2D(Coord_2D V1, Coord_2D V2);
 //3D:
 

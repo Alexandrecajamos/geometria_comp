@@ -20,6 +20,13 @@ public:
     void Imp();
     void Ordena(bool controle);
 
+    void trocar(int i, int j);
+    int Particione_X(int p, int r);
+    int Particione_Y(int p, int r);
+    int Particione_Z(int p, int r);
+    int Particione_aleat(int p, int r, bool eixo);
+    void QuickSort(int p, int r, bool eixo);
+
 
 };
 

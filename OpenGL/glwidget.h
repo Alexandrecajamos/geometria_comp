@@ -18,10 +18,10 @@ public:
     void resizeGL(int w, int h);
     void PintaFace(int iA, int iB,int iC, Objeto* Pol);
     void PintaPontos(Objeto* Pol);
-    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho);
-    void QuickHull_Animado(Objeto* Pol);
+    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho, int velocidade);
+    void QuickHull_Animado(Objeto* Pol, int velocidade);
     void PintaFaces(Objeto* Pol);
-
+    int velocidade = 50;
     float Ex=50, Ey=50, Ez=50;
     float Lox=0, Loy=0, Loz=0;
     float Avx=0, Avy=10, Avz=0;
@@ -31,7 +31,9 @@ public:
 signals:
 
 public slots:
+    void attVelocidade(int);
     void Fecho();
+    void FechoAnimado();
     //void ImpPontos();
     void Eye_X(double);
     void Eye_Y(double);

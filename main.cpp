@@ -5,95 +5,33 @@
 #include "quickhull3d.h"
 
 
-
-
 int main()
 {
 
-    Objeto *P1 = new Objeto();
+    Poligono* Pol = new Poligono();
 
-//    P1->addPoint(0,0,0);
-//    P1->addPoint(2,0,0);
-//    P1->addPoint(0,2,0);
-//    P1->addPoint(0,0,2);
-//    P1->addPoint(1,1,1);
-//    P1->addPoint(0.5,0.5,0.5);
+//    cout << Pertence(*(C2->points.at(3)),*(C1->points.at(1)),*(C1->points.at(2)))<< endl;
 
-    P1->addPoint(0,0,0);
-    P1->addPoint(2,0,0);
-    P1->addPoint(2,0,-2);
-    P1->addPoint(0,0,-2);
-    P1->addPoint(0,2,0);
-    P1->addPoint(2,2,0);
-    P1->addPoint(2,2,-2);
-    P1->addPoint(0,2,-2);
-    P1->addPoint(0.9,0.8,-1);
+    Pol->addPoint(1,2);
+    Pol->addPoint(1.5,3.5);
+    Pol->addPoint(2,1);
+    Pol->addPoint(3,3);
+    Pol->addPoint(1,5);
+    Pol->addPoint(2.5,6);
+    Pol->addPoint(3.5,5);
+    Pol->addPoint(5,5);
 
-    P1->addPoint(3,1,-1);
-//
-    P1->ImpPoints();
-
-//    bool Validos[8] = {1,1,1,1,1,1,1,1};
-//    bool* valC1 = CopiaValidos(Validos,8);
-
-//    Particiona(P1, 1,0,4,valC1);
-
-//    cout << endl;
-//    for(int i = 0; i<8;i++)
-//        cout << valC1[i];
-//    int max = Pmax(P1, 1,2,4, valC1);
-
-//    cout << "Max: " << max << endl;
-//    Coord_3D nF = Normal(P1->points.at(2),P1->points.at(3),P1->points.at(6));
-//    nF.ImpCoord_3D();
-//    //cout << endl<< Coplanares(nF,1,6,P1) << endl;
-
-    QuickHull(P1);
-    P1->ImpFaces();
-    //P1->faces.at(1)->Imp();
+//    Pol = QuickHull(Pol);
+//    Pol = Jarvis(Pol);
+//    Pol = Estrelado(Pol);
+//     Pol->Imp();
 
 
+  // Pol = Graham(Pol);
+    Pol = MergeHull(Pol);
+    Pol->Imp();
 
-//    //int max = Pmax(P1, 0,3,2);
-//    bool Validos[5] = {1,1,1,1,1};
-//    Particiona(P1, 0,2,3,Validos);
-
-//    int Max = Pmax(P1, 0,3,2,Validos);
-
-//    cout << endl << Max << endl;
-
-//    for(int i = 0; i<5;i++)
-//        cout << Validos[i];
-
-//    //P1 = QuickHull(P1);
-//    //cout << endl << endl << "Fecho 3D: " << endl;
-//    P1->ImpPoints();
-
-//    cout << endl;
-
-
-//    Poligono *P1 = new Poligono();
-
-//    P1->addPoint(1,1);
-//    P1->addPoint(2,1);
-//    P1->addPoint(3,1);
-//    P1->addPoint(4,1);
-//    P1->addPoint(2,2);
-//    P1->addPoint(3,2);
-//    P1->addPoint(2,3);
-//    P1->addPoint(3,3);
-//    P1->addPoint(4,3);
-//    P1->addPoint(3,4);
-//    P1->addPoint(2,4);
-//    P1->addPoint(4,4);
-
-//    P1->Imp();
-
-//    cout << "Fecho" << endl;
-//    P1 = QuickHull(P1);
-//    P1->Imp();
-
-
+    //cout << endl << " Pertence "<< Pertence(*(Pol->points.at(0)),*(Pol->points.at(1)),*(Pol->points.at(2))) << endl;
     return 0;
 }
 

@@ -90,7 +90,11 @@ Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
 
 
 
-void QuickHull(Objeto* Pol){
+Objeto* QuickHull(Objeto* Entrada){
+
+    Objeto* Pol = new Objeto();
+
+    Pol->CopiaPontos(Entrada);
 
 
     int N = Pol->points.size();
@@ -144,6 +148,7 @@ void QuickHull(Objeto* Pol){
     cout << endl;
 
     cout << "Número de Faces: " << Pol->faces.size()<<endl;
+    return Pol;
 
 }
 void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho){
@@ -171,6 +176,12 @@ void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos, boo
             if(validos[i])
                 iP = i;
 
+        max = Pmax(Pol,iA,iB,iC,validos,Fecho);
+        if(max != -1 && max != iP){
+            //cout << endl<< iA << iB <<iC << iP;
+            validos[iP] = false;
+            return;
+        }
         Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
         if(Coplanares(nF,iA,iP,Pol)){
             if(Fecho[iP]){
@@ -263,6 +274,7 @@ int Pmax(Objeto* Pol, int iA, int iB, int iC, bool *validos, bool *Fecho){
             Coord_3D temp = *(Pol->points.at(i));
             temp.operator -=(a);
             float pE = ProdutoEscalar3D(temp, nF);
+
             if(pE>MairVolume){
                 MairVolume = pE;
                 Ind = i;

@@ -1,56 +1,56 @@
 #include "poligono.h"
 
 
-void trocar(std::vector<Coord_2D*> vetor, int i, int j) {
+void Poligono::trocar(int i, int j) {
 
-    int N = vetor.size();
+    int N = this->points.size();
     if(i>=0 && j < N){
-        Coord_2D* z = new Coord_2D(vetor.at(i)->x,vetor.at(i)->y);
-        vetor.at(i)->x = vetor.at(j)->x;
-        vetor.at(i)->y = vetor.at(j)->y;
-        vetor.at(j)->x = z->x;
-        vetor.at(j)->y = z->y;
+        Coord_2D* z = new Coord_2D(this->points.at(i)->x,this->points.at(i)->y);
+        this->points.at(i)->x = this->points.at(j)->x;
+        this->points.at(i)->y = this->points.at(j)->y;
+        this->points.at(j)->x = z->x;
+        this->points.at(j)->y = z->y;
        }
 
 }
-int Particione_X(std::vector<Coord_2D*> vetor, int p, int r) {
-    float pivo = vetor.at(r)->x;
+int Poligono::Particione_X(int p, int r) {
+    float pivo = this->points.at(r)->x;
     int i=p-1;
     for (int j=p; j<r; j++) {
-        if (vetor.at(j)->x <= pivo) {
+        if (this->points.at(j)->x <= pivo) {
             i++;
-            trocar(vetor,i,j);
+            this->trocar(i,j);
         }
     }
-    trocar(vetor,i+1, r);
+    this->trocar(i+1, r);
     return i+1;
 }
-int Particione_Y(std::vector<Coord_2D*> vetor, int p, int r) {
-    float pivo = vetor.at(r)->y;
+int Poligono::Particione_Y(int p, int r) {
+    float pivo = this->points.at(r)->y;
     int i=p-1;
     for (int j=p; j<r; j++) {
-        if (vetor.at(j)->y <= pivo) {
+        if (this->points.at(j)->y <= pivo) {
             i++;
-            trocar(vetor,i,j);
+            this->trocar(i,j);
         }
     }
-    trocar(vetor,i+1, r);
+    this->trocar(i+1, r);
     return i+1;
 }
-int Particione_aleat(std::vector<Coord_2D*> vetor, int p, int r, bool eixo) {
+int Poligono::Particione_aleat(int p, int r, bool eixo) {
     srand (time(NULL));
     int pos_pivo = p + rand()%(r-p+1);
-    trocar(vetor,pos_pivo,r);
+    this->trocar(pos_pivo,r);
     if(eixo)
-        return Particione_Y(vetor,p,r);
+        return Particione_Y(p,r);
     else
-        return Particione_X(vetor,p,r);
+        return Particione_X(p,r);
 }
-void QuickSort(std::vector<Coord_2D*> vetor, int p, int r, bool eixo) {
+void Poligono::QuickSort(int p, int r, bool eixo) {
     if (p>=r) return;
-    int q = Particione_aleat(vetor,p,r,eixo);
-    QuickSort(vetor,p,q-1,eixo);
-    QuickSort(vetor,q+1,r,eixo);
+    int q = Particione_aleat(p,r,eixo);
+    QuickSort(p,q-1,eixo);
+    QuickSort(q+1,r,eixo);
 }
 
 
@@ -150,7 +150,7 @@ void Poligono::Imp(){
 
 void Poligono::Ordena(bool eixo){
     int N = this->points.size();
-    QuickSort(this->points, 0, (N-1),eixo);
+    QuickSort(0, (N-1),eixo);
 }
 
 
