@@ -74,6 +74,31 @@ bool CCW2D(Coord_2D V1, Coord_2D V2){
         return false;
 }
 
+bool intersept(Coord_2D A, Coord_2D B, Coord_2D C, Coord_2D D){
+    Coord_2D V1 = B;
+    Coord_2D V2 = C;
+    Coord_2D V3 = D;
+    V1.operator -=(&A);
+    V2.operator -=(&A);
+    V3.operator -=(&A);
+
+    float x= ProdutoVetorial2D(V1, V2);
+    float y= ProdutoVetorial2D(V1, V3);
+
+    if((x*y)<0)
+        return true;
+    return false;
+}
+float Area(Coord_2D *a, Coord_2D *b, Coord_2D *c){
+
+    Coord_2D A1(b->x,b->y);
+    Coord_2D A2(c->x,c->y);
+    A1.operator -=(a);
+    A2.operator -=(a);
+    return ProdutoVetorial2D(A1,A2)/2;
+
+}
+
 //3D:
 
 float NormaVetor3D(Coord_3D V){

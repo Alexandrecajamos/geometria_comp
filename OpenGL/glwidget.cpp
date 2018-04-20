@@ -131,7 +131,7 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
         }
         P = Jarvis(P);
         for(int i=2; i<N-1; i++){
-            Pol->addFace();
+//            Pol->addFace();
         }
 
 

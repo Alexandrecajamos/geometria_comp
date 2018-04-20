@@ -18,7 +18,9 @@ float PseudoAng2D(Coord_2D V1, Coord_2D V2);
 float PseudoAngulo_Quad2D(Coord_2D V);
 float PseudoAngulo(Coord_2D V1, Coord_2D V2);
 bool CCW2D(Coord_2D V1, Coord_2D V2);
-//3D:
+bool intersept(Coord_2D A, Coord_2D B, Coord_2D C, Coord_2D D);
+float Area(Coord_2D *a, Coord_2D *b, Coord_2D *c);
+//3D
 
 float NormaVetor3D(Coord_3D V);
 float ProdutoEscalar3D(Coord_3D V1, Coord_3D V2);

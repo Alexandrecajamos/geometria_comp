@@ -1,15 +1,7 @@
 #include "fecho2d.h"
 
 
-float Area(Coord_2D *a, Coord_2D *b, Coord_2D *c){
 
-    Coord_2D A1(b->x,b->y);
-    Coord_2D A2(c->x,c->y);
-    A1.operator -=(a);
-    A2.operator -=(a);
-    return ProdutoVetorial2D(A1,A2)/2;
-
-}
 Poligono* Combina(Poligono*A, Poligono*B){
 
     Poligono* Comb = new Poligono();
@@ -184,26 +176,41 @@ void QuickSort(float** vetor, int p, int r, int ind, int N_Colluns) {
 
 
 Poligono* Estrelado(Poligono *Pol){
+
+    int N = Pol->points.size();
+
     Poligono* Est = new Poligono();
 
+    float dX, dY;
 
-    float MX,mX,MY,mY;
+    for(int i=0;i<N;i++){
+        dX+=Pol->points.at(i)->x;
+        dY+=Pol->points.at(i)->y;
+    }
+        dX/=N;
+        dY/=N;
 
-    MX = Pol->points.at(Pol->MaiorX())->x;
-    mX = Pol->points.at(Pol->MenorX())->x;
-    MY = Pol->points.at(Pol->MaiorY())->y;
-    mY = Pol->points.at(Pol->MenorY())->y;
+//    float MX,mX,MY,mY;
 
-    float dX = (abs(MX) + abs(mX))/2;
-    float dY = (abs(MY) + abs(mY))/2;
+//    MX = Pol->points.at(Pol->MaiorX())->x;
+//    mX = Pol->points.at(Pol->MenorX())->x;
+//    MY = Pol->points.at(Pol->MaiorY())->y;
+//    mY = Pol->points.at(Pol->MenorY())->y;
+
+//    float dX = (abs(MX) + abs(mX))/2;
+//    float dY = (abs(MY) + abs(mY))/2;
 
     Coord_2D centro(dX, dY);
+
+    cout << "Centro " << endl;
+    centro.ImpCoord_2D();
+    cout << "fim teste" << endl << endl;
+
     Coord_2D U(1,0);
     U.operator +=(&centro);
     U.operator -=(&centro);
 
 
-    int N = Pol->points.size();
 
     float **x = (float**)malloc(sizeof(float*)*N);
     for(int i =0; i<N;i++)

@@ -429,9 +429,9 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>48</x>
+       <x>30</x>
        <y>20</y>
-       <width>151</width>
+       <width>171</width>
        <height>101</height>
       </rect>
      </property>
@@ -439,7 +439,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>CRAb.jpg</pixmap>
+      <pixmap resource="crab.qrc">:/new/prefix1/CRAb.jpg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -485,7 +485,9 @@
    </slots>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="crab.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton</sender>

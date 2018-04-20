@@ -41,3 +41,6 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 LIBS += -lglut -lGLU
+
+RESOURCES += \
+    crab.qrc

@@ -1,5 +1,5 @@
 #include "poligono.h"
-
+#include "fecho2d.h"
 
 void Poligono::trocar(int i, int j) {
 
@@ -154,3 +154,33 @@ void Poligono::Ordena(bool eixo){
 }
 
 
+bool Poligono::IndRotacao(Coord_2D P){
+    Poligono* Est = Estrelado(this);
+    float soma =0 ;
+    int N = points.size();
+    for(int i=0; i<N;i++){
+        int prox = i+1;
+        if(prox == N)
+            prox = 0;
+
+        Coord_2D V1 = *(Est->points.at(i));
+        Coord_2D V2 = *(Est->points.at(prox));
+        V1.operator -=(&P);
+        V2.operator -=(&P);
+
+
+        float ang = PseudoAngulo(V1,V2);//PseudoAng2D(V1, V2);
+
+
+        if(CCW2D(V1,V2))
+            soma+=ang;
+        else
+            soma-=ang;
+
+    }
+
+    if(soma == 8)
+        return true;
+    else
+        return false;
+}

@@ -26,7 +26,7 @@ public:
     int Particione_Z(int p, int r);
     int Particione_aleat(int p, int r, bool eixo);
     void QuickSort(int p, int r, bool eixo);
-
+    bool IndRotacao(Coord_2D P);
 
 };
 
