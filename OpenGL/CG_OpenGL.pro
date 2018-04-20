@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     objeto.cpp \
     vetor.cpp \
     quickhull3d.cpp \
-    face.cpp
+    face.cpp \
+    fecho2d.cpp \
+    poligono.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -32,7 +34,8 @@ HEADERS  += mainwindow.h \
     vetor.h \
     fecho2d.h \
     quickhull3d.h \
-    face.h
+    face.h \
+    poligono \
 
 
 FORMS    += mainwindow.ui

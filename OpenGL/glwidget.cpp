@@ -4,7 +4,7 @@
 #include <iostream>
 #include <time.h>
 #include "quickhull3d.h"
-
+#include "fecho2d.h"
 
 
 
@@ -70,63 +70,79 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
     }
     int max;
 
-    if(Pontos_Validos == 1){
-        int iP;
-        for(int i=0;i<N;i++)
-            if(validos[i])
-                iP = i;
+//    if(Pontos_Validos == 1){
+//        int iP;
+//        for(int i=0;i<N;i++)
+//            if(validos[i])
+//                iP = i;
 
-        max = Pmax(Pol,iA,iB,iC,validos,Fecho);
-        if(max != -1 && max != iP){
-            //cout << endl<< iA << iB <<iC << iP;
-            validos[iP] = false;
-            return;
-        }
-        Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
-        if(Coplanares(nF,iA,iP,Pol)){
-            if(Fecho[iP]){
-                if(!(Pol->Pertence(iA,iB,iC))){
+//        max = Pmax(Pol,iA,iB,iC,validos,Fecho);
+//        if(max != -1 && max != iP){
+//            //cout << endl<< iA << iB <<iC << iP;
+//            validos[iP] = false;
+//            return;
+//        }
+//        Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
+//        if(Coplanares(nF,iA,iP,Pol)){
+//            if(Fecho[iP]){
+//                if(!(Pol->Pertence(iA,iB,iC))){
 
-                    Pol->addFace(iA,iB,iC);
-                     delay(velocidade);updateGL();
-                    }// || Pol->Pertence(iA,iB,iP)))
+//                    Pol->addFace(iA,iB,iC);
+//                     delay(velocidade);updateGL();
+//                    }// || Pol->Pertence(iA,iB,iP)))
 
-                validos[iP]=false;
-                return;
-            }
+//                validos[iP]=false;
+//                return;
+//            }
 
 
 
-                Pol->addFace(iA, iB,iC);
-                delay(velocidade);updateGL();
-                Coord_3D nF2 = Normal(Pol->points.at(iA), Pol->points.at(iP), Pol->points.at(iB));
+//                Pol->addFace(iA, iB,iC);
+//                delay(velocidade);updateGL();
+//                Coord_3D nF2 = Normal(Pol->points.at(iA), Pol->points.at(iP), Pol->points.at(iB));
 
-                if(((nF.z > 0 && nF2.z >0) || (nF.z < 0 && nF2.z < 0))&& !Pol->Pertence(iA,iP,iB)){
-                    Pol->addFace(iA, iP,iB);
-                   delay(velocidade); updateGL();
-                }else
-                    if(!Pol->Pertence(iB,iP,iC)){
-                        Pol->addFace(iB, iP,iC);
-                        delay(velocidade);updateGL();
-                    }
+//                if(((nF.z > 0 && nF2.z >0) || (nF.z < 0 && nF2.z < 0))&& !Pol->Pertence(iA,iP,iB)){
+//                    Pol->addFace(iA, iP,iB);
+//                   delay(velocidade); updateGL();
+//                }else
+//                    if(!Pol->Pertence(iB,iP,iC)){
+//                        Pol->addFace(iB, iP,iC);
+//                        delay(velocidade);updateGL();
+//                    }
 
-            Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true; Fecho[iP] = true;
-            return;
+//            Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true; Fecho[iP] = true;
+//            return;
 
-        }else
-            max = iP;
+//        }else
+//            max = iP;
 
-    }else
-        max = Pmax(Pol, iA,iB,iC, validos, Fecho);
+//    }else
+//
+
+    max = Pmax(Pol, iA,iB,iC, validos, Fecho);
 
     if(max == -1){
-        int iP;
-        for(int i=0;i<N;i++)
-            if(validos[i])
-                iP = i;
-        max = iP;
-        validos[iP]= false;
-        validos[iP+1]= false;
+
+        Poligono* P = new Poligono();
+        for(int i=0; i<N; i++){
+            if(validos[i] || i == iA || i == iB || i == iC){
+                P->addPoint(Pol->points.at(i)->x, Pol->points.at(i)->y);
+            }
+        }
+        P = Jarvis(P);
+        for(int i=2; i<N-1; i++){
+            Pol->addFace();
+        }
+
+
+//        int iP;
+//        for(int i=0;i<N;i++)
+//            if(validos[i])
+//                iP = i;
+//        max = iP;
+
+//        validos[iP]= false;
+//        validos[iP+1]= false;
         //return;  // Todos são co-planares
     }
 

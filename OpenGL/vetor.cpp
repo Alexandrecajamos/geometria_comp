@@ -32,6 +32,8 @@ float AnguloOrientado2D(Coord_2D V){
     else
         return (360-ang);
 }
+
+
 float PseudoAngulo_Quad2D(Coord_2D V){
     if(V.y >=0){
         if(V.x >=0){
@@ -52,6 +54,13 @@ float PseudoAngulo_Quad2D(Coord_2D V){
         return (6+ (V.x/(-V.y)));
     return (8 - ((-V.y)/V.x));
 
+}
+float PseudoAngulo(Coord_2D V1, Coord_2D V2){
+    float aV1 = PseudoAngulo_Quad2D(V1);
+    float aV2 = PseudoAngulo_Quad2D(V2);
+    if(aV2>aV1)
+        return aV2-aV1;
+    return (8-(aV1-aV2));
 }
 float ProdutoVetorial2D(Coord_2D V1, Coord_2D V2){
     return (V1.x*V2.y)-(V1.y*V2.x);
