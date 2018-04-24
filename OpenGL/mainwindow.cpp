@@ -21,8 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->FechoAnimado,SIGNAL(pressed()), ui->GLwidget, SLOT(FechoAnimado()));
     connect(ui->Fecho,SIGNAL(pressed()), ui->GLwidget, SLOT(Fecho()));
-    //connect(ui->Luzes,SIGNAL(toggled(bool)), ui->GLwidget, SLOT(LuzesProj(bool)));
+    connect(ui->Imp, SIGNAL(pressed()), ui->GLwidget, SLOT(Importar()));
+    connect(ui->Exp, SIGNAL(pressed()), ui->GLwidget, SLOT(Exportar()));
     connect(ui->Vel, SIGNAL(valueChanged(int)), ui->GLwidget, SLOT(attVelocidade(int)));
+    connect(ui->lineEdit, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attFile(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -33,9 +35,7 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::on_pushButton_clicked()
-{
 
-}
+
 
 

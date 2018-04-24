@@ -21,19 +21,35 @@ public:
     void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho, int velocidade);
     void QuickHull_Animado(Objeto* Pol, int velocidade);
     void PintaFaces(Objeto* Pol);
+
+    vector<Objeto*> ReadObjs (std::string filepath);
+    void WriteObjs(vector<Objeto*> Objs);
+
     int velocidade = 50;
     float Ex=50, Ey=50, Ez=50;
     float Lox=0, Loy=0, Loz=0;
     float Avx=0, Avy=10, Avz=0;
+
+
+    vector<Objeto*> Objs;
+
     Objeto* Obj = new Objeto();
+
     bool RendFecho = false;
+
+    string File = "teste";
+
 
 signals:
 
 public slots:
     void attVelocidade(int);
+    void attFile(QString);
     void Fecho();
     void FechoAnimado();
+    void Importar();
+    void Exportar();
+
     //void ImpPontos();
     void Eye_X(double);
     void Eye_Y(double);

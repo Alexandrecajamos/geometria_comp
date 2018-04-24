@@ -5,7 +5,7 @@
 #include <time.h>
 #include "quickhull3d.h"
 #include "fecho2d.h"
-
+#include <sstream>
 
 
 void delay(int milliseconds)
@@ -122,7 +122,7 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
     max = Pmax(Pol, iA,iB,iC, validos, Fecho);
 
     if(max == -1){
-
+        return;
         Poligono* P = new Poligono();
         for(int i=0; i<N; i++){
             if(validos[i] || i == iA || i == iB || i == iC){
@@ -133,17 +133,6 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
         for(int i=2; i<N-1; i++){
 //            Pol->addFace();
         }
-
-
-//        int iP;
-//        for(int i=0;i<N;i++)
-//            if(validos[i])
-//                iP = i;
-//        max = iP;
-
-//        validos[iP]= false;
-//        validos[iP+1]= false;
-        //return;  // Todos são co-planares
     }
 
     bool* valC1 = CopiaValidos(validos,N);
@@ -269,20 +258,29 @@ void GLWidget::initializeGL()
        // Habilita o depth-buffering  Opacidade dos objetos
        //glEnable(GL_DEPTH_TEST);
 
-    Obj = new Objeto();
+        Obj = new Objeto();
 
-    Obj->addPoint(0,0,0);
-    Obj->addPoint(10,0,0);
-    Obj->addPoint(10,0,-10);
-    Obj->addPoint(0,0,-10);
-    Obj->addPoint(0,10,0);
-    //Obj->addPoint(5,5,-5);
-    Obj->addPoint(10,10,0);
-    Obj->addPoint(10,10,-10);
-    Obj->addPoint(0,10,-10);
-    Obj->addPoint(15,0,0);
+        Obj->addPoint(0,0,0);
+        Obj->addPoint(10,0,0);
+        Obj->addPoint(10,0,-10);
+        Obj->addPoint(0,0,-10);
+        Obj->addPoint(0,10,0);
+        Obj->addPoint(10,10,0);
+        Obj->addPoint(10,10,-10);
+        Obj->addPoint(0,10,-10);
+        Obj->addPoint(5,5,-5);
+
+        Objs.push_back(Obj);
+
+
+
+//    vector<Objeto*> Objs = ReadObjs("/home/alexandre/geometria_comp/OpenGL/data/input/teste.obj");
+//    Objs.at(1)->ImpPoints();
+//    WriteObjs(Objs);
+
 //    Face F = Extremos(Obj);
 //    cout << F.P1 << F.P2 << F.P3 << endl;
+
 
 }
 void GLWidget::paintGL()
@@ -301,9 +299,11 @@ void GLWidget::paintGL()
 
     glLoadIdentity();
     gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
-    PintaPontos(Obj);
-    PintaFaces(Obj);
 
+    for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
+        PintaPontos((*i));
+        PintaFaces((*i));
+    }
 
 }
 void GLWidget::resizeGL(int w, int h)
@@ -319,19 +319,87 @@ void GLWidget::resizeGL(int w, int h)
     updateGL();
 }
 
+vector<Objeto*> GLWidget::ReadObjs (std::string filepath){
+
+    ifstream readFile(filepath);
+    string identifier, x, y, z, line;
+
+    vector<Objeto*> Objetos;
+
+    int sub_conj = -1;
+
+    while(getline(readFile, line)){
+        stringstream iss(line);
+        getline(iss, identifier, ' ');
+
+        if(identifier == "O"){
+            Objeto* O = new Objeto();
+            Objetos.push_back(O);
+            sub_conj++;
+        }
+
+        if(identifier == "V"){
+            getline(iss, x, ' ');
+            getline(iss, y, ' ');
+            getline(iss, z, ' ');
+            Objetos.at(sub_conj)->addPoint(stof(x),stof(y),stof(z));
+
+        }
+    }
+
+    return Objetos;
+}
+void GLWidget::WriteObjs(vector<Objeto*> Objs){
+
+    int nPartes = Objs.size();
+
+    std::ofstream output("/home/alexandre/geometria_comp/OpenGL/data/output/output_ "+ File + ".obj");
+
+    for (int i = 0; i<nPartes; i++){
+
+        Objeto *Otemp = Objs.at(i);
+        int nPontos = Otemp->points.size();
+        int nFaces = Otemp->faces.size();
+
+        output << "P" << i+1 << "\n";
+
+        for (int j = 0; j<nPontos; j++){
+            Coord_3D *T = Otemp->points.at(j);
+            output << "V " << T->x << " " << T->y << " " << T->z << "\n";
+        }
+        for (int j = 0; j < nFaces; j++){
+            Face *F = Otemp->faces.at(j);
+            output << "F " << F->P1 << " " << F->P2 << " " << F->P3 << "\n";
+        }
+
+    }
+}
+
 
 void GLWidget::Fecho(){
-     Obj->faces.clear();
-     Obj = QuickHull(Obj);
-     updateGL();
-}
 
+for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
+        (*i)->faces.clear();
+        (*i) = QuickHull((*i));
+        updateGL();
+    }
+}
 void GLWidget::FechoAnimado(){
-    Obj->faces.clear();
-    QuickHull_Animado(Obj,velocidade);
-    Obj->ImpFaces();
+    for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
+        (*i)->faces.clear();
+        QuickHull_Animado((*i),velocidade);
+    }
 }
 
+void GLWidget::Importar(){
+    Objs.clear();
+    cout << File << endl;
+    Objs = ReadObjs("/home/alexandre/geometria_comp/OpenGL/data/input/"+File+".obj");
+    updateGL();
+}
+void GLWidget::Exportar(){
+    WriteObjs(Objs);
+}
 
 void GLWidget::Eye_X(double x){
     Ex=(float)x;
@@ -371,4 +439,7 @@ void GLWidget::Av_Z(double x){
 }
 void GLWidget::attVelocidade(int x){
     this->velocidade = x;
+}
+void GLWidget::attFile(QString s){
+    this->File = s.toUtf8().constData(); //s.toUtf8().constData();
 }

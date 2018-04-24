@@ -143,11 +143,18 @@ Objeto* QuickHull(Objeto* Entrada){
 
     cout <<endl;cout <<endl;
     cout << "Indices de Pontos do Fecho: " << endl;
-    for(int i=0;i<N;i++)
+    Pol->points.clear();
+
+    for(int i=0;i<N;i++){
         cout << Fecho[i];
+        if(Fecho[i])
+            Pol->addPoint(Entrada->points.at(i)->x,Entrada->points.at(i)->y,Entrada->points.at(i)->z);
+
+    }
     cout << endl;
 
     cout << "Número de Faces: " << Pol->faces.size()<<endl;
+
     return Pol;
 
 }
