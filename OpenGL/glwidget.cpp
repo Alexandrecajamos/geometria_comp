@@ -48,19 +48,22 @@ void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
 
 }
 
+
 void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho, int velocidade){
 
     int N = Pol->points.size();
-    int Pontos_Validos = ContaValidos(validos,N);
 
-    if(Pontos_Validos == 0){
+
+    int max;
+    max = Pmax(Pol, iA,iB,iC, validos);
+
+
+    if(max == -1){
+
         if(Pol->Pertence(iA,iB,iC)){
             return;
         }
-        int max = Pmax(Pol,iA,iB,iC,validos,Fecho);
-        if(max != -1){
-            return;
-        }
+
         Pol->addFace(iA, iB,iC);
 
         delay(velocidade);updateGL();
@@ -68,83 +71,16 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, 
         Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true;
         return;
     }
-    int max;
-
-//    if(Pontos_Validos == 1){
-//        int iP;
-//        for(int i=0;i<N;i++)
-//            if(validos[i])
-//                iP = i;
-
-//        max = Pmax(Pol,iA,iB,iC,validos,Fecho);
-//        if(max != -1 && max != iP){
-//            //cout << endl<< iA << iB <<iC << iP;
-//            validos[iP] = false;
-//            return;
-//        }
-//        Coord_3D nF = Normal(Pol->points.at(iA), Pol->points.at(iB), Pol->points.at(iC));
-//        if(Coplanares(nF,iA,iP,Pol)){
-//            if(Fecho[iP]){
-//                if(!(Pol->Pertence(iA,iB,iC))){
-
-//                    Pol->addFace(iA,iB,iC);
-//                     delay(velocidade);updateGL();
-//                    }// || Pol->Pertence(iA,iB,iP)))
-
-//                validos[iP]=false;
-//                return;
-//            }
 
 
-
-//                Pol->addFace(iA, iB,iC);
-//                delay(velocidade);updateGL();
-//                Coord_3D nF2 = Normal(Pol->points.at(iA), Pol->points.at(iP), Pol->points.at(iB));
-
-//                if(((nF.z > 0 && nF2.z >0) || (nF.z < 0 && nF2.z < 0))&& !Pol->Pertence(iA,iP,iB)){
-//                    Pol->addFace(iA, iP,iB);
-//                   delay(velocidade); updateGL();
-//                }else
-//                    if(!Pol->Pertence(iB,iP,iC)){
-//                        Pol->addFace(iB, iP,iC);
-//                        delay(velocidade);updateGL();
-//                    }
-
-//            Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true; Fecho[iP] = true;
-//            return;
-
-//        }else
-//            max = iP;
-
-//    }else
-//
-
-    max = Pmax(Pol, iA,iB,iC, validos, Fecho);
-
-    if(max == -1){
-        return;
-        Poligono* P = new Poligono();
-        for(int i=0; i<N; i++){
-            if(validos[i] || i == iA || i == iB || i == iC){
-                P->addPoint(Pol->points.at(i)->x, Pol->points.at(i)->y);
-            }
-        }
-        P = Jarvis(P);
-        for(int i=2; i<N-1; i++){
-//            Pol->addFace();
-        }
-    }
 
     bool* valC1 = CopiaValidos(validos,N);
     bool* valC2 = CopiaValidos(validos,N);
     bool* valC3 = CopiaValidos(validos,N);
 
-
     Particiona(Pol, iA,iB,max, valC1);
     Particiona(Pol, iB,iC,max, valC2);
     Particiona(Pol, iC,iA,max, valC3);
-
-
 
     QuickHull_Recursivo_Animado(Pol, iA,iB,max, valC1, Fecho, velocidade);
     QuickHull_Recursivo_Animado(Pol, iB,iC,max, valC2, Fecho, velocidade);
@@ -175,29 +111,13 @@ void GLWidget::QuickHull_Animado(Objeto* Pol, int velocidade){
     int b = Ext.P2;
     int c = Ext.P3;
 
-    cout << endl << "Extremos: " << a << b << c << endl;
 
     bool* valC1 = CopiaValidos(Validos,N);
     bool* valC2 = CopiaValidos(Validos,N);
 
-    //cout << endl;
+
     Particiona(Pol, a,b,c, valC1);
     Particiona(Pol, a,c,b, valC2);
-
-
-    cout << "C1";
-    for(int i=0; i<N;i++){
-        if(valC1[i])
-        cout << " " << i;
-    }
-    cout << endl;
-    cout << "C2";
-    for(int i=0; i<N;i++){
-        if(valC2[i])
-        cout << " " << i;
-    }
-    cout << endl;
-
 
     QuickHull_Recursivo_Animado(Pol, a,b,c, valC1, Fecho, velocidade);
     QuickHull_Recursivo_Animado(Pol,a,c,b, valC2, Fecho,  velocidade);
@@ -223,13 +143,16 @@ void GLWidget::PintaFaces(Objeto* Pol){
 
 void GLWidget::initializeGL()
 {
-       GLfloat luzAmbiente[4]={0.2,0.2,0.2,1.0};
-       GLfloat luzDifusa[4]={0.7,0.7,0.7,1.0};
-       GLfloat luzEspecular[4]={0.7, 0.7, 0.7, 1.0};
-       GLfloat posicaoLuz[4]={20.0, 30.0, 0.0, 1.0};
+       GLfloat luzAmbiente[4]={1,1,1,1.0};
+
+       GLfloat luzDifusa[4]={1.2,1.2,1.2,1.0};
+
+       GLfloat luzEspecular[4]={1, 1, 1, 0.0};
+
+       GLfloat posicaoLuz[4]={10.0, 10.0, 10.0, 0};
 
        GLfloat especularidade[4]={1.0,1.0,1.0,1.0};
-       GLint especMaterial = 60;
+       GLint especMaterial = 100;
 
        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -250,13 +173,14 @@ void GLWidget::initializeGL()
        glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
 
        // Habilita a definição da cor do material a partir da cor corrente
-       // glEnable(GL_COLOR_MATERIAL);
+       //glEnable(GL_COLOR_MATERIAL);
        //Habilita o uso de iluminação
         glEnable(GL_LIGHTING);
+
         glEnable(GL_LIGHT0);
 
        // Habilita o depth-buffering  Opacidade dos objetos
-       //glEnable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
 
         Obj = new Objeto();
 
@@ -275,8 +199,7 @@ void GLWidget::paintGL()
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    float Material[4]={0.745098039, 0.745098039, 0.745098039, 1.0};
-
+    float Material[4]={0.145098039, 0.145098039, 0.145098039, 1.0};
     glMatrixMode(GL_MODELVIEW);
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, Material);
@@ -292,7 +215,7 @@ void GLWidget::paintGL()
         PintaFaces((*i));
     }
 
-    cout << Objs.at(0)->points.size() << endl;
+    cout << Objs.at(0)->faces.size() << endl;
 
 }
 void GLWidget::resizeGL(int w, int h)

@@ -6,9 +6,9 @@
 
 Objeto* QuickHull(Objeto* Pol);
 
-void QuickHull_Recursivo(Objeto* Pol, int a, int b, int c, bool *validos, bool*Fecho);
+void QuickHull_Recursivo(Objeto* Pol, int a, int b, int c, bool *validos);
 void Particiona(Objeto* Pol, int a, int b, int c, bool *validos);
-int Pmax(Objeto* Pol, int a, int b, int c, bool *validos, bool *Fecho);
+int Pmax(Objeto* Pol, int a, int b, int c, bool *validos);
 int ContaValidos(bool* validos, int N);
 bool* CopiaValidos(bool* validos, int N);
 bool Coplanares(Coord_3D nFace,int P1, int P, Objeto* Pol);
