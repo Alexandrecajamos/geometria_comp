@@ -260,7 +260,7 @@ void GLWidget::initializeGL()
 
         Obj = new Objeto();
 
-        Obj->addPoint(0,50,0);
+        Obj->addPoint(0,10,0);
         Obj->addPoint(10,0,10);
         Obj->addPoint(-10,0,10);
         Obj->addPoint(-10,0,-10);
@@ -291,6 +291,8 @@ void GLWidget::paintGL()
         PintaPontos((*i));
         PintaFaces((*i));
     }
+
+    cout << Objs.at(0)->points.size() << endl;
 
 }
 void GLWidget::resizeGL(int w, int h)

@@ -217,6 +217,9 @@ void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos, boo
 
     }else
         max = Pmax(Pol, iA,iB,iC, validos, Fecho);
+    if(max == -1)
+        return;
+
     //cout << endl << "Max :" << max << endl;
 
     bool* valC1 = CopiaValidos(validos,N);
