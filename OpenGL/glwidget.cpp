@@ -250,9 +250,9 @@ void GLWidget::initializeGL()
        glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
 
        // Habilita a definição da cor do material a partir da cor corrente
-      // glEnable(GL_COLOR_MATERIAL);
+       // glEnable(GL_COLOR_MATERIAL);
        //Habilita o uso de iluminação
-       glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
 
        // Habilita o depth-buffering  Opacidade dos objetos
@@ -262,24 +262,10 @@ void GLWidget::initializeGL()
 
         Obj->addPoint(0,0,0);
         Obj->addPoint(10,0,0);
-        Obj->addPoint(10,0,-10);
-        Obj->addPoint(0,0,-10);
         Obj->addPoint(0,10,0);
-        Obj->addPoint(10,10,0);
-        Obj->addPoint(10,10,-10);
-        Obj->addPoint(0,10,-10);
-        Obj->addPoint(5,5,-5);
+        Obj->addPoint(0,0,10);
 
         Objs.push_back(Obj);
-
-
-
-//    vector<Objeto*> Objs = ReadObjs("/home/alexandre/geometria_comp/OpenGL/data/input/teste.obj");
-//    Objs.at(1)->ImpPoints();
-//    WriteObjs(Objs);
-
-//    Face F = Extremos(Obj);
-//    cout << F.P1 << F.P2 << F.P3 << endl;
 
 
 }
@@ -361,7 +347,7 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
         int nPontos = Otemp->points.size();
         int nFaces = Otemp->faces.size();
 
-        output << "P" << i+1 << "\n";
+        output << "O P" << i+1 << "\n";
 
         for (int j = 0; j<nPontos; j++){
             Coord_3D *T = Otemp->points.at(j);
@@ -382,9 +368,9 @@ for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
         (*i)->faces.clear();
         (*i) = QuickHull((*i));
         updateGL();
-    }
-}
+    }}
 void GLWidget::FechoAnimado(){
+
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
         (*i)->faces.clear();
         QuickHull_Animado((*i),velocidade);
@@ -400,6 +386,23 @@ void GLWidget::Importar(){
 void GLWidget::Exportar(){
     WriteObjs(Objs);
 }
+void GLWidget::Video(){
+    float x = 2*PI;
+    float R = Ex;
+    float aux = Ez;
+    for(float i=10; i>=1; i--){
+        float y = (i/10);
+        delay(velocidade);
+        //cout << cos(x*y)*50 << ", " <<  sin(x*y)*50 << endl;
+        Ex=cos(x*y)*R;
+        Ez=-sin(x*y)*R;
+        updateGL();
+    }
+    Ex = R;
+    Ez = aux;
+    updateGL();
+}
+
 
 void GLWidget::Eye_X(double x){
     Ex=(float)x;

@@ -49,6 +49,7 @@ public slots:
     void FechoAnimado();
     void Importar();
     void Exportar();
+    void Video();
 
     //void ImpPontos();
     void Eye_X(double);

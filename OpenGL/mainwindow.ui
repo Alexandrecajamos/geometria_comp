@@ -71,7 +71,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>-150.000000000000000</double>
+      <double>50.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Eye_y_2">
@@ -90,7 +90,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>150.000000000000000</double>
+      <double>50.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Eye_z_2">
@@ -109,7 +109,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>-150.000000000000000</double>
+      <double>50.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_44">
@@ -148,7 +148,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>0.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="La_y_2">
@@ -189,7 +189,7 @@
       <double>1.000000000000000</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>0.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_40">
@@ -228,7 +228,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>0.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Av_y_2">
@@ -247,7 +247,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>100.000000000000000</double>
+      <double>10.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Av_z_2">
@@ -266,7 +266,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>0.000000000000000</double>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
@@ -306,7 +306,7 @@
        <x>129</x>
        <y>200</y>
        <width>91</width>
-       <height>31</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -319,7 +319,7 @@
        <x>19</x>
        <y>200</y>
        <width>91</width>
-       <height>31</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -330,22 +330,22 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>280</y>
+       <y>260</y>
        <width>201</width>
-       <height>31</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Animação</string>
+      <string>Fecho em Animação</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_43">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>330</y>
+       <y>340</y>
        <width>221</width>
-       <height>51</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="font">
@@ -378,9 +378,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>240</y>
+       <y>230</y>
        <width>201</width>
-       <height>31</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -443,6 +443,19 @@
      </property>
      <property name="scaledContents">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="panoramica">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>290</y>
+       <width>201</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Panorâmica</string>
      </property>
     </widget>
    </widget>
