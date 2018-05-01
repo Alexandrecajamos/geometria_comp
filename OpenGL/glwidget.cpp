@@ -48,69 +48,57 @@ void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
 
 }
 
-
-void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho, int velocidade){
+void GLWidget::QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, int velocidade){
 
     int N = Pol->points.size();
-
-
     int max;
     max = Pmax(Pol, iA,iB,iC, validos);
 
-
     if(max == -1){
-
-        if(Pol->Pertence(iA,iB,iC)){
-            return;
-        }
+//        if(!Pol->Pertence(iA,iB,iC)){
+//            return;
+//        }
 
         Pol->addFace(iA, iB,iC);
-
         delay(velocidade);updateGL();
-
-        Fecho[iA] = true; Fecho[iB] = true; Fecho[iC] = true;
         return;
     }
 
 
+    bool *V1 = (bool*)malloc(sizeof(bool)*N);
+    bool *V2 = (bool*)malloc(sizeof(bool)*N);
+    bool *V3 = (bool*)malloc(sizeof(bool)*N);
 
-    bool* valC1 = CopiaValidos(validos,N);
-    bool* valC2 = CopiaValidos(validos,N);
-    bool* valC3 = CopiaValidos(validos,N);
+    for(int i = 0; i<N; i++){
+        V1[i]=V2[i]=V3[i]=validos[i];
+    }
 
-    Particiona(Pol, iA,iB,max, valC1);
-    Particiona(Pol, iB,iC,max, valC2);
-    Particiona(Pol, iC,iA,max, valC3);
+    Particiona(Pol, iA,iB,max, V1);
+    Particiona(Pol, iB,iC,max, V2);
+    Particiona(Pol, iC,iA,max, V3);
 
-    QuickHull_Recursivo_Animado(Pol, iA,iB,max, valC1, Fecho, velocidade);
-    QuickHull_Recursivo_Animado(Pol, iB,iC,max, valC2, Fecho, velocidade);
-    QuickHull_Recursivo_Animado(Pol, iC,iA,max, valC3, Fecho, velocidade);
-
+    QuickHull_Recursivo_Animado(Pol, iA,iB,max, V1, velocidade);
+    QuickHull_Recursivo_Animado(Pol, iB,iC,max, V2, velocidade);
+    QuickHull_Recursivo_Animado(Pol, iC,iA,max, V3, velocidade);
 
     for(int i=0;i<N;i++)
-        if(!valC1[i] && !valC2[i] && !valC3[i])
+        if(!V1[i] && !V2[i] && !V3[i])
             validos[i] = false;
-
 
 }
 void GLWidget::QuickHull_Animado(Objeto* Pol, int velocidade){
 
-
     int N = Pol->points.size();
     bool *Validos = (bool*)malloc(sizeof(bool)*N);
-    bool *Fecho = (bool*)malloc(sizeof(bool)*N);
 
-    for(int i=0;i<N;i++){
+    for(int i=0;i<N;i++)
         Validos[i] = 1;
-        Fecho[i]=0;
-    }
 
     Face Ext = Extremos(Pol);
 
     int a = Ext.P1;
     int b = Ext.P2;
     int c = Ext.P3;
-
 
     bool* valC1 = CopiaValidos(Validos,N);
     bool* valC2 = CopiaValidos(Validos,N);
@@ -119,18 +107,10 @@ void GLWidget::QuickHull_Animado(Objeto* Pol, int velocidade){
     Particiona(Pol, a,b,c, valC1);
     Particiona(Pol, a,c,b, valC2);
 
-    QuickHull_Recursivo_Animado(Pol, a,b,c, valC1, Fecho, velocidade);
-    QuickHull_Recursivo_Animado(Pol,a,c,b, valC2, Fecho,  velocidade);
+    QuickHull_Recursivo_Animado(Pol, a,b,c, valC1, velocidade);
+    QuickHull_Recursivo_Animado(Pol,a,c,b, valC2,  velocidade);
 
-
-
-    cout <<endl;cout <<endl;
-    cout << "Indices de Pontos do Fecho: " << endl;
-    for(int i=0;i<N;i++)
-        cout << Fecho[i];
-    cout << endl;
-
-    cout << "Número de Faces: " << Pol->faces.size()<<endl;
+    cout << endl<< "Número de Faces: " << Pol->faces.size()<<endl;
 
 }
 void GLWidget::PintaFaces(Objeto* Pol){
@@ -183,12 +163,18 @@ void GLWidget::initializeGL()
         glEnable(GL_DEPTH_TEST);
 
         Obj = new Objeto();
+        Obj->addPoint(0,0,-5);
+        Obj->addPoint(2,0,0);
+        Obj->addPoint(0,3,0);
+        Obj->addPoint(0,-5,0);
+        Obj->addPoint(-5,0,0);
+        Obj->addPoint(0,5,0);
 
-        Obj->addPoint(0,10,0);
-        Obj->addPoint(10,0,10);
-        Obj->addPoint(-10,0,10);
-        Obj->addPoint(-10,0,-10);
-        Obj->addPoint(10,0,-10);
+//        Obj->addPoint(0,10,0);
+//        Obj->addPoint(10,0,10);
+//        Obj->addPoint(-10,0,10);
+//        Obj->addPoint(-10,0,-10);
+//        Obj->addPoint(10,0,-10);
 
         Objs.push_back(Obj);
 
@@ -215,7 +201,7 @@ void GLWidget::paintGL()
         PintaFaces((*i));
     }
 
-    cout << Objs.at(0)->faces.size() << endl;
+    //cout << Objs.at(0)->faces.size() << endl;
 
 }
 void GLWidget::resizeGL(int w, int h)

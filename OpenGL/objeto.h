@@ -35,7 +35,6 @@ public:
     int MenorZ();//Retorna Indice
 
     bool Pertence(int iP1, int iP2, int iP3);
-    bool Pertence(int iP1, int iP2, int iP3, int iP4);
 
     Esfera Esf;
 

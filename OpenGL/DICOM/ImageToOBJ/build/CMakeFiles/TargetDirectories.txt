@@ -1,0 +1,3 @@
+/home/alexandre/ImageToOBJ/build/CMakeFiles/edit_cache.dir
+/home/alexandre/ImageToOBJ/build/CMakeFiles/rebuild_cache.dir
+/home/alexandre/ImageToOBJ/build/CMakeFiles/ImageToOBJ.dir

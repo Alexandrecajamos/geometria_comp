@@ -109,3 +109,23 @@ bool CCW3D(Coord_3D V1, Coord_3D V2){
     Coord_2D B(V2.x,V2.y);
     return CCW2D(A,B);
 }
+
+Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
+
+    Coord_3D p1=*(P1);
+    Coord_3D a=*(P2);
+    Coord_3D b=*(P3);
+
+    a.operator -=(&p1);
+    b.operator -=(&p1);
+//    a.ImpCoord_3D();
+//    b.ImpCoord_3D();
+
+    p1.x=(a.y*b.z)-(a.z*b.y);
+    p1.y=(a.z*b.x)-(a.x*b.z);
+    p1.z=(a.x*b.y)-(a.y*b.x);
+
+    return p1;
+
+}
+

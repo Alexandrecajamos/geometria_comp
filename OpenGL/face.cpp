@@ -10,3 +10,4 @@ Face::Face(int A, int B, int C){
     P2=B;
     P3=C;
 }
+

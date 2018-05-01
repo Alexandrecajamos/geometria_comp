@@ -18,7 +18,7 @@ public:
     void resizeGL(int w, int h);
     void PintaFace(int iA, int iB,int iC, Objeto* Pol);
     void PintaPontos(Objeto* Pol);
-    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, bool *Fecho, int velocidade);
+    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, int velocidade);
     void QuickHull_Animado(Objeto* Pol, int velocidade);
     void PintaFaces(Objeto* Pol);
 

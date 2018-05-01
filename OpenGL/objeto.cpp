@@ -242,45 +242,70 @@ void Objeto::CopiaPontos(Objeto *O){
     }
 }
 
+
 bool Objeto::Pertence(int iP1, int iP2, int iP3){
-    bool pertence = false;
-    //bool aux = false;
 
-    int AB=0, AC=0, BC=0;
+        Coord_3D* a = this->points.at(iP1);
+        Coord_3D* b = this->points.at(iP2);
+        Coord_3D* c = this->points.at(iP3);
 
-    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-        int tP1, tP2, tP3;
-        tP1 = (*i)->P1;
-        tP2 = (*i)->P2;
-        tP3 = (*i)->P3;
+        Coord_3D nF = Normal(a,b,c);
 
-        bool C1 = (iP1 == tP1 || iP1 == tP2 || iP1 == tP3);
-        bool C2 = (iP2 == tP1 || iP2 == tP2 || iP2 == tP3);
-        bool C3 = (iP3 == tP1 || iP3 == tP2 || iP3 == tP3);
+        int Ind = -1;
+        int N = this->points.size();
+        for(int i=0; i < N;i++){
+                Coord_3D temp = *(this->points.at(i));
+                temp.operator -=(a);
+                float pE = ProdutoEscalar3D(temp, nF);
 
-        if(C1 && C2 && C3)
-            pertence = true;
-
-        if(C1 && C2)
-            AB++;
-        if(C1 && C3)
-            AC++;
-        if(C2 && C3)
-            BC++;
-
-        if((AB >=  2 || AC >=2 || BC >=2)){
-            pertence = true;
-//            aux = true;
-//        cout<< endl << "Teste Correspondetes AB AC BC para os índices IA,IB,IC" << iP1 << iP2 << iP3 << endl;
-//        cout<< AB << AC << BC <<endl;
-//        cout<< pertence<< endl;
-        }
+                if(pE>0){
+                    Ind = i;
+                    break;
+                }
+            }
+        if(Ind == -1)
+            return true;
+        return false;
 
     }
 
 
-    return pertence;
-}
+    //    //bool aux = false;
+
+//    int AB=0, AC=0, BC=0;
+
+//    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
+//        int tP1, tP2, tP3;
+//        tP1 = (*i)->P1;
+//        tP2 = (*i)->P2;
+//        tP3 = (*i)->P3;
+
+//        bool C1 = (iP1 == tP1 || iP1 == tP2 || iP1 == tP3);
+//        bool C2 = (iP2 == tP1 || iP2 == tP2 || iP2 == tP3);
+//        bool C3 = (iP3 == tP1 || iP3 == tP2 || iP3 == tP3);
+
+
+//        if(C1 && C2 && C3)
+//            pertence = true;
+
+////        if(C1 && C2)
+////            AB++;
+////        if(C1 && C3)
+////            AC++;
+////        if(C2 && C3)
+////            BC++;
+
+////        if((AB >=  2 || AC >=2 || BC >=2)){
+////            pertence = true;
+//////            aux = true;
+//////        cout<< endl << "Teste Correspondetes AB AC BC para os índices IA,IB,IC" << iP1 << iP2 << iP3 << endl;
+//////        cout<< AB << AC << BC <<endl;
+//////        cout<< pertence<< endl;
+////        }
+
+//    }
+
+
 /*
 float Objeto::Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace){
 
