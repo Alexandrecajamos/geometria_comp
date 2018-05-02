@@ -187,16 +187,161 @@ void Particiona(Objeto* Pol, int iA, int iB, int iC, bool *validos){
             float pE = ProdutoEscalar3D(temp, nF);
             if(pE<0)
                 validos[i] = false;
-
-
         }
     }
-
-
-//    validos[iA]=false;
-//    validos[iB]=false;
-//    validos[iC]=false;
-
 }
 
 
+
+
+Objeto* QuickHull2(Objeto* Obj){
+
+    Face Ext = Extremos(Obj);
+
+    int a = Ext.P1;
+    int b = Ext.P2;
+    int c = Ext.P3;
+
+    int N = Obj->points.size();
+    int *Validos = (int*)malloc(sizeof(int)*N);
+    int *p1 = (int*)malloc(sizeof(int)*N);
+    int *p2 = (int*)malloc(sizeof(int)*N);
+
+    //int nV = 0;
+
+    for(int i=0;i<N;i++)
+//        if(i!= a && i != b && i!= c){
+            Validos[i] = i;
+  //          nV++;
+    //    }
+
+
+    int N1 = Particiona2(Obj,Validos, N, p1, a,b,c);
+    int N2 = Particiona2(Obj,Validos, N, p2, a,c,b);
+
+//    for(int i=0; i<N1; i++)
+//        cout << p1[i] << endl;
+//    cout << "t" << endl;
+
+//    for(int i=0; i<N2; i++)
+//        cout << p2[i] << endl;
+
+//    int max = Pmax2(Obj, p2, N2, Obj->points.at(a),Obj->points.at(c),Obj->points.at(b));
+//    cout << max << endl;
+
+
+    QuickHull_Recursivo2(Obj,p1, N1, a,b,c);
+    QuickHull_Recursivo2(Obj,p2, N2, a,c,b);
+
+//    cout << Obj->faces.size() << endl;
+//    Obj->ImpFaces();
+    return Obj;
+
+
+}
+
+void QuickHull_Recursivo2(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
+
+    int max = Pmax2(Obj,Parte, nP, Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
+
+    if(max == -1){
+        Obj->addFace(a,b,c);
+        return;
+    }
+
+//    cout << "COnjunto : "<< endl;
+//    for(int i = 0; i<nP; i++)
+//        cout << Parte[i] << endl;
+
+    int *p1 = (int*)malloc(sizeof(int)*nP);
+    int *p2 = (int*)malloc(sizeof(int)*nP);
+    int *p3 = (int*)malloc(sizeof(int)*nP);
+
+
+//    cout << endl << endl << "Teste: " << nP << endl;
+    int N1 = Particiona2(Obj,Parte, nP,p1, a,b,max);
+    int N2 = Particiona2(Obj,Parte, nP,p2, b,c,max);
+    int N3 = Particiona2(Obj,Parte, nP,p3, c,a,max);
+
+//    int m1, m2, m3;
+//    m1 = Pmax2(Obj,p1, N1, Obj->points.at(a),Obj->points.at(b),Obj->points.at(max));
+//    m2 = Pmax2(Obj,p2, N2, Obj->points.at(b),Obj->points.at(c),Obj->points.at(max));
+//    m3 = Pmax2(Obj,p3, N3, Obj->points.at(c),Obj->points.at(a),Obj->points.at(max));
+
+//    cout << "Teste Particiona (" << a << b << max << "): " << endl;
+
+//    for(int i=0; i<N1; i++)
+//        cout << p1[i] << endl;
+
+//    cout << "pMax = " << m1 << endl;
+
+//    cout << "Teste Particiona (" << b << c << max << "): " << endl;
+
+//    for(int i=0; i<N2; i++)
+//        cout << p2[i] << endl;
+
+//    cout << "pMax = " << m2 << endl;
+
+//    cout << "Teste Particiona (" << c << a << max << "): " << endl;
+
+//    for(int i=0; i<N3; i++)
+//        cout << p3[i] << endl;
+
+//    cout << "pMax = " << m3 << endl;
+
+
+//    cout << N1 << N2<< N3 << endl;
+
+    QuickHull_Recursivo2(Obj, p1, N1, a,b,max);
+    QuickHull_Recursivo2(Obj, p2, N2, b,c,max);
+    QuickHull_Recursivo2(Obj, p3, N3, c,a,max);
+
+
+}
+
+int Particiona2(Objeto* Obj,int* Validos,int nV, int* Parte, int iA, int iB, int iC){
+
+    int nP = 0;
+
+     Coord_3D* a = Obj->points.at(iA);
+     Coord_3D* b = Obj->points.at(iB);
+     Coord_3D* c = Obj->points.at(iC);
+
+     Coord_3D nF = Normal(a,b,c);
+//        cout << endl << "abc - " <<  iA << iB << iC << endl;
+     for(int i=0; i < nV;i++){
+         if(Validos[i]!= iA && Validos[i] != iB && Validos[i] != iC){
+//            cout << Validos[i] << endl;
+            Coord_3D temp = *(Obj->points.at(Validos[i]));
+            temp.operator -=(a);
+            float pE = ProdutoEscalar3D(temp, nF);
+//            cout << Validos[i] << " = " << pE << endl;
+
+            if(pE>=0){
+                Parte[nP] = Validos[i];
+                nP++;
+            }
+        }
+     }
+
+    return nP;
+}
+
+int Pmax2(Objeto *Obj, int *Parte, int nP, Coord_3D *a, Coord_3D *b, Coord_3D *c){
+
+    float MairVolume = 0;
+    Coord_3D nF = Normal(a,b,c);
+
+    int Ind = -1;
+
+    for(int i=0; i < nP;i++){
+        Coord_3D temp = *(Obj->points.at(Parte[i]));
+        temp.operator -=(a);
+        float pE = ProdutoEscalar3D(temp, nF);
+        if(pE>MairVolume){
+            MairVolume = pE;
+            Ind = Parte[i];
+        }
+    }
+    return Ind;
+}

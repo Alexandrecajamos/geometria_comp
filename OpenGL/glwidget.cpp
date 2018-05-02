@@ -161,22 +161,31 @@ void GLWidget::initializeGL()
 
        // Habilita o depth-buffering  Opacidade dos objetos
         glEnable(GL_DEPTH_TEST);
+        Importar();
+//        Obj = new Objeto();
+////        Obj->addPoint(0,0,-5);
+////        Obj->addPoint(2,0,0);
+////        Obj->addPoint(0,3,0);
+////        Obj->addPoint(0,-5,0);
+////        Obj->addPoint(-5,0,0);
+////        Obj->addPoint(0,5,0);
 
-        Obj = new Objeto();
-        Obj->addPoint(0,0,-5);
-        Obj->addPoint(2,0,0);
-        Obj->addPoint(0,3,0);
-        Obj->addPoint(0,-5,0);
-        Obj->addPoint(-5,0,0);
-        Obj->addPoint(0,5,0);
-
-//        Obj->addPoint(0,10,0);
-//        Obj->addPoint(10,0,10);
-//        Obj->addPoint(-10,0,10);
-//        Obj->addPoint(-10,0,-10);
+//        Obj->addPoint(0,0,0);
+//        Obj->addPoint(10,0,0);
 //        Obj->addPoint(10,0,-10);
+//        Obj->addPoint(0,0,-10);
+//        Obj->addPoint(0,10,0);
+//        Obj->addPoint(10,10,0);
+//        Obj->addPoint(10,10,-10);
+//        Obj->addPoint(0,10,-10);
 
-        Objs.push_back(Obj);
+////        Obj->addPoint(0,10,0);
+////        Obj->addPoint(10,0,10);
+////        Obj->addPoint(-10,0,10);
+////        Obj->addPoint(-10,0,-10);
+////        Obj->addPoint(10,0,-10);
+
+//        Objs.push_back(Obj);
 
 
 }
@@ -201,6 +210,20 @@ void GLWidget::paintGL()
         PintaFaces((*i));
     }
 
+    cout << Info;
+
+
+//cout << "Informações Gerais: " << endl;
+//    cout << "Nº Pontos: " << Objs.at(i)->points.size() << ", Nº Faces: " << Objs.at(i)->faces.size() << endl;
+//    cout << "Centro = " << C.x << ", " << C.y << ", " << C.z << endl;
+//    cout << "Extremos: " << endl;
+//    cout << "Menor X = " << mX->x << ", " << mX->y << ", " << mX->z;
+//    cout << ", Menor Y = " << mY->x << ", " << mY->y << ", " << mY->z;
+//    cout << ", Menor Z = " << mZ->x << ", " << mZ->y << ", " << mZ->z << endl;
+//    cout << "Maior X = " << MX->x << ", " << MX->y << ", " << MX->z;
+//    cout << ", Maior Y = " << MY->x << ", " << MY->y << ", " << MY->z;
+//    cout << ", Maior Z = " << MZ->x << ", " << MZ->y << ", " << MZ->z << endl;
+
     //cout << Objs.at(0)->faces.size() << endl;
 
 }
@@ -211,9 +234,6 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45.0, (float)w/h, 1, 1000.0);
-    //glFrustum(-100,-100,w,h,3,3000);
-    //gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
-
     updateGL();
 }
 
@@ -275,25 +295,33 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
 
 
 void GLWidget::Fecho(){
+    for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++)
+            (*i)->faces.clear();
 
 for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
-        (*i)->faces.clear();
-        (*i) = QuickHull((*i));
+        (*i) = QuickHull2((*i));
         updateGL();
-    }}
+        delay(velocidade);
+    }
+    attInfo();
+}
 void GLWidget::FechoAnimado(){
+    for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++)
+        (*i)->faces.clear();
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
-        (*i)->faces.clear();
         QuickHull_Animado((*i),velocidade);
+        delay(velocidade);
     }
+    attInfo();
 }
 
 void GLWidget::Importar(){
     Objs.clear();
     cout << File << endl;
     Objs = ReadObjs("/home/alexandre/geometria_comp/OpenGL/data/input/"+File+".obj");
-    updateGL();
+    //cout << Info;
+    attInfo();
 }
 void GLWidget::Exportar(){
     WriteObjs(Objs);
@@ -315,6 +343,57 @@ void GLWidget::Video(){
     updateGL();
 }
 
+void GLWidget::attInfo(){
+    Info = "";
+    int N = Objs.size();
+    string S = ("\n"+ File +"-> Nº de Partes: "+ to_string(N) +"\n");
+    for(int i=0; i<N;i++){
+        Coord_3D C = Objs.at(i)->Centro();
+        Coord_3D *mX, *MX, *mY, *MY, *mZ, *MZ;
+        mX = Objs.at(i)->points.at(Objs.at(i)->MenorX());
+        MX = Objs.at(i)->points.at(Objs.at(i)->MaiorX());
+        mY = Objs.at(i)->points.at(Objs.at(i)->MenorY());
+        MY = Objs.at(i)->points.at(Objs.at(i)->MaiorY());
+        mZ = Objs.at(i)->points.at(Objs.at(i)->MenorZ());
+        MZ = Objs.at(i)->points.at(Objs.at(i)->MaiorZ());
+
+        S+= ("Informações Gerais P("+to_string(i)+"): \nNº Pontos: " +to_string(Objs.at(i)->points.size()) + ", Nº Faces: " + to_string(Objs.at(i)->faces.size()) + "\n");
+        S+= ("Centro = " + to_string(C.x) + ", " + to_string(C.y) + ", " + to_string(C.z) + "\n");
+        S+= ("Extremos: \n");
+        S+= ("Menor X = " + to_string(mX->x) + ", " + to_string(mX->y) + ", " + to_string(mX->z));
+        S+= (", Menor Y = " + to_string(mY->x) + ", " + to_string(mY->y) + ", " + to_string(mY->z));
+        S+= (", Menor Z = " + to_string(mZ->x) + ", " + to_string(mZ->y) + ", " + to_string(mZ->z)+"\n");
+        S+= ("Maior X = " + to_string(MX->x) + ", " + to_string(MX->y) + ", " + to_string(MX->z));
+        S+= (", Maior Y = " + to_string(MY->x) + ", " + to_string(MY->y) + ", " + to_string(MY->z));
+        S+= (", Maior Z = " + to_string(MZ->x) + ", " + to_string(MZ->y) + ", " + to_string(MZ->z)+"\n");
+        Info+=S;
+    }
+    updateGL();
+}
+
+void GLWidget::New_X(double n){
+    this->nx = n;
+}
+void GLWidget::New_Y(double n){
+    this->ny = n;
+}
+void GLWidget::New_Z(double n){
+    this->nz = n;
+}
+void GLWidget::Part_Ref(int n){
+    this->nP = n;
+}
+
+void GLWidget::Add(){
+    int N = Objs.size();
+    if(N > nP){
+        Objs.at(nP)->addPoint(nx,ny,nz);
+        if(Objs.at(nP)->faces.size()>0)
+            Fecho();
+        //Objs.at(nP)->ImpPoints();
+        updateGL();
+    }
+}
 
 void GLWidget::Eye_X(double x){
     Ex=(float)x;

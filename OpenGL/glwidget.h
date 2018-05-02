@@ -30,6 +30,8 @@ public:
     float Lox=0, Loy=0, Loz=0;
     float Avx=0, Avy=10, Avz=0;
 
+    float nx =0, ny=0, nz=0;
+    int nP = 0;
 
     vector<Objeto*> Objs;
 
@@ -37,12 +39,14 @@ public:
 
     bool RendFecho = false;
 
-    string File = "teste";
+    string File = "cubo";
+    string Info = "";
 
 
 signals:
 
 public slots:
+    void attInfo();
     void attVelocidade(int);
     void attFile(QString);
     void Fecho();
@@ -52,6 +56,12 @@ public slots:
     void Video();
 
     //void ImpPontos();
+    void New_X(double);
+    void New_Y(double);
+    void New_Z(double);
+    void Part_Ref(int);
+    void Add();
+
     void Eye_X(double);
     void Eye_Y(double);
     void Eye_Z(double);

@@ -242,6 +242,22 @@ void Objeto::CopiaPontos(Objeto *O){
     }
 }
 
+Coord_3D Objeto::Centro(){
+    int N = points.size();
+    float dX=0, dY=0, dZ=0;
+    for(int i=0; i<N;i++){
+        dX+=points.at(i)->x;
+        dY+=points.at(i)->y;
+        dZ+=points.at(i)->z;
+    }
+    dX/=N;
+    dY/=N;
+    dZ/=N;
+
+    Coord_3D C(dX,dY,dZ);
+    return C;
+
+}
 
 bool Objeto::Pertence(int iP1, int iP2, int iP3){
 
