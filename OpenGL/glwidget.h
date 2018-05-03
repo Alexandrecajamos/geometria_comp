@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "objeto.h"
 #include "quickhull3d.h"
+#include "QTextBrowser"
 
 class GLWidget : public QGLWidget
 {
@@ -18,8 +19,10 @@ public:
     void resizeGL(int w, int h);
     void PintaFace(int iA, int iB,int iC, Objeto* Pol);
     void PintaPontos(Objeto* Pol);
-    void QuickHull_Recursivo_Animado(Objeto *Pol, int iA, int iB, int iC, bool *validos, int velocidade);
+
+    void QuickHull_Recursivo_Animado(Objeto* Obj, int* Parte, int nP, int a, int b, int c, int velocidade);
     void QuickHull_Animado(Objeto* Pol, int velocidade);
+
     void PintaFaces(Objeto* Pol);
 
     vector<Objeto*> ReadObjs (std::string filepath);
@@ -39,6 +42,7 @@ public:
 
     bool RendFecho = false;
 
+    QTextBrowser *I;
     string File = "cubo";
     string Info = "";
 

@@ -18,6 +18,8 @@ public:
 private slots:
 
 
+//    void on_Inf_linkActivated(QString &link);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->Vel, SIGNAL(valueChanged(int)), ui->GLwidget, SLOT(attVelocidade(int)));
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attFile(QString)));
 
+//    connect(ui->Inf, SIGNAL())
+    ui->GLwidget->I = ui->Inf;
+
 }
 
 MainWindow::~MainWindow()
@@ -47,5 +50,15 @@ MainWindow::~MainWindow()
 
 
 
+
+
+
+//void MainWindow::on_Inf_linkActivated(QString &link)
+//{
+//    QString T = QString::fromStdString(ui->GLwidget->Info);
+//    link = T;
+
+//    //link = "teste"; //QString::fromStdString(ui->GLwidget->Info);
+//}
 
 

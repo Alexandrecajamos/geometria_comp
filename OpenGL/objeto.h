@@ -27,6 +27,8 @@ public:
     void Ordena(int eixo);
     void CopiaPontos(Objeto* O);
     Coord_3D Centro();
+    float Area_Externa();
+    float Volume();
 
     int MaiorX();//Retorna Indice
     int MenorX();//Retorna Indice

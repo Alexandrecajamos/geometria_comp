@@ -118,8 +118,6 @@ Coord_3D Normal(Coord_3D* P1, Coord_3D*P2, Coord_3D*P3){
 
     a.operator -=(&p1);
     b.operator -=(&p1);
-//    a.ImpCoord_3D();
-//    b.ImpCoord_3D();
 
     p1.x=(a.y*b.z)-(a.z*b.y);
     p1.y=(a.z*b.x)-(a.x*b.z);

@@ -2,36 +2,6 @@
 
 
 
-int ContaValidos(bool* validos, int N){
-    int Val=0;
-    for(int i=0;i<N;i++){
-        if(validos[i])
-            Val++;
-    }
-    return Val;
-}
-bool* CopiaValidos(bool* validos, int N){
-
-    bool *Ret = (bool*)malloc(sizeof(bool)*N);
-    for(int i=0;i<N;i++)
-        Ret[i] = validos[i];
-    return Ret;
-}
-bool Coplanares(Coord_3D nFace, int P1, int P, Objeto* Pol){
-
-    Coord_3D AP = *(Pol->points.at(P));
-
-    AP.operator -=(Pol->points.at(P1));
-
-    NormalizaVetor3D(&AP);
-
-    int PE = ProdutoEscalar3D(nFace,AP);
-    //cout << endl << A << B << P << PE;
-
-    if(PE == 0)
-        return true;
-    return false;
-}
 int MaiorY(int MX, Objeto* O){
     float MY = O->points.at(0)->y;
     int ind = 0;
@@ -72,129 +42,29 @@ Face Extremos(Objeto* Pol){
 
 
 
-Objeto* QuickHull(Objeto* Entrada){
-
-    Objeto* Pol = new Objeto();
-
-    Pol->CopiaPontos(Entrada);
-
-
-    int N = Pol->points.size();
-    bool *Validos = (bool*)malloc(sizeof(bool)*N);
-
-    for(int i=0;i<N;i++){
-        Validos[i] = 1;
-    }
-
-    Face Ext = Extremos(Pol);
-
-    int a = Ext.P1;
-    int b = Ext.P2;
-    int c = Ext.P3;
-
-    bool* valC1 = CopiaValidos(Validos,N);
-    bool* valC2 = CopiaValidos(Validos,N);
-
-
-    Particiona(Pol, a,b,c, valC1);
-    Particiona(Pol, a,c,b, valC2);
-
-
-    QuickHull_Recursivo(Pol, a,b,c, valC1);
-    QuickHull_Recursivo(Pol,a,c,b, valC2);
-    cout << Pol->faces.size();
-    //Pol->ImpFaces();
-    return Pol;
-
-}
-
-void QuickHull_Recursivo(Objeto *Pol, int iA, int iB, int iC, bool *validos){
-
-    int N = Pol->points.size();
-    int max = Pmax(Pol,iA,iB,iC,validos);
-
-    if(max == -1){
-//        if(Pol->Pertence(iA,iB,iC))
-//            return;
-        Pol->addFace(iA, iB,iC);
-        return;
-    }
-    if(validos[max] != 1)
-        return;
-
-    bool* valC1 = CopiaValidos(validos,N);
-    bool* valC2 = CopiaValidos(validos,N);
-    bool* valC3 = CopiaValidos(validos,N);
-
-
-    Particiona(Pol, iA,iB,max, valC1);
-    Particiona(Pol, iB,iC,max, valC2);
-    Particiona(Pol, iC,iA,max, valC3);
-
-    QuickHull_Recursivo(Pol, iA,iB,max, valC1);
-    QuickHull_Recursivo(Pol, iB,iC,max, valC2);
-    QuickHull_Recursivo(Pol, iC,iA,max, valC3);
-
-
-}
-
-int Pmax(Objeto* Pol, int iA, int iB, int iC, bool *validos){
-
-    Coord_3D* a = Pol->points.at(iA);
-    Coord_3D* b = Pol->points.at(iB);
-    Coord_3D* c = Pol->points.at(iC);
-
-    float MairVolume = 0;
+bool Pertence(Objeto *Obj, int iA, int iB, int iC){
+    int N = Obj->points.size();
+    Coord_3D* a = Obj->points.at(iA);
+    Coord_3D* b = Obj->points.at(iB);
+    Coord_3D* c = Obj->points.at(iC);
 
     Coord_3D nF = Normal(a,b,c);
 
-
-    int Ind = -1;
-    int N = Pol->points.size();
-
-    for(int i=0; i < N;i++){
-
-        if(validos[i]){
-            Coord_3D temp = *(Pol->points.at(i));
-            temp.operator -=(a);
-            float pE = ProdutoEscalar3D(temp, nF);
-
-            if(pE>MairVolume){
-                MairVolume = pE;
-                Ind = i;
-            }
-        }
-
+    bool Ret = true;
+    for(int i=0; i < N; i++){
+        Coord_3D temp = *(Obj->points.at(i));
+        temp.operator -=(a);
+        float pE = ProdutoEscalar3D(temp, nF);
+        if(pE>0)
+            Ret = false;
+//        cout << "T("<<i<<") = " << pE << endl;
 
     }
-    return Ind;
 
-}
-void Particiona(Objeto* Pol, int iA, int iB, int iC, bool *validos){
-    Coord_3D* a = Pol->points.at(iA);
-    Coord_3D* b = Pol->points.at(iB);
-    Coord_3D* c = Pol->points.at(iC);
-
-    Coord_3D nF = Normal(a,b,c);
-   // nF.ImpCoord_3D();
-    int N = Pol->points.size();
-
-
-    for(int i=0; i < N;i++){
-        if(validos[i] && i != iA && i!= iB && i!= iC){
-            Coord_3D temp = *(Pol->points.at(i));
-            temp.operator -=(a);
-            float pE = ProdutoEscalar3D(temp, nF);
-            if(pE<0)
-                validos[i] = false;
-        }
-    }
+    return Ret;
 }
 
-
-
-
-Objeto* QuickHull2(Objeto* Obj){
+Objeto* QuickHull(Objeto* Obj){
 
     Face Ext = Extremos(Obj);
 
@@ -216,22 +86,23 @@ Objeto* QuickHull2(Objeto* Obj){
     //    }
 
 
-    int N1 = Particiona2(Obj,Validos, N, p1, a,b,c);
-    int N2 = Particiona2(Obj,Validos, N, p2, a,c,b);
+    int N1 = Particiona(Obj,Validos, N, p1, a,b,c);
+    int N2 = Particiona(Obj,Validos, N, p2, a,c,b);
 
 //    for(int i=0; i<N1; i++)
 //        cout << p1[i] << endl;
+
 //    cout << "t" << endl;
 
 //    for(int i=0; i<N2; i++)
 //        cout << p2[i] << endl;
 
-//    int max = Pmax2(Obj, p2, N2, Obj->points.at(a),Obj->points.at(c),Obj->points.at(b));
-//    cout << max << endl;
+//    int max = Pmax(Obj, p2, N2, Obj->points.at(a),Obj->points.at(c),Obj->points.at(b));
+//    cout << "Max" <<  max << endl;
 
 
-    QuickHull_Recursivo2(Obj,p1, N1, a,b,c);
-    QuickHull_Recursivo2(Obj,p2, N2, a,c,b);
+    QuickHull_Recursivo(Obj,p1, N1, a,b,c);
+    QuickHull_Recursivo(Obj,p2, N2, a,c,b);
 
 //    cout << Obj->faces.size() << endl;
 //    Obj->ImpFaces();
@@ -240,12 +111,58 @@ Objeto* QuickHull2(Objeto* Obj){
 
 }
 
-void QuickHull_Recursivo2(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
+void Teste(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
+    int max = Pmax(Obj,Parte, nP, Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
 
-    int max = Pmax2(Obj,Parte, nP, Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
+    int *p1 = (int*)malloc(sizeof(int)*nP);
+    int *p2 = (int*)malloc(sizeof(int)*nP);
+    int *p3 = (int*)malloc(sizeof(int)*nP);
+
+
+    cout << endl << endl << "Teste: ("<<a<<b<<c<<") com nº de pontos = " << nP << endl;
+    for(int i=0; i<nP; i++)
+        cout << Parte[i];
+    cout <<endl<< "Fim Validos "<< endl << "pMax = " << max << endl;
+
+    int N1 = Particiona(Obj,Parte, nP,p1, a,b,max);
+    int N2 = Particiona(Obj,Parte, nP,p2, b,c,max);
+    int N3 = Particiona(Obj,Parte, nP,p3, c,a,max);
+
+    int m1, m2, m3;
+    m1 = Pmax(Obj,p1, N1, Obj->points.at(a),Obj->points.at(b),Obj->points.at(max));
+    m2 = Pmax(Obj,p2, N2, Obj->points.at(b),Obj->points.at(c),Obj->points.at(max));
+    m3 = Pmax(Obj,p3, N3, Obj->points.at(c),Obj->points.at(a),Obj->points.at(max));
+
+    cout << "Teste Particiona (" << a << b << max << "): " << endl;
+
+    for(int i=0; i<N1; i++)
+        cout << p1[i] << endl;
+
+    cout << "pMax = " << m1 << endl;
+
+    cout << "Teste Particiona (" << b << c << max << "): " << endl;
+
+    for(int i=0; i<N2; i++)
+        cout << p2[i] << endl;
+
+    cout << "pMax = " << m2 << endl;
+
+    cout << "Teste Particiona (" << c << a << max << "): " << endl;
+
+    for(int i=0; i<N3; i++)
+        cout << p3[i] << endl;
+
+    cout << "pMax = " << m3 << endl;
+
+}
+
+void QuickHull_Recursivo(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
+
+    int max = Pmax(Obj,Parte, nP, Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
 
     if(max == -1){
-        Obj->addFace(a,b,c);
+        //if(Pertence(Obj,a,b,c) || Pertence(Obj, a,c,b))
+            Obj->addFace(a,b,c);
         return;
     }
 
@@ -259,9 +176,9 @@ void QuickHull_Recursivo2(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
 
 
 //    cout << endl << endl << "Teste: " << nP << endl;
-    int N1 = Particiona2(Obj,Parte, nP,p1, a,b,max);
-    int N2 = Particiona2(Obj,Parte, nP,p2, b,c,max);
-    int N3 = Particiona2(Obj,Parte, nP,p3, c,a,max);
+    int N1 = Particiona(Obj,Parte, nP,p1, a,b,max);
+    int N2 = Particiona(Obj,Parte, nP,p2, b,c,max);
+    int N3 = Particiona(Obj,Parte, nP,p3, c,a,max);
 
 //    int m1, m2, m3;
 //    m1 = Pmax2(Obj,p1, N1, Obj->points.at(a),Obj->points.at(b),Obj->points.at(max));
@@ -290,16 +207,17 @@ void QuickHull_Recursivo2(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
 //    cout << "pMax = " << m3 << endl;
 
 
-//    cout << N1 << N2<< N3 << endl;
+    //cout << N1 << N2<< N3 << endl;
+    //      T(Obj, p2, N2, b,c,max);
+    //      T(Obj, p3, N3, c,a,max);
 
-    QuickHull_Recursivo2(Obj, p1, N1, a,b,max);
-    QuickHull_Recursivo2(Obj, p2, N2, b,c,max);
-    QuickHull_Recursivo2(Obj, p3, N3, c,a,max);
-
+    QuickHull_Recursivo(Obj, p1, N1, a,b,max);
+    QuickHull_Recursivo(Obj, p2, N2, b,c,max);
+    QuickHull_Recursivo(Obj, p3, N3, c,a,max);
 
 }
 
-int Particiona2(Objeto* Obj,int* Validos,int nV, int* Parte, int iA, int iB, int iC){
+int Particiona(Objeto* Obj,int* Validos,int nV, int* Parte, int iA, int iB, int iC){
 
     int nP = 0;
 
@@ -327,7 +245,7 @@ int Particiona2(Objeto* Obj,int* Validos,int nV, int* Parte, int iA, int iB, int
     return nP;
 }
 
-int Pmax2(Objeto *Obj, int *Parte, int nP, Coord_3D *a, Coord_3D *b, Coord_3D *c){
+int Pmax(Objeto *Obj, int *Parte, int nP, Coord_3D *a, Coord_3D *b, Coord_3D *c){
 
     float MairVolume = 0;
     Coord_3D nF = Normal(a,b,c);
@@ -344,4 +262,32 @@ int Pmax2(Objeto *Obj, int *Parte, int nP, Coord_3D *a, Coord_3D *b, Coord_3D *c
         }
     }
     return Ind;
+}
+
+int Pontos_Fecho(Objeto *Fecho, int *Pontos){
+
+
+    int nF = Fecho->faces.size();
+    int nP = Fecho->points.size();
+    bool *pontos = (bool*)malloc(sizeof(bool)*nP);
+
+    for(int i=0;i<nP;i++)
+        pontos[i]=0;
+
+    for(int i=0; i< nF; i++){
+        Face *F = Fecho->faces.at(i);
+        pontos[F->P1] = 1;
+        pontos[F->P2] = 1;
+        pontos[F->P3] = 1;
+
+    }
+    int nPontos=0;
+    for(int i=0;i<nP;i++)
+    {
+        if(pontos[i]){
+            Pontos[nPontos] = i;
+            nPontos++;
+        }
+    }
+    return nPontos;
 }

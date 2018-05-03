@@ -35,7 +35,7 @@ HEADERS  += mainwindow.h \
     fecho2d.h \
     quickhull3d.h \
     face.h \
-    poligono \
+    poligono.h \
 
 
 FORMS    += mainwindow.ui

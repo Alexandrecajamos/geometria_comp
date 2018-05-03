@@ -285,8 +285,37 @@ bool Objeto::Pertence(int iP1, int iP2, int iP3){
 
     }
 
+float Objeto::Area_Externa(){
+    float area = 0;
 
-    //    //bool aux = false;
+
+    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
+        Face *F = *i;
+        Coord_3D NF = Normal(this->points.at(F->P1),this->points.at(F->P2),this->points.at(F->P3));
+        float aT = NormaVetor3D(NF);
+        area+=aT;
+     }
+    return area;
+
+}
+
+
+float Objeto::Volume(){
+    float Vol = 0;
+
+
+    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
+        Face *F = *i;
+        Coord_3D NF = Normal(this->points.at(F->P1),this->points.at(F->P2),this->points.at(F->P3));
+        float T = ProdutoEscalar3D(NF,*(this->points.at(F->P1)));
+        Vol+=T;
+     }
+    Vol/=3;
+    return Vol;
+
+}
+
+//    //bool aux = false;
 
 //    int AB=0, AC=0, BC=0;
 
