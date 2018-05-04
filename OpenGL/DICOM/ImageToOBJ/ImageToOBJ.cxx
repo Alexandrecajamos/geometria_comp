@@ -38,8 +38,8 @@ int getMinimum(ImageType::Pointer image){
 
 void WriteImage(ImageType::Pointer image, int i){
     string s = to_string(i);
-    std::ofstream output("/home/alexandre/ImageToOBJ/data/output/Node"+ s + ".obj");
-    output << "O Node"+ s + "\n";
+    std::ofstream output("/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/data/output/Node"+ s + ".obj");
+    output << "o Node"+ s + "\n";
     double background = getMinimum(image);
     ImageType::SizeType size = image->GetLargestPossibleRegion().GetSize();
 
@@ -51,7 +51,7 @@ void WriteImage(ImageType::Pointer image, int i){
                 position[1] = y;
                 position[2] = z;
                 if ((int)image->GetPixel(position) != background)
-                    output << "V " << position[0] << " " << position[1] << " " << position[2] << "\n";
+                    output << "v " << position[0] << " " << position[1] << " " << position[2] << "\n";
 
             }
         }
@@ -64,7 +64,7 @@ int main(){
     
     for(int i=0; i<=10;i++){
         stringstream path;
-        path << "/home/alexandre/ImageToOBJ/data/" <<i<< ".dcm";
+        path << "/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/data/" <<i<< ".dcm";
         cout << "||------------Nodulo"<<i << ". ----------------|| "<<endl;
         ImageType:: Pointer IMG_IN = readerImage(path.str());
         WriteImage(IMG_IN, i);

@@ -15,32 +15,6 @@ int MaiorY(int MX, Objeto* O){
     }
     return ind;
 }
-int MaiorZ(int MX, int MY, Objeto* O){
-    float MZ = O->points.at(0)->z;
-    int ind = 0;
-    int N = O->points.size();
-    for(int i=1; i < N;i++){
-        float z = O->points.at(i)->z;
-        if(z>MZ && i != MX && i != MY){
-            MZ = z;
-            ind=i;
-        }
-    }
-    return ind;
-}
-Face Extremos(Objeto* Pol){
-
-    int MX = Pol->MaiorX();
-    int MY = MaiorY(MX, Pol);
-    int MZ = MaiorZ(MX,MY,Pol);
-
-    Face F(MX,MY,MZ);
-
-    return F;
-
-}
-
-
 
 bool Pertence(Objeto *Obj, int iA, int iB, int iC){
     int N = Obj->points.size();
@@ -52,25 +26,48 @@ bool Pertence(Objeto *Obj, int iA, int iB, int iC){
 
     bool Ret = true;
     for(int i=0; i < N; i++){
-        Coord_3D temp = *(Obj->points.at(i));
-        temp.operator -=(a);
-        float pE = ProdutoEscalar3D(temp, nF);
-        if(pE>0)
-            Ret = false;
-//        cout << "T("<<i<<") = " << pE << endl;
+        if(i!=iA && i!=iB && i!=iC){
+            Coord_3D temp = *(Obj->points.at(i));
+            temp.operator -=(a);
+            float pE = ProdutoEscalar3D(temp, nF);
+            if(pE>0){
+                Ret = false;
+            }
 
+        }
     }
-
     return Ret;
 }
 
+
+void Exclui_Internas(Objeto *Obj){
+
+    int nF= Obj->faces.size();
+    vector<Face*> P;
+    for(int i=0; i<nF; i++){
+        int a = Obj->faces.at(i)->P1;
+        int b = Obj->faces.at(i)->P2;
+        int c = Obj->faces.at(i)->P3;
+        if(Pertence(Obj,a,b,c))
+            P.push_back(Obj->faces.at(i));
+    }
+    Obj->faces.clear();
+
+    nF = P.size();
+    for(int i=0; i<nF; i++)
+        Obj->faces.push_back(P.at(i));
+
+
+}
+
+
 Objeto* QuickHull(Objeto* Obj){
 
-    Face Ext = Extremos(Obj);
 
-    int a = Ext.P1;
-    int b = Ext.P2;
-    int c = Ext.P3;
+
+    int a = Obj->MenorX();
+    int b = Obj->MaiorX();
+    int c = MaiorY(a,Obj);
 
     int N = Obj->points.size();
     int *Validos = (int*)malloc(sizeof(int)*N);
@@ -80,10 +77,7 @@ Objeto* QuickHull(Objeto* Obj){
     //int nV = 0;
 
     for(int i=0;i<N;i++)
-//        if(i!= a && i != b && i!= c){
             Validos[i] = i;
-  //          nV++;
-    //    }
 
 
     int N1 = Particiona(Obj,Validos, N, p1, a,b,c);
@@ -106,6 +100,7 @@ Objeto* QuickHull(Objeto* Obj){
 
 //    cout << Obj->faces.size() << endl;
 //    Obj->ImpFaces();
+    //Melhora(Obj);
     return Obj;
 
 
@@ -156,12 +151,13 @@ void Teste(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
 
 }
 
+
 void QuickHull_Recursivo(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
 
     int max = Pmax(Obj,Parte, nP, Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
 
     if(max == -1){
-        //if(Pertence(Obj,a,b,c) || Pertence(Obj, a,c,b))
+        //if(Pertence(Obj,a,b,c))
             Obj->addFace(a,b,c);
         return;
     }
@@ -211,9 +207,25 @@ void QuickHull_Recursivo(Objeto *Obj, int *Parte, int nP, int a, int b, int c){
     //      T(Obj, p2, N2, b,c,max);
     //      T(Obj, p3, N3, c,a,max);
 
-    QuickHull_Recursivo(Obj, p1, N1, a,b,max);
-    QuickHull_Recursivo(Obj, p2, N2, b,c,max);
-    QuickHull_Recursivo(Obj, p3, N3, c,a,max);
+
+     QuickHull_Recursivo(Obj, p1, N1, a,b,max);
+     QuickHull_Recursivo(Obj, p2, N2, b,c,max);
+     QuickHull_Recursivo(Obj, p3, N3, c,a,max);
+
+//    if(!Pertence(Obj,a,b,max))
+//        QuickHull_Recursivo(Obj, p1, N1, a,b,max);
+//    else
+//        Obj->addFace(a,b,max);
+
+//    if(!Pertence(Obj,b,c,max))
+//        QuickHull_Recursivo(Obj, p2, N2, b,c,max);
+//    else
+//        Obj->addFace(b,c,max);
+
+//    if(!Pertence(Obj,c,a,max))
+//        QuickHull_Recursivo(Obj, p3, N3, c,a,max);
+//    else
+//        Obj->addFace(c,a,max);
 
 }
 

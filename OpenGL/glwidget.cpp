@@ -74,11 +74,10 @@ void GLWidget::QuickHull_Recursivo_Animado(Objeto *Obj, int *Parte, int nP, int 
 }
 void GLWidget::QuickHull_Animado(Objeto* Obj, int velocidade){
 
-    Face Ext = Extremos(Obj);
+    int a = Obj->MaiorX();
+    int b = Obj->MenorX();
+    int c = MaiorY(a,Obj);
 
-    int a = Ext.P1;
-    int b = Ext.P2;
-    int c = Ext.P3;
 
     int N = Obj->points.size();
     int *Validos = (int*)malloc(sizeof(int)*N);
@@ -190,13 +189,13 @@ vector<Objeto*> GLWidget::ReadObjs (std::string filepath){
         stringstream iss(line);
         getline(iss, identifier, ' ');
 
-        if(identifier == "O"){
+        if(identifier == "o"){
             Objeto* O = new Objeto();
             Objetos.push_back(O);
             sub_conj++;
         }
 
-        if(identifier == "V"){
+        if(identifier == "v"){
             getline(iss, x, ' ');
             getline(iss, y, ' ');
             getline(iss, z, ' ');
@@ -211,23 +210,23 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
 
     int nPartes = Objs.size();
 
-    std::ofstream output("/home/alexandre/geometria_comp/OpenGL/data/output/output_ "+ File + ".obj");
-
+    std::ofstream output(path+"/output/output_"+File + ".obj");
+    output << "#Alexandre Ramos - Output; Nº de Partes = " << nPartes << "\n";
     for (int i = 0; i<nPartes; i++){
 
         Objeto *Otemp = Objs.at(i);
         int nPontos = Otemp->points.size();
         int nFaces = Otemp->faces.size();
 
-        output << "O P" << i+1 << "\n";
+        output << "o P" << i+1 << "\n";
 
         for (int j = 0; j<nPontos; j++){
             Coord_3D *T = Otemp->points.at(j);
-            output << "V " << T->x << " " << T->y << " " << T->z << "\n";
+            output << "v " << T->x << " " << T->y << " " << T->z << "\n";
         }
         for (int j = 0; j < nFaces; j++){
             Face *F = Otemp->faces.at(j);
-            output << "F " << F->P1 << " " << F->P2 << " " << F->P3 << "\n";
+            output << "f " << F->P1+1 << " " << F->P2+1 << " " << F->P3+1 << "\n";
         }
 
     }
@@ -260,8 +259,7 @@ void GLWidget::FechoAnimado(){
 
 void GLWidget::Importar(){
     Objs.clear();
-    cout << File << endl;
-    Objs = ReadObjs("/home/alexandre/geometria_comp/OpenGL/data/input/"+File+".obj");
+    Objs = ReadObjs(path+"/"+File+".obj");
     //cout << Info;
     attInfo();
     updateGL();
@@ -406,5 +404,9 @@ void GLWidget::attVelocidade(int x){
 }
 void GLWidget::attFile(QString s){
     this->File = s.toUtf8().constData(); //s.toUtf8().constData();
+
+}
+void GLWidget::attPath(QString s){
+    this->path = s.toUtf8().constData(); //s.toUtf8().constData();
 
 }

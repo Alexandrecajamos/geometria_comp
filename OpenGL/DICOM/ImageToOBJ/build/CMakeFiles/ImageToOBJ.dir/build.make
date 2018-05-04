@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/alexandre/ImageToOBJ
+CMAKE_SOURCE_DIR = /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/alexandre/ImageToOBJ/build
+CMAKE_BINARY_DIR = /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/ImageToOBJ.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/ImageToOBJ.dir/flags.make
 
 CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o: CMakeFiles/ImageToOBJ.dir/flags.make
 CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o: ../ImageToOBJ.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alexandre/ImageToOBJ/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o -c /home/alexandre/ImageToOBJ/ImageToOBJ.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o -c /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/ImageToOBJ.cxx
 
 CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alexandre/ImageToOBJ/ImageToOBJ.cxx > CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/ImageToOBJ.cxx > CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.i
 
 CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alexandre/ImageToOBJ/ImageToOBJ.cxx -o CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/ImageToOBJ.cxx -o CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.s
 
 CMakeFiles/ImageToOBJ.dir/ImageToOBJ.cxx.o.requires:
 
@@ -124,87 +124,53 @@ ImageToOBJ: /usr/local/lib/libvtkImagingStencil-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkInteractionImage-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingContextOpenGL2-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingImage-8.1.so.1
+ImageToOBJ: /usr/local/lib/libvtkRenderingLICOpenGL2-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingLOD-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingVolumeOpenGL2-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkViewsContext2D-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkViewsInfovis-8.1.so.1
-ImageToOBJ: /usr/local/lib/libitkdouble-conversion-4.13.a
-ImageToOBJ: /usr/local/lib/libitksys-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvnl_algo-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvnl-4.13.a
-ImageToOBJ: /usr/local/lib/libitkv3p_netlib-4.13.a
-ImageToOBJ: /usr/local/lib/libitknetlib-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvcl-4.13.a
-ImageToOBJ: /usr/local/lib/libITKCommon-4.13.a
-ImageToOBJ: /usr/local/lib/libitkNetlibSlatec-4.13.a
-ImageToOBJ: /usr/local/lib/libITKStatistics-4.13.a
-ImageToOBJ: /usr/local/lib/libITKTransform-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOImageBase-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOBMP-4.13.a
-ImageToOBJ: /usr/local/lib/libITKEXPAT-4.13.a
-ImageToOBJ: /usr/local/lib/libitkzlib-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmDICT-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmMSFF-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGDCM-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGIPL-4.13.a
-ImageToOBJ: /usr/local/lib/libitkjpeg-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOJPEG-4.13.a
-ImageToOBJ: /usr/local/lib/libITKMetaIO-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOMeta-4.13.a
-ImageToOBJ: /usr/local/lib/libITKznz-4.13.a
-ImageToOBJ: /usr/local/lib/libITKniftiio-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIONIFTI-4.13.a
-ImageToOBJ: /usr/local/lib/libITKNrrdIO-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIONRRD-4.13.a
-ImageToOBJ: /usr/local/lib/libitkpng-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOPNG-4.13.a
-ImageToOBJ: /usr/local/lib/libitktiff-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTIFF-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOVTK-4.13.a
-ImageToOBJ: /usr/local/lib/libITKLabelMap-4.13.a
-ImageToOBJ: /usr/local/lib/libITKMesh-4.13.a
-ImageToOBJ: /usr/local/lib/libITKSpatialObjects-4.13.a
-ImageToOBJ: /usr/local/lib/libITKPath-4.13.a
-ImageToOBJ: /usr/local/lib/libITKQuadEdgeMesh-4.13.a
-ImageToOBJ: /usr/local/lib/libITKOptimizers-4.13.a
-ImageToOBJ: /usr/local/lib/libITKPolynomials-4.13.a
-ImageToOBJ: /usr/local/lib/libITKBiasCorrection-4.13.a
-ImageToOBJ: /usr/local/lib/libITKBioCell-4.13.a
-ImageToOBJ: /usr/local/lib/libITKDICOMParser-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOXML-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOSpatialObjects-4.13.a
-ImageToOBJ: /usr/local/lib/libITKFEM-4.13.a
-ImageToOBJ: /usr/local/lib/libITKgiftiio-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOMesh-4.13.a
-ImageToOBJ: /usr/local/lib/libitkhdf5_cpp.a
-ImageToOBJ: /usr/local/lib/libitkhdf5.a
-ImageToOBJ: /usr/local/lib/libITKIOBioRad-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOBruker-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOCSV-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOIPL-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGE-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOSiemens-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOHDF5-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOLSM-4.13.a
-ImageToOBJ: /usr/local/lib/libitkminc2-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOMINC-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOMRC-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOStimulate-4.13.a
-ImageToOBJ: /usr/local/lib/libITKTransformFactory-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformBase-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformHDF5-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformInsightLegacy-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformMatlab-4.13.a
-ImageToOBJ: /usr/local/lib/libITKKLMRegionGrowing-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVTK-4.13.a
-ImageToOBJ: /usr/local/lib/libITKWatersheds-4.13.a
-ImageToOBJ: /usr/local/lib/libitklbfgs-4.13.a
-ImageToOBJ: /usr/local/lib/libITKOptimizersv4-4.13.a
-ImageToOBJ: /usr/local/lib/libitkopenjpeg-4.13.a
-ImageToOBJ: /usr/local/lib/libITKReview-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVideoCore-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVideoIO-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVtkGlue-4.13.a
+ImageToOBJ: /usr/local/lib/libITKLabelMap-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKQuadEdgeMesh-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKPolynomials-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKBiasCorrection-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKBioCell-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKDICOMParser-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOXML-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOSpatialObjects-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKFEM-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKgiftiio-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOBMP-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOBioRad-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOBruker-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOCSV-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOGDCM-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOGE-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOGIPL-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOHDF5-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOJPEG-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitktiff-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOTIFF-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOLSM-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOMINC-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOMRC-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOMesh-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOMeta-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIONIFTI-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKNrrdIO-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIONRRD-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkpng-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOPNG-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOSiemens-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOStimulate-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOTransformHDF5-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOTransformInsightLegacy-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOTransformMatlab-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOVTK-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKKLMRegionGrowing-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKOptimizersv4-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKVideoIO-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKVtkGlue-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKWatersheds-4.13.so.1
 ImageToOBJ: /usr/local/lib/libvtkDomainsChemistry-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkverdict-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkproj4-8.1.so.1
@@ -225,8 +191,8 @@ ImageToOBJ: /usr/local/lib/libvtkhdf5_hl-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkhdf5-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkjsoncpp-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkParallelCore-8.1.so.1
-ImageToOBJ: /usr/local/lib/libvtkIOLegacy-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtksqlite-8.1.so.1
+ImageToOBJ: /usr/local/lib/libvtkIOLegacy-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkImagingMath-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkChartsCore-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingContext2D-8.1.so.1
@@ -248,71 +214,27 @@ ImageToOBJ: /usr/local/lib/libvtkIOCore-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtklz4-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkexpat-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingLabel-8.1.so.1
-ImageToOBJ: /usr/local/lib/libITKgiftiio-4.13.a
-ImageToOBJ: /usr/local/lib/libitkminc2-4.13.a
-ImageToOBJ: /usr/local/lib/libitklbfgs-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOBMP-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGDCM-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmMSFF-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmDICT-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmIOD-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmDSED-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmCommon-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmjpeg8-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmjpeg12-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmjpeg16-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmopenjp2-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmcharls-4.13.a
-ImageToOBJ: /usr/local/lib/libitkgdcmuuid-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGIPL-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOJPEG-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOMeta-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIONIFTI-4.13.a
-ImageToOBJ: /usr/local/lib/libITKniftiio-4.13.a
-ImageToOBJ: /usr/local/lib/libITKznz-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIONRRD-4.13.a
-ImageToOBJ: /usr/local/lib/libITKNrrdIO-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOPNG-4.13.a
-ImageToOBJ: /usr/local/lib/libitkpng-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTIFF-4.13.a
-ImageToOBJ: /usr/local/lib/libitktiff-4.13.a
-ImageToOBJ: /usr/local/lib/libitkjpeg-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOVTK-4.13.a
-ImageToOBJ: /usr/local/lib/libITKLabelMap-4.13.a
-ImageToOBJ: /usr/local/lib/libITKQuadEdgeMesh-4.13.a
-ImageToOBJ: /usr/local/lib/libITKPolynomials-4.13.a
-ImageToOBJ: /usr/local/lib/libITKBiasCorrection-4.13.a
-ImageToOBJ: /usr/local/lib/libITKBioCell-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOSpatialObjects-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOXML-4.13.a
-ImageToOBJ: /usr/local/lib/libITKEXPAT-4.13.a
-ImageToOBJ: /usr/local/lib/libITKFEM-4.13.a
-ImageToOBJ: /usr/local/lib/libITKMetaIO-4.13.a
-ImageToOBJ: /usr/local/lib/libITKOptimizers-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOBioRad-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOGE-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOSiemens-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOIPL-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOStimulate-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformHDF5-4.13.a
-ImageToOBJ: /usr/local/lib/libitkhdf5_cpp.a
-ImageToOBJ: /usr/local/lib/libitkhdf5.a
-ImageToOBJ: /usr/local/lib/libitkzlib-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformInsightLegacy-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformMatlab-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOTransformBase-4.13.a
-ImageToOBJ: /usr/local/lib/libITKTransformFactory-4.13.a
-ImageToOBJ: /usr/local/lib/libITKKLMRegionGrowing-4.13.a
-ImageToOBJ: /usr/local/lib/libITKWatersheds-4.13.a
-ImageToOBJ: /usr/local/lib/libITKStatistics-4.13.a
-ImageToOBJ: /usr/local/lib/libitkNetlibSlatec-4.13.a
-ImageToOBJ: /usr/local/lib/libITKSpatialObjects-4.13.a
-ImageToOBJ: /usr/local/lib/libITKMesh-4.13.a
-ImageToOBJ: /usr/local/lib/libITKTransform-4.13.a
-ImageToOBJ: /usr/local/lib/libITKPath-4.13.a
-ImageToOBJ: /usr/local/lib/libitkopenjpeg-4.13.a
-ImageToOBJ: /usr/local/lib/libITKIOImageBase-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVideoCore-4.13.a
+ImageToOBJ: /usr/local/lib/libITKniftiio-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKznz-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkgdcmMSFF-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkgdcmDICT-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkgdcmIOD-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKEXPAT-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkgdcmDSED-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkgdcmCommon-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOIPL-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkjpeg-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkminc2-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKMetaIO-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkhdf5_cpp.so.1
+ImageToOBJ: /usr/local/lib/libitkhdf5.so.1
+ImageToOBJ: /usr/local/lib/libitkzlib-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOTransformBase-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKTransformFactory-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKOptimizers-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitklbfgs-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKIOImageBase-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKVideoCore-4.13.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingFreeType-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkfreetype-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkRenderingOpenGL2-8.1.so.1
@@ -352,18 +274,24 @@ ImageToOBJ: /usr/local/lib/libvtksys-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkCommonTransforms-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkCommonMath-8.1.so.1
 ImageToOBJ: /usr/local/lib/libvtkCommonCore-8.1.so.1
-ImageToOBJ: /usr/local/lib/libITKVTK-4.13.a
-ImageToOBJ: /usr/local/lib/libITKCommon-4.13.a
-ImageToOBJ: /usr/local/lib/libitkdouble-conversion-4.13.a
-ImageToOBJ: /usr/local/lib/libitksys-4.13.a
-ImageToOBJ: /usr/local/lib/libITKVNLInstantiation-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvnl_algo-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvnl-4.13.a
-ImageToOBJ: /usr/local/lib/libitkv3p_netlib-4.13.a
-ImageToOBJ: /usr/local/lib/libitknetlib-4.13.a
-ImageToOBJ: /usr/local/lib/libitkvcl-4.13.a
+ImageToOBJ: /usr/local/lib/libITKVTK-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKStatistics-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkNetlibSlatec-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKSpatialObjects-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKTransform-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKCommon-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkdouble-conversion-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitksys-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKVNLInstantiation-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkvnl_algo-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkvnl-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkv3p_netlib-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitknetlib-4.13.so.1
+ImageToOBJ: /usr/local/lib/libitkvcl-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKMesh-4.13.so.1
+ImageToOBJ: /usr/local/lib/libITKPath-4.13.so.1
 ImageToOBJ: CMakeFiles/ImageToOBJ.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/alexandre/ImageToOBJ/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ImageToOBJ"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ImageToOBJ"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ImageToOBJ.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -380,6 +308,6 @@ CMakeFiles/ImageToOBJ.dir/clean:
 .PHONY : CMakeFiles/ImageToOBJ.dir/clean
 
 CMakeFiles/ImageToOBJ.dir/depend:
-	cd /home/alexandre/ImageToOBJ/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/alexandre/ImageToOBJ /home/alexandre/ImageToOBJ /home/alexandre/ImageToOBJ/build /home/alexandre/ImageToOBJ/build /home/alexandre/ImageToOBJ/build/CMakeFiles/ImageToOBJ.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build /home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles/ImageToOBJ.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ImageToOBJ.dir/depend
 

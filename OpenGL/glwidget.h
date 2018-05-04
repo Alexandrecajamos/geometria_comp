@@ -43,8 +43,9 @@ public:
     bool RendFecho = false;
 
     QTextBrowser *I;
-    string File = "cubo";
     string Info = "";
+    string path = "/home/alexandre/geometria_comp/OpenGL/data";
+    string File = "cubo";
 
 
 signals:
@@ -52,6 +53,7 @@ signals:
 public slots:
     void attInfo();
     void attVelocidade(int);
+    void attPath(QString);
     void attFile(QString);
     void Fecho();
     void FechoAnimado();

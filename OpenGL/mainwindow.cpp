@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->Vel, SIGNAL(valueChanged(int)), ui->GLwidget, SLOT(attVelocidade(int)));
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attFile(QString)));
+    connect(ui->pasta, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attPath(QString)));
 
 //    connect(ui->Inf, SIGNAL())
     ui->GLwidget->I = ui->Inf;

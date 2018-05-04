@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/home/alexandre/ImageToOBJ/ImageToOBJ.cxx
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/ImageToOBJ.cxx
 stdio.h
-/home/alexandre/ImageToOBJ/stdio.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/stdio.h
 iostream
 -
 itkImage.h
-/home/alexandre/ImageToOBJ/itkImage.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkImage.h
 itkImageFileReader.h
-/home/alexandre/ImageToOBJ/itkImageFileReader.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkImageFileReader.h
 itkGDCMImageIO.h
-/home/alexandre/ImageToOBJ/itkGDCMImageIO.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkGDCMImageIO.h
 itkMinimumMaximumImageCalculator.h
-/home/alexandre/ImageToOBJ/itkMinimumMaximumImageCalculator.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkMinimumMaximumImageCalculator.h
 itkTranslationTransform.h
-/home/alexandre/ImageToOBJ/itkTranslationTransform.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkTranslationTransform.h
 itkResampleImageFilter.h
-/home/alexandre/ImageToOBJ/itkResampleImageFilter.h
+/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/itkResampleImageFilter.h
 itkShapeLabelMapFilter.h
 -
 sstream
