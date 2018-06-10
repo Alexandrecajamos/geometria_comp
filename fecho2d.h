@@ -2,7 +2,7 @@
 #define FECHO2D_H
 #include "vetor.h"
 #include "poligono.h"
-
+#include "ordmatriz.h"
 bool Pertence(Coord_2D C1, Coord_2D C2, Coord_2D C3);
 
 

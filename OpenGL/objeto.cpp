@@ -1,7 +1,4 @@
 #include "objeto.h"
-#include<cmath>
-
-
 
 void trocar(std::vector<Coord_3D*> vetor, int i, int j) {
 
@@ -241,7 +238,6 @@ void Objeto::CopiaPontos(Objeto *O){
         addPoint((*i)->x,(*i)->y,(*i)->z);
     }
 }
-
 Coord_3D Objeto::Centro(){
     int N = points.size();
     float dX=0, dY=0, dZ=0;
@@ -258,7 +254,6 @@ Coord_3D Objeto::Centro(){
     return C;
 
 }
-
 bool Objeto::Pertence(int iP1, int iP2, int iP3){
 
         Coord_3D* a = this->points.at(iP1);
@@ -284,7 +279,6 @@ bool Objeto::Pertence(int iP1, int iP2, int iP3){
         return false;
 
     }
-
 float Objeto::Area_Externa(){
     float area = 0;
 
@@ -292,17 +286,14 @@ float Objeto::Area_Externa(){
     for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
         Face *F = *i;
         Coord_3D NF = Normal(this->points.at(F->P1),this->points.at(F->P2),this->points.at(F->P3));
-        float aT = NormaVetor3D(NF);
+        float aT = NormaVetor3D(NF)/2;
         area+=aT;
      }
     return area;
 
 }
-
-
 float Objeto::Volume(){
     float Vol = 0;
-
 
     for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
         Face *F = *i;
@@ -315,134 +306,3 @@ float Objeto::Volume(){
 
 }
 
-//    //bool aux = false;
-
-//    int AB=0, AC=0, BC=0;
-
-//    for(std::vector<Face*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-//        int tP1, tP2, tP3;
-//        tP1 = (*i)->P1;
-//        tP2 = (*i)->P2;
-//        tP3 = (*i)->P3;
-
-//        bool C1 = (iP1 == tP1 || iP1 == tP2 || iP1 == tP3);
-//        bool C2 = (iP2 == tP1 || iP2 == tP2 || iP2 == tP3);
-//        bool C3 = (iP3 == tP1 || iP3 == tP2 || iP3 == tP3);
-
-
-//        if(C1 && C2 && C3)
-//            pertence = true;
-
-////        if(C1 && C2)
-////            AB++;
-////        if(C1 && C3)
-////            AC++;
-////        if(C2 && C3)
-////            BC++;
-
-////        if((AB >=  2 || AC >=2 || BC >=2)){
-////            pertence = true;
-//////            aux = true;
-//////        cout<< endl << "Teste Correspondetes AB AC BC para os índices IA,IB,IC" << iP1 << iP2 << iP3 << endl;
-//////        cout<< AB << AC << BC <<endl;
-//////        cout<< pertence<< endl;
-////        }
-
-//    }
-
-
-/*
-float Objeto::Ray_intersept(Coord_3D Po, Coord_3D Dir, int *iFace){
-
-    float t = -1;
-    float Menor_T=9999;
-    int cont=0;
-
-    if(this->Esf.Interseccao(Dir)){
-        for(std::vector<triangulo*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-            float x = (*i)->Ray_intersept(Po, Dir);
-            if(x != -1 && x<Menor_T){
-                Menor_T = x;
-                (*iFace) = cont;
-            }
-            cont++;
-        }
-        if(Menor_T != 999)
-            t=Menor_T;
-    }
-
-    return t;
-}
-
-bool Objeto::Tiro(Coord_3D Ponto){
-
-    bool Interno = false;
-    int cont=0;
-
-        for(std::vector<triangulo*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-
-
-            float u=0; float v=0; float w=0;
-            (*i)->Barycentric(&Ponto, u, v, w);
-             //cout << u << " : "<< v << " : "<< w << endl;
-            if((u >=0 || u <=1)&&(v >=0 || v <=1)&&(w >=0 || w <=1)){
-               cont++;
-            }
-        }
-
-    //cout<<"Teste" << cont << endl;
-
-    if(cont%2!=0)
-        Interno=true;
-
-    return Interno;
-}
-
-void Objeto::Transforoma(float A[TAM][TAM]){
-    transformacoes t;
-    for(std::vector<Coord_3D*>::iterator i = this->points.begin(); i!= this->points.end(); i++){
-        t.MxV(A,(*i));
-    }
-    this->calc_Esfera();
-}
-
-void Objeto::ImpPoints(){
-    std::cout << "\n Imprimindo Pontos do Objeto: \n";
-    for(std::vector<Coord_3D*>::iterator i = this->points.begin(); i!= this->points.end(); i++)
-    {
-        Coord_3D *P = (*i);
-        std::cout << "\nx,y,z = " << P->x << ", " << P->y << ", " << P->z <<";";
-
-    }
-
-}
-
-
-bool Objeto::Obstaculo(Coord_3D Pint, Coord_3D l){
-
-    if(this->Esf.Interseccao(Pint)){
-        for(std::vector<triangulo*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-            float t = (*i)->Ray_intersept(Pint, l);
-            if(t != -1 && t>0){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-void Objeto::Libera(){
-    for(std::vector<Coord_3D*>::iterator i = this->points.begin(); i!= this->points.end(); i++)
-    {
-        free(*i);
-        (*i)=NULL;
-    }
-    for(std::vector<triangulo*>::iterator i = this->faces.begin(); i!= this->faces.end(); i++){
-        (*i)->P1=NULL;
-        (*i)->P2=NULL;
-        (*i)->P3=NULL;
-        free(*i);
-        (*i)=NULL;
-    }
-}
-*/

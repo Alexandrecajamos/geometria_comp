@@ -7,6 +7,7 @@
 #include "esfera.h"
 #include <fstream>
 #include "face.h"
+#include<cmath>
 
 #define TAM 4
 

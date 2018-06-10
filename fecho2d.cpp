@@ -138,41 +138,6 @@ Poligono* Jarvis(Poligono *Pol){
 }
 
 
-//QuickSort para ordenar matriz considerando o valor de 1 coluna. Sendo ind o índice da coluna a partir da qual se dá a ordenação e N_Colluns o número de colunas da matriz
-
-void trocar(float* x, float* y, int N) {
-    float* z = (float*)malloc(sizeof(float)*N);
-    for(int i = 0; i<N;i++){
-        z[i] = x[i];
-        x[i] = y[i];
-        y[i] = z[i];
-    }
-    free(z);
-}
-int Particione_original(float** vetor, int p, int r, int ind, int N_Colluns) {
-    int i=p-1;
-    for (int j=p; j<r; j++) {
-        if (vetor[j][ind] <= vetor[r][ind]) {
-            i++;
-            trocar(vetor[i], vetor[j],N_Colluns);
-        }
-    }
-    trocar(vetor[i+1], vetor[r], N_Colluns);
-    return i+1;
-}
-int Particione_aleat(float** vetor, int p, int r, int ind, int N_Colluns) {
-    srand (time(NULL));
-    int pos_pivo = p + rand()%(r-p+1);
-    trocar(vetor[pos_pivo], vetor[r],N_Colluns);
-    return Particione_original(vetor,p,r,ind, N_Colluns);
-}
-void QuickSort(float** vetor, int p, int r, int ind, int N_Colluns) {
-    if (p>=r) return;
-    int q = Particione_aleat(vetor,p,r, ind, N_Colluns);
-    QuickSort(vetor,p,q-1, ind, N_Colluns);
-    QuickSort(vetor,q+1,r, ind, N_Colluns);
-}
-
 
 
 Poligono* Estrelado(Poligono *Pol){
@@ -224,7 +189,7 @@ Poligono* Estrelado(Poligono *Pol){
         x[i][1]=PseudoAngulo(U,Temp);
     }
 
-    QuickSort(x,0,N-1,1,2); // Ordena matriz x, do índice 0 ao N-1, considerando a coluna 1, para uma matriz com 2 colunas;
+    QuickSortM(x,0,N-1,1,2); // Ordena matriz x, do índice 0 ao N-1, considerando a coluna 1, para uma matriz com 2 colunas;
 
 
     for(int i = 0; i<N; i++){

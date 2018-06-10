@@ -1,3 +1,0 @@
-/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles/edit_cache.dir
-/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles/rebuild_cache.dir
-/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/build/CMakeFiles/ImageToOBJ.dir

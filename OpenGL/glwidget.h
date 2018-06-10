@@ -39,18 +39,22 @@ public:
     vector<Objeto*> Objs;
 
     Objeto* Obj = new Objeto();
-
+    bool Arestas = false;
     bool RendFecho = false;
-
+    bool Points = true;
+    int N = 0;
     QTextBrowser *I;
     string Info = "";
     string path = "/home/alexandre/geometria_comp/OpenGL/data";
-    string File = "cubo";
+    string File = "Node0";
 
 
 signals:
 
 public slots:
+    void attArestas(bool);
+    void prox();
+    void ant();
     void attInfo();
     void attVelocidade(int);
     void attPath(QString);

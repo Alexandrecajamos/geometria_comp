@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     poligono.cpp \
     fecho2d.cpp \
     quickhull3d.cpp \
-    face.cpp
+    face.cpp \
+    ordmatriz.cpp
 
 HEADERS += \
     coord_3d.h \
@@ -28,4 +29,5 @@ HEADERS += \
     poligono.h \
     fecho2d.h \
     quickhull3d.h \
-    face.h
+    face.h \
+    ordmatriz.h

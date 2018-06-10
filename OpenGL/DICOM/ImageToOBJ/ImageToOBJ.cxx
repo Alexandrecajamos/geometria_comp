@@ -62,9 +62,9 @@ void WriteImage(ImageType::Pointer image, int i){
 
 int main(){
     
-    for(int i=0; i<=10;i++){
+    for(int i=11; i<=21;i++){
         stringstream path;
-        path << "/home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/data/" <<i<< ".dcm";
+        path << "//home/alexandre/geometria_comp/OpenGL/DICOM/ImageToOBJ/data/" <<i<< ".dcm";
         cout << "||------------Nodulo"<<i << ". ----------------|| "<<endl;
         ImageType:: Pointer IMG_IN = readerImage(path.str());
         WriteImage(IMG_IN, i);

@@ -4,9 +4,13 @@
 #include <iostream>
 #include <time.h>
 #include "quickhull3d.h"
-#include "fecho2d.h"
 #include <sstream>
 
+GLWidget::GLWidget(QWidget *parent) :
+    QGLWidget(parent)
+{
+
+}
 
 void delay(int milliseconds)
 {
@@ -19,17 +23,6 @@ void delay(int milliseconds)
 }
 
 
-
-GLWidget::GLWidget(QWidget *parent) :
-    QGLWidget(parent)
-{
-
-//    timer = new QTimer();
-//    connect(timer,SIGNAL(timeout()),this,SLOT(updateGL()));
-//    timer->start(0);
-}
-
-
 void GLWidget::PintaPontos(Objeto *P){
     glBegin(GL_POINTS);
     for(std::vector<Coord_3D*>::iterator i = P->points.begin(); i!= P->points.end(); i++){
@@ -38,30 +31,27 @@ void GLWidget::PintaPontos(Objeto *P){
     glEnd();
 }
 void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
-
-    glBegin(GL_TRIANGLES);
+    if(Arestas)
+        glBegin(GL_LINE_LOOP);
+    else
+        glBegin(GL_TRIANGLES);
     glVertex3f(Pol->points.at(iA)->x,Pol->points.at(iA)->y,Pol->points.at(iA)->z);
     glVertex3f(Pol->points.at(iB)->x,Pol->points.at(iB)->y,Pol->points.at(iB)->z);
     glVertex3f(Pol->points.at(iC)->x,Pol->points.at(iC)->y,Pol->points.at(iC)->z);
     glEnd();
-    //delay(100);
 
 }
 
 void GLWidget::QuickHull_Recursivo_Animado(Objeto *Obj, int *Parte, int nP, int a, int b, int c, int velocidade){
-
     int max = Pmax(Obj,Parte, nP,Obj->points.at(a),Obj->points.at(b),Obj->points.at(c));
-
     if(max == -1){
         Obj->addFace(a, b,c);
         delay(velocidade);updateGL();
         return;
     }
-
     int *p1 = (int*)malloc(sizeof(int)*nP);
     int *p2 = (int*)malloc(sizeof(int)*nP);
     int *p3 = (int*)malloc(sizeof(int)*nP);
-
 
     int N1 = Particiona(Obj,Parte, nP,p1, a,b,max);
     int N2 = Particiona(Obj,Parte, nP,p2, b,c,max);
@@ -78,7 +68,6 @@ void GLWidget::QuickHull_Animado(Objeto* Obj, int velocidade){
     int b = Obj->MenorX();
     int c = MaiorY(a,Obj);
 
-
     int N = Obj->points.size();
     int *Validos = (int*)malloc(sizeof(int)*N);
     int *p1 = (int*)malloc(sizeof(int)*N);
@@ -87,25 +76,19 @@ void GLWidget::QuickHull_Animado(Objeto* Obj, int velocidade){
     for(int i=0;i<N;i++)
         Validos[i] = i;
 
-
     int N1 = Particiona(Obj,Validos, N, p1, a,b,c);
     int N2 = Particiona(Obj,Validos, N, p2, a,c,b);
-
 
     QuickHull_Recursivo_Animado(Obj,p1, N1, a,b,c, velocidade);
     QuickHull_Recursivo_Animado(Obj,p2, N2, a,c,b, velocidade);
 
 }
-
-
-
 void GLWidget::PintaFaces(Objeto* Pol){
     for(std::vector<Face*>::iterator i = Pol->faces.begin(); i!= Pol->faces.end(); i++){
         PintaFace((*i)->P1,(*i)->P2,(*i)->P3,Pol);
 
     }
 }
-
 
 void GLWidget::initializeGL()
 {
@@ -162,7 +145,8 @@ void GLWidget::paintGL()
     gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
-        PintaPontos((*i));
+        if(Points)
+            PintaPontos((*i));
         PintaFaces((*i));
     }
 }
@@ -176,6 +160,8 @@ void GLWidget::resizeGL(int w, int h)
     updateGL();
 }
 
+
+//Funções para leitura/Escrita
 vector<Objeto*> GLWidget::ReadObjs (std::string filepath){
 
     ifstream readFile(filepath);
@@ -232,20 +218,24 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
     }
 }
 
+//Slots para funções da interface:
+
 
 void GLWidget::Fecho(){
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++)
             (*i)->faces.clear();
-
+Points = false;
 for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
         (*i) = QuickHull((*i));
         updateGL();
         delay(velocidade);
     }
     attInfo();
+
     updateGL();
 }
 void GLWidget::FechoAnimado(){
+
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++)
         (*i)->faces.clear();
 
@@ -253,14 +243,31 @@ void GLWidget::FechoAnimado(){
         QuickHull_Animado((*i),velocidade);
         delay(velocidade);
     }
+
     attInfo();
     updateGL();
+}
+
+void GLWidget::prox(){
+    N++;
+    if(N==22)
+        N=0;
+    File = ("Node"+to_string(N));
+    Importar();
+}
+void GLWidget::ant(){
+    N--;
+    if(N==-1)
+        N=21;
+    File = ("Node"+to_string(N));
+    Importar();
 }
 
 void GLWidget::Importar(){
     Objs.clear();
     Objs = ReadObjs(path+"/"+File+".obj");
     //cout << Info;
+    Points = true;
     attInfo();
     updateGL();
 }
@@ -283,11 +290,15 @@ void GLWidget::Video(){
     Ez = aux;
     updateGL();
 }
+void GLWidget::attArestas(bool b){
+    Arestas = b;
+    updateGL();
+}
 
 void GLWidget::attInfo(){
 
     int N = Objs.size();
-    Info = (File +"-> Nº de Partes: "+ to_string(N));
+    Info = (File +" -> Nº de Partes: "+ to_string(N));
 
     for(int i=0; i<N;i++){
 
@@ -358,11 +369,20 @@ void GLWidget::Add(){
         Objs.at(nP)->addPoint(nx,ny,nz);
         if(Objs.at(nP)->faces.size()>0)
             Fecho();
-        //Objs.at(nP)->ImpPoints();
         updateGL();
     }
 }
+void GLWidget::attVelocidade(int x){
+    this->velocidade = x;
+}
+void GLWidget::attFile(QString s){
+    this->File = s.toUtf8().constData();
 
+}
+void GLWidget::attPath(QString s){
+    this->path = s.toUtf8().constData(); //s.toUtf8().constData();
+
+}
 void GLWidget::Eye_X(double x){
     Ex=(float)x;
     updateGL();
@@ -398,15 +418,4 @@ void GLWidget::Av_Y(double x){
 void GLWidget::Av_Z(double x){
     Avz=(float)x;
     updateGL();
-}
-void GLWidget::attVelocidade(int x){
-    this->velocidade = x;
-}
-void GLWidget::attFile(QString s){
-    this->File = s.toUtf8().constData(); //s.toUtf8().constData();
-
-}
-void GLWidget::attPath(QString s){
-    this->path = s.toUtf8().constData(); //s.toUtf8().constData();
-
 }

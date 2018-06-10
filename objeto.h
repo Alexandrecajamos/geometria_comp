@@ -1,7 +1,6 @@
 #ifndef OBJETO_H
 #define OBJETO_H
 
-#include<vector>
 #include "stdio.h"
 #include "coord_3d.h"
 #include "triangulo.h"
