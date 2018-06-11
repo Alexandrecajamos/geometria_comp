@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     objeto.cpp \
     vetor.cpp \
     quickhull3d.cpp \
+    ordmatriz.cpp \
     face.cpp \
+    triangulacao.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -28,8 +30,10 @@ HEADERS  += mainwindow.h \
     esfera.h \
     objeto.h \
     vetor.h \
+    ordmatriz.h \
     quickhull3d.h \
     face.h \
+    triangulacao.h
 
 
 FORMS    += mainwindow.ui

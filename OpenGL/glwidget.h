@@ -46,7 +46,8 @@ public:
     QTextBrowser *I;
     string Info = "";
     string path = "/home/alexandre/geometria_comp/OpenGL/data";
-    string File = "Node0";
+    string File = "cubo";
+//    string File = "Node0";
 
 
 signals:

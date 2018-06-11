@@ -5,6 +5,7 @@
 #include <time.h>
 #include "quickhull3d.h"
 #include <sstream>
+#include "triangulacao.h"
 
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -126,6 +127,12 @@ void GLWidget::initializeGL()
         glEnable(GL_DEPTH_TEST);
 
         Importar();
+//        Fecho();
+//        Exclui_Internas(Objs.at(0));
+
+        //        Objs.at(0)c->ImpFaces();
+        Triangulacao(Objs.at(0));
+        updateGL();
 
 }
 void GLWidget::paintGL()
@@ -186,6 +193,13 @@ vector<Objeto*> GLWidget::ReadObjs (std::string filepath){
             getline(iss, y, ' ');
             getline(iss, z, ' ');
             Objetos.at(sub_conj)->addPoint(stof(x),stof(y),stof(z));
+
+        }
+        if(identifier == "f"){
+            getline(iss, x, ' ');
+            getline(iss, y, ' ');
+            getline(iss, z, ' ');
+            Objetos.at(sub_conj)->addFace(stof(x),stof(y),stof(z));
 
         }
     }
@@ -272,8 +286,7 @@ void GLWidget::Importar(){
     updateGL();
 }
 void GLWidget::Exportar(){
-    WriteObjs(Objs);
-}
+    WriteObjs(Objs);}
 void GLWidget::Video(){
     float x = 2*PI;
     float R = Ex;
