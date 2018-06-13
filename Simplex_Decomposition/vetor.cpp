@@ -223,6 +223,8 @@ bool InttTriangulos2D(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *
 
 
 bool IntersecaoTriangulos(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *E,Coord_3D *F){
+
+//    cout << "Teste Int" << endl;
     float h1,h2,h3,h4,h5,h6;
     Coord_3D n1, n2;
     n1 = Normal(A,B,C);
@@ -242,10 +244,10 @@ bool IntersecaoTriangulos(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_
 //    cout << "h1(" << h1 << "), h2(" << h2 << "), h3(" << h3<< "), h4(" << h4<< "), h5(" << h5<< "), h6(" << h6 <<");" << endl;
 
     if((h1==0 && h2==0 && h3==0) || (h4==0 && h5==0 && h6==0) ){
-        cout << "Coplanares" << endl << endl;
-        bool itt = InttTriangulos2D(A,B,C,D,E,F);
-        cout << itt << endl;
-        return itt;
+//        cout << "Coplanares" << endl << endl;
+        return InttTriangulos2D(A,B,C,D,E,F);
+//        cout << itt << endl;
+
 
     }
 //    if((h1>0 && h2>0 && h3>0) || (h1<0 && h2<0 && h3<0)){

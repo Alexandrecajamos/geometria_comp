@@ -58,10 +58,17 @@ int Valido(Face F, vector<Face> Faces,Objeto *Obj, bool &intersept){
 //            cout << "Face Existente F(" << F.P1 << ", " << F.P2 << ", " << F.P3 << ")"  << endl;
             Ext=i;
         }else{
-            cout << "Nao existe! F(" << F.P1 << ", " << F.P2 << ", " << F.P3 << ") X ("<< Faces.at(i).P1 << ", " << Faces.at(i).P2 << ", " << Faces.at(i).P3 << ");" << endl;
-            if(IntersecaoTriangulos(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3)))
-                intersept = true;
-            cout << intersept << endl;
+//            cout << "Nao existe! F(" << F.P1 << ", " << F.P2 << ", " << F.P3 << ") X ("<< Faces.at(i).P1 << ", " << Faces.at(i).P2 << ", " << Faces.at(i).P3 << ");" << endl;
+//            if(Faces.at(i).P1 == 12583){
+//                Coord_3D P1 = *Obj->points.at(Faces.at(i).P1);
+//                P1.ImpCoord_3D();
+//                Coord_3D P2 = *Obj->points.at(Faces.at(i).P2);
+//                P2.ImpCoord_3D();
+//                Coord_3D P3 = *Obj->points.at(Faces.at(i).P3);
+//                P3.ImpCoord_3D();
+//            }
+            intersept = IntersecaoTriangulos(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3));
+//            cout << intersept << endl;
         }
         i++;
     }
@@ -105,7 +112,8 @@ int p_OtimoValido(Face F, vector<Face> *Faces, Objeto* Obj){
                 Faces->at(t3).Val = false;
             else
                 Faces->push_back(T3);
-        }else{
+        }
+        else{
             Ind--;
         }
 
@@ -131,7 +139,7 @@ void Triangulacao(Objeto *Conv_Obj){
     int *Livres = new int[NF];
 
     for(int i=0;i<NF;i++){
-        Face T(Conv_Obj->faces.at(i)->P2,Conv_Obj->faces.at(i)->P1,Conv_Obj->faces.at(i)->P3);
+        Face T(Conv_Obj->faces.at(i)->P2-1,Conv_Obj->faces.at(i)->P1-1,Conv_Obj->faces.at(i)->P3-1);
         Faces.push_back(T);
     }
     for(int i=0; i<NF;i++){
@@ -145,21 +153,22 @@ void Triangulacao(Objeto *Conv_Obj){
    int controle = 0;
 //   cout << nL << endl;
 
-    while(nL>0 && controle < 25){
+    while(nL>0 && controle < 500){
 
 
         Face F = Faces.at(Livres[0]);
 
         Faces.at(Livres[0]).Val = false;
-        cout << "F -> " << F.P1 << F.P2 << F.P3 <<";"<< endl;
+//        cout << "F -> " << F.P1 << F.P2 << F.P3 <<";"<< endl;
 
 
         int Otm = p_OtimoValido(F,&Faces, Conv_Obj);
-        cout << Otm << endl;
-        if(Otm != -1)
+//        cout << Otm << endl;
+        if(Otm != -1){
             Conv_Obj->addSimplex(F.P1, F.P2, F.P3, Otm);
-        ImpFaces(Faces);
-
+        }
+//        ImpFaces(Faces);
+//        cout << "Teste" << endl;
        free(Livres);
        nL = Faces.size();
 //       cout << nL << endl;
