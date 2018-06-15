@@ -112,15 +112,63 @@ bool Aux_Itt(Coord_2D *A,Coord_2D *B,Coord_2D *D,Coord_2D *E,Coord_2D *F){
     return( intersept(*A,*B,*D,*E) ||intersept(*A,*B, *E, *F)|| intersept(*A,*B, *F, *D));
 }
 
+void Barycentric2D(Coord_2D *p, Coord_2D *a, Coord_2D *b, Coord_2D *c, float &u, float &v, float &w)
+{
+    Coord_2D v0 = *b; Coord_2D v1 = *c; Coord_2D v2 = *p;
+    v0.operator -=(a); v1.operator -=(a); v2.operator -=(a);
+
+    float d00 = ProdutoEscalar2D(v0,v0); //v0v0
+    float d01 = ProdutoEscalar2D(v0,v1); //v0v1
+    float d11 = ProdutoEscalar2D(v1,v1);
+    float d20 = ProdutoEscalar2D(v2,v0);
+    float d21 = ProdutoEscalar2D(v2,v1);
+
+    float denom = (d00 * d11) - (d01 * d01);
+
+    v = (d11 * d20 - d01 * d21) / denom;
+    w = (d00 * d21 - d01 * d20) / denom;
+    u = 1-v-w;
+}
+
+
 bool IttTriangulos(Coord_2D *A,Coord_2D *B,Coord_2D *C,Coord_2D *D,Coord_2D *E,Coord_2D *F){
+
+    bool ret = false;
+
     if(Aux_Itt(A,B,D,E,F) || Aux_Itt(B,C,D,E,F) || Aux_Itt(C,A,D,E,F))
-        return true;
+        ret = true;
 
-//    float u, v, w;
-//    Barycentric(A, *D,*E,*F, u, v, w);
-//    if(;)
 
-    return false;
+    if(!ret){
+        float u,v,w;
+        Barycentric2D(D, A,B,C,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+        Barycentric2D(E, A,B,C,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+        Barycentric2D(F, A,B,C,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+
+        Barycentric2D(A, D,E,F,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+        Barycentric2D(B, D,E,F,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+        Barycentric2D(C, D,E,F,u,v,w);
+        if(u>=0 && v >=0 && w>=0  && u<1 && v <1 && w<1)
+            return true;
+
+    }
+
+    return ret;
 }
 
 
@@ -261,9 +309,28 @@ bool IntersecaoTriangulos(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_
 }
 
 
+bool Complanares(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *E,Coord_3D *F){
 
+    float h1,h2,h3,h4,h5,h6;
+    Coord_3D n1, n2;
+    n1 = Normal(A,B,C);
+    n2 = Normal(D,E,F);
+    float d1, d2;
+    Coord_3D O(0,0,0);
 
+    O.operator -=(A);
+    d1 = ProdutoEscalar3D(O,n1);
+    O.x=0;O.y=0;O.z=0;
+    O.operator -=(D);
+    d2 = ProdutoEscalar3D(*D,n2);
+    h1=Dst(*A,n2,d2);h2=Dst(*B,n2,d2);h3=Dst(*C,n2,d2);
+    h4=Dst(*D,n1,d1);h5=Dst(*E,n1,d1);h6=Dst(*F,n1,d1);
 
+    if((h1==0 && h2==0 && h3==0) || (h4==0 && h5==0 && h6==0) ){
+        return true;
+    }
+    return false;
+}
 
 
 float ANGSolido(Coord_3D *A,Coord_3D *B, Coord_3D *C, Coord_3D *O){

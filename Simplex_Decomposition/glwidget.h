@@ -22,6 +22,12 @@ public:
 
     void PintaFaces(Objeto* Pol);
     void PAllSimplex(Objeto* Pol);
+    void Expandir_Simplex(Objeto* Pol, float Fator, int Eixo);
+    bool expandir = false;
+    float Fator_Exp = 0;
+    float Eixo = 0;
+
+
     int Current_Simplex = 0;
 
 
@@ -29,7 +35,7 @@ public:
     void WriteObjs(vector<Objeto*> Objs);
 
     int velocidade = 50;
-    float Ex=50, Ey=50, Ez=50;
+    float Ex=50, Ey=50, Ez=50, RX = 20;
     float Lox=0, Loy=0, Loz=0;
     float Avx=0, Avy=10, Avz=0;
 
@@ -65,6 +71,15 @@ public slots:
     void Importar();
     void Exportar();
     void Video();
+    void F();
+    void T();
+
+    void attFator(double);
+    void attEixo(int);
+    void Expandir();
+
+
+
 
     //void ImpPontos();
     void New_X(double);

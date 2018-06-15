@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     ordmatriz.cpp \
     face.cpp \
     triangulacao.cpp \
-    simplex.cpp
+    simplex.cpp \
+    intersect3d.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -35,11 +36,12 @@ HEADERS  += mainwindow.h \
     ordmatriz.h \
     face.h \
     triangulacao.h \
-    simplex.h
+    simplex.h \
+    intersecet3d.h
 
 FORMS    += mainwindow.ui
 
-LIBS += -lglut -lGLU
+LIBS += -lglut -lGLU -lCGAL
 
 RESOURCES += \
     crab.qrc

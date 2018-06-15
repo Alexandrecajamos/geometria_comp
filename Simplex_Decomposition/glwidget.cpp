@@ -22,7 +22,6 @@ void delay(int milliseconds)
         now = clock();
 }
 
-
 void GLWidget::PintaPontos(Objeto *P){
     glBegin(GL_POINTS);
     for(std::vector<Coord_3D*>::iterator i = P->points.begin(); i!= P->points.end(); i++){
@@ -41,7 +40,6 @@ void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
     glEnd();
 
 }
-
 void GLWidget::PintaSimplex(int iA, int iB, int iC, int iD, Objeto *Pol){
 
     PintaFace(iA,iC,iB, Pol);
@@ -51,7 +49,6 @@ void GLWidget::PintaSimplex(int iA, int iB, int iC, int iD, Objeto *Pol){
 
 }
 
-
 void GLWidget::PintaFaces(Objeto* Pol){
     for(std::vector<Face*>::iterator i = Pol->faces.begin(); i!= Pol->faces.end(); i++){
         PintaFace((*i)->P1,(*i)->P2,(*i)->P3,Pol);
@@ -59,18 +56,85 @@ void GLWidget::PintaFaces(Objeto* Pol){
     }
 }
 void GLWidget::PAllSimplex(Objeto *Pol){
+
+    glLoadIdentity();
+    gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
+
     int nS = Current_Simplex;
     for(int i=0; i<nS;i++){
+        Simplex *sT = Pol->simplex.at(i);
+        Objeto *T = new Objeto();
+        T->addPoint(Pol->points.at(sT->A)->x,Pol->points.at(sT->A)->y, Pol->points.at(sT->A)->z);
+        T->addPoint(Pol->points.at(sT->B)->x,Pol->points.at(sT->B)->y, Pol->points.at(sT->B)->z);
+        T->addPoint(Pol->points.at(sT->C)->x,Pol->points.at(sT->C)->y, Pol->points.at(sT->C)->z);
+        T->addPoint(Pol->points.at(sT->D)->x,Pol->points.at(sT->D)->y, Pol->points.at(sT->D)->z);
 
-        PintaSimplex(Pol->simplex.at(i)->A,Pol->simplex.at(i)->B,Pol->simplex.at(i)->C,Pol->simplex.at(i)->D,Pol);
+        T->addFace(0,1,3);
+        T->addFace(1,2,3);
+        T->addFace(2,0,3);
+        T->addFace(0,2,1);
+
+        PintaFaces(T);
+
+//        T->addPoint();
+
+//        PintaSimplex(Pol->simplex.at(i)->A,Pol->simplex.at(i)->B,Pol->simplex.at(i)->C,Pol->simplex.at(i)->D,Pol);
     }
-
-//    for(std::vector<Simplex*>::iterator i = Pol->simplex.begin(); i!= Pol->simplex.end();i++){
-//        PintaSimplex((*i)->A,(*i)->B,(*i)->C,(*i)->D,Pol);
-//    }
 }
 
+void GLWidget::Expandir_Simplex(Objeto *Pol, float Fator, int Eixo){
 
+
+    int nS = Current_Simplex;
+
+    for(int i=0; i<nS;i++){
+        glLoadIdentity();
+        gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
+
+
+        Simplex *sT = Pol->simplex.at(i);
+        Objeto *T = new Objeto();
+
+        T->addPoint(Pol->points.at(sT->A)->x,Pol->points.at(sT->A)->y, Pol->points.at(sT->A)->z);
+        T->addPoint(Pol->points.at(sT->B)->x,Pol->points.at(sT->B)->y, Pol->points.at(sT->B)->z);
+        T->addPoint(Pol->points.at(sT->C)->x,Pol->points.at(sT->C)->y, Pol->points.at(sT->C)->z);
+        T->addPoint(Pol->points.at(sT->D)->x,Pol->points.at(sT->D)->y, Pol->points.at(sT->D)->z);
+
+        T->addFace(0,1,3);
+        T->addFace(1,2,3);
+        T->addFace(2,0,3);
+        T->addFace(0,2,1);
+
+        Coord_3D cT = T->Centro();
+
+//        cT.operator *=(Fator);
+
+        if(Eixo == 0)
+            glTranslated(cT.x * Fator, 1, 1);
+        if(Eixo == 1)
+            glTranslated(1, cT.y * Fator, 1);
+        if(Eixo == 2)
+            glTranslated(1, 1, cT.z * Fator);
+        if(Eixo == 3)
+            glTranslated(cT.x * Fator, cT.y*Fator, cT.z * Fator);
+
+
+        PintaFaces(T);
+
+//        T->addPoint();
+
+//        PintaSimplex(Pol->simplex.at(i)->A,Pol->simplex.at(i)->B,Pol->simplex.at(i)->C,Pol->simplex.at(i)->D,Pol);
+    }
+
+}
+
+//void GLWidget::PAllSimplex(Objeto *Pol){
+//    int nS = Current_Simplex;
+//    for(int i=0; i<nS;i++){
+
+//        PintaSimplex(Pol->simplex.at(i)->A,Pol->simplex.at(i)->B,Pol->simplex.at(i)->C,Pol->simplex.at(i)->D,Pol);
+//    }
+//}
 void GLWidget::initializeGL()
 {
        GLfloat luzAmbiente[4]={1,1,1,1.0};
@@ -117,7 +181,6 @@ void GLWidget::initializeGL()
 
 }
 
-
 void GLWidget::paintGL()
 {
 
@@ -131,17 +194,20 @@ void GLWidget::paintGL()
     glMaterialfv(GL_FRONT, GL_SPECULAR, Material);
     glMaterialf  (GL_FRONT, GL_SHININESS, 100.0);
 
-    glLoadIdentity();
-    gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
+
 //    glScaled(10,10,10);
 //    glTranslated(-C_Obj.x, -C_Obj.y, C_Obj.z);
 
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
-        if(Points)
+        if((*i)->simplex.size() == 0)
             PintaPontos((*i));
 //        PintaFaces((*i));
-        PAllSimplex((*i));
+//        PAllSimplex((*i));
+        if(expandir)
+            Expandir_Simplex((*i), Fator_Exp, Eixo);
+        else
+            PAllSimplex((*i));
     }
 
 
@@ -207,18 +273,27 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
 
         Objeto *Otemp = Objs.at(i);
         int nPontos = Otemp->points.size();
-        int nFaces = Otemp->faces.size();
-
+//        int nFaces = Otemp->faces.size();
+        int nSimplex = Otemp->simplex.size();
         output << "o P" << i+1 << "\n";
 
         for (int j = 0; j<nPontos; j++){
             Coord_3D *T = Otemp->points.at(j);
             output << "v " << T->x << " " << T->y << " " << T->z << "\n";
         }
-        for (int j = 0; j < nFaces; j++){
-            Face *F = Otemp->faces.at(j);
-            output << "f " << F->P1+1 << " " << F->P2+1 << " " << F->P3+1 << "\n";
+        for(int j=0; j< nSimplex; j++){
+            Simplex *S = Otemp->simplex.at(j);
+            output << "f " << S->A+1 << " " << S->B+1 << " " << S->D+1 << "\n";
+            output << "f " << S->B+1 << " " << S->C+1 << " " << S->D+1 << "\n";
+            output << "f " << S->C+1 << " " << S->A+1 << " " << S->D+1 << "\n";
+            output << "f " << S->A+1 << " " << S->C+1 << " " << S->B+1 << "\n";
         }
+
+
+//        for (int j = 0; j < nFaces; j++){
+//            Face *F = Otemp->faces.at(j);
+//            output << "f " << F->P1 << " " << F->P2 << " " << F->P3 << "\n";
+//        }
 
     }
 }
@@ -272,6 +347,31 @@ void GLWidget::Video(){
     Ez = aux;
     updateGL();
 }
+
+void GLWidget::F(){
+    float x = 2*PI;
+    float R = Ex;
+    RX--;
+    if(RX<0) RX=20;
+    float y = RX/20;
+    Ex= cos(x*y)*R;
+    Ez= -sin(x*y)*R;
+    updateGL();
+    Ex=R;
+
+}
+void GLWidget::T(){
+    float x = 2*PI;
+    float R = Ex;
+    RX++;
+    if(RX >= 20) RX=1;
+    float y = RX/20;
+    Ex= cos(x*y)*R;
+    Ez= -sin(x*y)*R;
+    updateGL();
+    Ex=R;
+}
+
 void GLWidget::attArestas(bool b){
     Arestas = b;
     updateGL();
@@ -401,3 +501,18 @@ void GLWidget::Av_Z(double x){
     Avz=(float)x;
     updateGL();
 }
+
+void GLWidget::attEixo(int e){
+    Eixo = e;
+}
+void GLWidget::attFator(double f){
+    Fator_Exp = f;
+}
+void GLWidget::Expandir(){
+    if(expandir)
+        expandir = false;
+    else
+        expandir = true;
+    updateGL();
+}
+

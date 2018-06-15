@@ -27,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->Imp, SIGNAL(pressed()), ui->GLwidget, SLOT(Importar()));
     connect(ui->Exp, SIGNAL(pressed()), ui->GLwidget, SLOT(Exportar()));
     connect(ui->panoramica, SIGNAL(pressed()), ui->GLwidget, SLOT(Video()));
+    connect(ui->f, SIGNAL(pressed()), ui->GLwidget, SLOT(F()));
+    connect(ui->t, SIGNAL(pressed()), ui->GLwidget, SLOT(T()));
+
+
     connect(ui->Vel, SIGNAL(valueChanged(int)), ui->GLwidget, SLOT(attVelocidade(int)));
     connect(ui->lineEdit, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attFile(QString)));
     connect(ui->pasta, SIGNAL(textChanged(QString)), ui->GLwidget, SLOT(attPath(QString)));
@@ -35,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->advFront, SIGNAL(pressed()), ui->GLwidget, SLOT(GetSimplex()));
     connect(ui->A, SIGNAL(pressed()), ui->GLwidget, SLOT(ASimplex()));
     connect(ui->P, SIGNAL(pressed()), ui->GLwidget, SLOT(PSimplex()));
+
+    connect(ui->fator, SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(attFator(double)));
+    connect(ui->eixo, SIGNAL(valueChanged(int)),ui->GLwidget, SLOT(attEixo(int)));
+    connect(ui->Expandir, SIGNAL(pressed()), ui->GLwidget,SLOT(Expandir()));
 
 
     ui->GLwidget->I = ui->Inf;
