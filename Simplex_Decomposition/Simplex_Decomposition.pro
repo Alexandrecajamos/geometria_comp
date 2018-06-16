@@ -37,11 +37,13 @@ HEADERS  += mainwindow.h \
     face.h \
     triangulacao.h \
     simplex.h \
-    intersecet3d.h
+    intersecet3d.h \
+    intersect.h
 
 FORMS    += mainwindow.ui
 
 LIBS += -lglut -lGLU -lCGAL
+
 
 RESOURCES += \
     crab.qrc

@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include "coord_3d.h"
 #include "intersecet3d.h"
-
+#include "intersect.h"
 #include <iostream>
 
 #include "objeto.h"
@@ -65,20 +65,17 @@ int main(int argc, char *argv[])
 //      Obj->addFace(2,0,3);//11
 //      Obj->addFace(1,0,4);
 
-////      int i,j;
-////      adj(Obj->faces.at(0), Obj->faces.at(3),i,j);
 
 
-//      Coord_3D *A1 = Obj->points.at(0);
-//      Coord_3D *A2 = Obj->points.at(4);
-//      Coord_3D *A3 = Obj->points.at(3);
+//      Coord_3D *A1 = Obj->points.at(2);
+//      Coord_3D *A2 = Obj->points.at(1);
+//      Coord_3D *A3 = Obj->points.at(0);
 
 //      Coord_3D *B1 = Obj->points.at(0);
-//      Coord_3D *B2 = Obj->points.at(3);
-//      Coord_3D *B3 = Obj->points.at(7);
+//      Coord_3D *B2 = Obj->points.at(1);
+//      Coord_3D *B3 = Obj->points.at(3);
 
-//      std::cout << InttTriangulos2D(A1,A2,A3,B1,B2,B3) << std::endl;
-
+//      std::cout << IntersecaoTriangulos(A1, A2, A3, B1, B2, B3) << std::endl;
 
 //    std::cout << intersectF(Obj->faces.at(12), Obj->faces.at(0), &Obj->points) << std::endl;
 //    std::cout << intersect(A1,A2,A3,B1,B2,B3) << std::endl;

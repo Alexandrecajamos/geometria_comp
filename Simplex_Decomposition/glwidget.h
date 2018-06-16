@@ -24,8 +24,8 @@ public:
     void PAllSimplex(Objeto* Pol);
     void Expandir_Simplex(Objeto* Pol, float Fator, int Eixo);
     bool expandir = false;
-    float Fator_Exp = 0;
-    float Eixo = 0;
+    float Fator_Exp = 1;
+    float Eixo = 3;
 
 
     int Current_Simplex = 0;
@@ -35,9 +35,9 @@ public:
     void WriteObjs(vector<Objeto*> Objs);
 
     int velocidade = 50;
-    float Ex=50, Ey=50, Ez=50, RX = 20;
+    float Ex=50, Ey=50, Ez=50, RY = 20;
     float Lox=0, Loy=0, Loz=0;
-    float Avx=0, Avy=10, Avz=0;
+    float Avx=0, Avy=1, Avz=0;
 
     float nx =0, ny=0, nz=0;
     int nP = 0;

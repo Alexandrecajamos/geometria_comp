@@ -84,11 +84,11 @@ void GLWidget::PAllSimplex(Objeto *Pol){
 
 void GLWidget::Expandir_Simplex(Objeto *Pol, float Fator, int Eixo){
 
-
     int nS = Current_Simplex;
-
+    glLoadIdentity();
     for(int i=0; i<nS;i++){
         glLoadIdentity();
+
         gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
 
 
@@ -106,17 +106,16 @@ void GLWidget::Expandir_Simplex(Objeto *Pol, float Fator, int Eixo){
         T->addFace(0,2,1);
 
         Coord_3D cT = T->Centro();
-
-//        cT.operator *=(Fator);
+//        cT.operator -=(&c);
 
         if(Eixo == 0)
-            glTranslated(cT.x * Fator, 1, 1);
+            glTranslated((cT.x-Lox) * Fator, 1, 1);
         if(Eixo == 1)
-            glTranslated(1, cT.y * Fator, 1);
+            glTranslated(1, (cT.y-Loy) * Fator, 1);
         if(Eixo == 2)
-            glTranslated(1, 1, cT.z * Fator);
+            glTranslated(1, 1, (cT.z-Loz) * Fator);
         if(Eixo == 3)
-            glTranslated(cT.x * Fator, cT.y*Fator, cT.z * Fator);
+            glTranslated((cT.x-Lox) * Fator, (cT.y-Loy)*Fator, (cT.z-Loz) * Fator);
 
 
         PintaFaces(T);
@@ -195,15 +194,16 @@ void GLWidget::paintGL()
     glMaterialf  (GL_FRONT, GL_SHININESS, 100.0);
 
 
-//    glScaled(10,10,10);
-//    glTranslated(-C_Obj.x, -C_Obj.y, C_Obj.z);
+
+
+    glLoadIdentity();
+    gluLookAt(Ex,Ey,Ez,Lox,Loy,Loz,Avx,Avy,Avz);
 
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
         if((*i)->simplex.size() == 0)
             PintaPontos((*i));
-//        PintaFaces((*i));
-//        PAllSimplex((*i));
+
         if(expandir)
             Expandir_Simplex((*i), Fator_Exp, Eixo);
         else
@@ -327,50 +327,72 @@ void GLWidget::Importar(){
     //cout << Info;
     Points = true;
     attInfo();
+    Coord_3D c = Objs.at(0)->Centro();
+    Lox = c.x, Loy = c.y, Loz = c.z;
     updateGL();
 }
 void GLWidget::Exportar(){
     WriteObjs(Objs);}
 void GLWidget::Video(){
     float x = 2*PI;
-    float R = Ex;
-    float aux = Ez;
-    for(float i=10; i>=1; i--){
-        float y = (i/10);
-        delay(velocidade);
-        //cout << cos(x*y)*50 << ", " <<  sin(x*y)*50 << endl;
-        Ex=cos(x*y)*R;
-        Ez=-sin(x*y)*R;
+
+    Coord_3D PO(Ex,Ey,Ez);
+    Coord_3D LA(Lox, Loy, Loz);
+    float R = Distancia3D(PO,LA);
+
+    float a1 = Ex, a2 = Ez;
+
+    for(float i=100; i>=1; i--){
+        float y = (i/100);
+        delay(velocidade/5);
+        Ex=cos(x*y)*R + Lox;
+        Ez=-sin(x*y)*R + Loz;
         updateGL();
     }
-    Ex = R;
-    Ez = aux;
+    Ex = a1;
+    Ez = a2;
     updateGL();
 }
 
 void GLWidget::F(){
     float x = 2*PI;
-    float R = Ex;
-    RX--;
-    if(RX<0) RX=20;
-    float y = RX/20;
-    Ex= cos(x*y)*R;
-    Ez= -sin(x*y)*R;
+    float a1 = Ex, a2 = Ez;
+    Coord_3D PO(Ex,Ey,Ez);
+    Coord_3D LA(Lox, Loy, Loz);
+    float R = Distancia3D(PO,LA);
+
+    RY--;
+
+    if(RY<0) RY=20;
+
+    float y = RY/20;
+    Ex= (cos(x*y)*R)+Lox;
+    Ez= (-sin(x*y)*R)+Loz;
+
     updateGL();
-    Ex=R;
+    Ex=a1;
+    Ez=a2;
 
 }
 void GLWidget::T(){
     float x = 2*PI;
-    float R = Ex;
-    RX++;
-    if(RX >= 20) RX=1;
-    float y = RX/20;
-    Ex= cos(x*y)*R;
-    Ez= -sin(x*y)*R;
+    float a1 = Ex, a2 = Ez;
+    Coord_3D PO(Ex,Ey,Ez);
+    Coord_3D LA(Lox, Loy, Loz);
+    float R = Distancia3D(PO,LA);
+
+    RY++;
+    if(RY >= 20) RY=0;
+
+    float y = RY/20;
+    Ex= (cos(x*y)*R)+Lox;
+    Ez= (-sin(x*y)*R)+Loz;
+
     updateGL();
-    Ex=R;
+    Ex=a1;
+    Ez=a2;
 }
+
 
 void GLWidget::attArestas(bool b){
     Arestas = b;

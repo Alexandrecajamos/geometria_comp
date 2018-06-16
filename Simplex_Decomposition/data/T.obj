@@ -1,0 +1,14 @@
+#Alexandre Ramos - Output; Nº de Partes = 1
+o P1
+v 1 -1 -1
+v 1 -1 1
+v -1 -1 -1
+v 1 1 -1
+v 1 1 1
+v -1 1 -1
+f 5 2 3
+f 4 1 2
+f 1 4 6
+f 5 3 6
+f 4 2 5
+f 1 6 3

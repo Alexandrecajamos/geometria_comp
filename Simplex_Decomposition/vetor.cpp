@@ -270,42 +270,223 @@ bool InttTriangulos2D(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *
 }
 
 
-bool IntersecaoTriangulos(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *E,Coord_3D *F){
-
-//    cout << "Teste Int" << endl;
-    float h1,h2,h3,h4,h5,h6;
-    Coord_3D n1, n2;
-    n1 = Normal(A,B,C);
-    n2 = Normal(D,E,F);
-    float d1, d2;
-    Coord_3D O(0,0,0);
-
-    O.operator -=(A);
-    d1 = ProdutoEscalar3D(O,n1);
-    O.x=0;O.y=0;O.z=0;
-    O.operator -=(D);
-    d2 = ProdutoEscalar3D(*D,n2);
-//    cout << "D1 = " << d1 << ", D2 = " << d2 << endl;
-    h1=Dst(*A,n2,d2);h2=Dst(*B,n2,d2);h3=Dst(*C,n2,d2);
-    h4=Dst(*D,n1,d1);h5=Dst(*E,n1,d1);h6=Dst(*F,n1,d1);
-
-//    cout << "h1(" << h1 << "), h2(" << h2 << "), h3(" << h3<< "), h4(" << h4<< "), h5(" << h5<< "), h6(" << h6 <<");" << endl;
-
-    if((h1==0 && h2==0 && h3==0) || (h4==0 && h5==0 && h6==0) ){
-//        cout << "Coplanares" << endl << endl;
-        return InttTriangulos2D(A,B,C,D,E,F);
-//        cout << itt << endl;
 
 
+////////////////////////////////////////////////////////////////////////////////
+//                              HELPER FUNCTIONS                              //
+////////////////////////////////////////////////////////////////////////////////
+// Check if two numbers have the same sign (zero is always false)
+bool sameSign2(const float a,const float b)
+{
+    return (a && b && (a >= 0) ^ (b < 0));
+}
+////////////////////////////////////////////////////////////////////////////////
+// Check if two numbers have the same sign (zero is always true)
+bool sameSign2Adjacency(const float a,const float b)
+{
+    return (!(a && b) || (a >= 0) ^ (b < 0));
+}
+////////////////////////////////////////////////////////////////////////////////
+// Check if three numbers have the same sign (zero is always false)
+bool sameSign3(const float a,const float b,const float c)
+{
+    return (sameSign2(a,b) && sameSign2(b,c));
+}
+////////////////////////////////////////////////////////////////////////////////
+// Check if three numbers have the same sign (zero is always true)
+bool sameSign3Adjacency(const float a,const float b,const float c)
+{
+    return (sameSign2Adjacency(a,b) && sameSign2Adjacency((b)?b:a,c));
+}
+////////////////////////////////////////////////////////////////////////////////
+// Swap two variables
+template<class T>
+void troca(T& a,T& b)
+{
+    T tmp = a;
+    a = b;
+    b = tmp;
+}
+
+template<class T>
+T min2(const T a,const T b){ return (a<b)?a:b; }
+template<class T>
+T min3(const T a,const T b,const T c){ return min2(min2(a,b),c); }
+template<class T>
+T max2(const T a,const T b){ return (a>b)?a:b; }
+template<class T>
+T max3(const T a,const T b,const T c){ return max2(max2(a,b),c); }
+
+
+
+bool IntersecaoTriangulos(Coord_3D *v1,Coord_3D *v2,Coord_3D *v3,Coord_3D *v4,Coord_3D *v5,Coord_3D *v6){
+
+    Coord_3D n1 = Normal(v1,v2,v3); NormalizaVetor3D(&n1);
+    Coord_3D n2 = Normal(v4,v5,v6); NormalizaVetor3D(&n2);
+    float d2 = 0-(ProdutoEscalar3D(n2,*v4));
+    float h1,h2,h3;
+    h1 = ProdutoEscalar3D(n2,*v1)+d2;
+    h2 = ProdutoEscalar3D(n2,*v2)+d2;
+    h3 = ProdutoEscalar3D(n2,*v3)+d2;
+
+    h1 = (fabs(h1)<5e-5)?0:h1;
+    h2 = (fabs(h2)<5e-5)?0:h2;
+    h3 = (fabs(h3)<5e-5)?0:h3;
+
+    if(h1 == 0 && h2 == 0 && h3 == 0)
+        return InttTriangulos2D(v1,v2,v3,v4,v5,v6);
+    float d1 = 0-(ProdutoEscalar3D(n1,*v1));
+    float h4,h5,h6;
+
+    h4 = ProdutoEscalar3D(n1,*v4)+d1;
+    h5 = ProdutoEscalar3D(n1,*v5)+d1;
+    h6 = ProdutoEscalar3D(n1,*v6)+d1;
+
+    h4 = (fabs(h4)<5e-5)?0:h4;
+    h5 = (fabs(h5)<5e-5)?0:h5;
+    h6 = (fabs(h6)<5e-5)?0:h6;
+
+    if(sameSign3(h1,h2,h3) || sameSign3(h4,h5,h6)) return false;
+
+    if(sameSign3Adjacency(h1,h2,h3) || sameSign3Adjacency(h3,h4,h5))
+        return false;
+
+    Coord_3D l = ProdutoVetorial3D(n1,n2);
+    Coord_3D d(fabs(l.x), fabs(l.y), fabs(l.z));
+
+    float p1, p2, p3, p4, p5, p6;
+    if(d.x >= d.y && d.x >= d.z){
+        p1 = v1->x;
+        p2 = v2->x;
+        p3 = v3->x;
+        p4 = v4->x;
+        p5 = v5->x;
+        p6 = v6->x;
+    }else if(d.y >= d.x && d.y >= d.z)
+    {
+        p1 = v1->y;
+        p2 = v2->y;
+        p3 = v3->y;
+        p4 = v4->y;
+        p5 = v5->y;
+        p6 = v6->y;
+    }else{
+        p1 = v1->z;
+        p2 = v2->z;
+        p3 = v3->z;
+        p4 = v4->z;
+        p5 = v5->z;
+        p6 = v6->z;
     }
-//    if((h1>0 && h2>0 && h3>0) || (h1<0 && h2<0 && h3<0)){
-////        cout << "Não há possibilidade" << endl;
-//        return false;
-//    }
-//    Coord_3D L = ProdutoVetorial3D(n1, n2);
-//    L.ImpCoord_3D();
+    float t1,t2,t3,t4;
+    if((h1-h2 == 0) || sameSign2(h1,h2)){
+        t1 = p2 + (p3-p2)*h2/(h2-h3);
+        t2 = p3 + (p1-p3)*h3/(h3-h1);
+        if(t1>t2) troca(t1,t2);
+    }else if((h2-h3 == 0) || sameSign2(h2,h3))
+    {
+        t1 = p1 + (p2-p1)*h1/(h1-h2);
+        t2 = p3 + (p1-p3)*h3/(h3-h1);
+        if(t1>t2) troca(t1,t2);
+    }else if((h3-h1 == 0) || sameSign2(h3,h1))
+    {
+        t1 = p1 + (p2-p1)*h1/(h1-h2);
+        t2 = p2 + (p3-p2)*h2/(h2-h3);
+        if(t1>t2) troca(t1,t2);
+    }else{
+        float a = p1 + (p2-p1)*h1/(h1-h2);
+        float b = p2 + (p3-p2)*h2/(h2-h3);
+        float c = p3 + (p1-p3)*h3/(h3-h1);
+        t1 = min3(a,b,c);
+        t2 = max3(a,b,c);
+    }
+    if((h4-h5 == 0) || sameSign2(h4,h5))
+    {
+        t3 = p5 + (p6-p5)*h5/(h5-h6);
+        t4 = p6 + (p4-p6)*h6/(h6-h4);
+        if(t3>t4) troca(t3,t4);
+    }else if((h5-h6 == 0) || sameSign2(h5,h6))
+    {
+        t3 = p4 + (p5-p4)*h4/(h4-h5);
+        t4 = p6 + (p4-p6)*h6/(h6-h4);
+        if(t3>t4) troca(t3,t4);
+    }else if((h6-h4 == 0) || sameSign2(h6,h4))
+    {
+        t3 = p4 + (p5-p4)*h4/(h4-h5);
+        t4 = p5 + (p6-p5)*h5/(h5-h6);
+    }else{
+        float a = p4 + (p5-p4)*h4/(h4-h5);
+        float b = p5 + (p6-p5)*h5/(h5-h6);
+        float c = p6 + (p4-p6)*h6/(h6-h4);
+        t3 = min3(a,b,c);
+        t4 = max3(a,b,c);
+    }
+    return (true)?
+        (t3 <= t2 && t1 <= t4):(t2-t3 > 5e-5 && t4-t1 > 5e-5);
+    /*
+        // Using this rejects edge-face adjacency but we want that
+    //if((adjacency == INTERSECT_ADJACENCY)?
+    //		sameSign3(h1,h2,h3)          || sameSign3(h4,h5,h6):
+    //		sameSign3Adjacency(h1,h2,h3) || sameSign3Adjacency(h3,h4,h5))
+    //	return false;
+    if(sameSign3(h1,h2,h3) || sameSign3(h4,h5,h6)) return false;
+    */
+     /*
 
-    return false;
+
+        // Compute the intervals t1,t2 and t3,t4 on l
+    float t1,t2,t3,t4;
+    if((h1-h2 == 0) || sameSign2(h1,h2))
+    {
+        t1 = p2 + (p3-p2)*h2/(h2-h3);
+        t2 = p3 + (p1-p3)*h3/(h3-h1);
+        if(t1>t2) swap(t1,t2);
+    }else if((h2-h3 == 0) || sameSign2(h2,h3))
+    {
+        t1 = p1 + (p2-p1)*h1/(h1-h2);
+        t2 = p3 + (p1-p3)*h3/(h3-h1);
+        if(t1>t2) swap(t1,t2);
+    }else if((h3-h1 == 0) || sameSign2(h3,h1))
+    {
+        t1 = p1 + (p2-p1)*h1/(h1-h2);
+        t2 = p2 + (p3-p2)*h2/(h2-h3);
+        if(t1>t2) swap(t1,t2);
+    }else{
+        float a = p1 + (p2-p1)*h1/(h1-h2);
+        float b = p2 + (p3-p2)*h2/(h2-h3);
+        float c = p3 + (p1-p3)*h3/(h3-h1);
+        t1 = min3(a,b,c);
+        t2 = max3(a,b,c);
+    }
+    if((h4-h5 == 0) || sameSign2(h4,h5))
+    {
+        t3 = p5 + (p6-p5)*h5/(h5-h6);
+        t4 = p6 + (p4-p6)*h6/(h6-h4);
+        if(t3>t4) swap(t3,t4);
+    }else if((h5-h6 == 0) || sameSign2(h5,h6))
+    {
+        t3 = p4 + (p5-p4)*h4/(h4-h5);
+        t4 = p6 + (p4-p6)*h6/(h6-h4);
+        if(t3>t4) swap(t3,t4);
+    }else if((h6-h4 == 0) || sameSign2(h6,h4))
+    {
+        t3 = p4 + (p5-p4)*h4/(h4-h5);
+        t4 = p5 + (p6-p5)*h5/(h5-h6);
+    }else{
+        float a = p4 + (p5-p4)*h4/(h4-h5);
+        float b = p5 + (p6-p5)*h5/(h5-h6);
+        float c = p6 + (p4-p6)*h6/(h6-h4);
+        t3 = min3(a,b,c);
+        t4 = max3(a,b,c);
+    }
+
+        // Test if intervals overlap
+    return (adjacency == INTERSECT_ADJACENCY)?
+        (t3 <= t2 && t1 <= t4):(t2-t3 > 5e-5 && t4-t1 > 5e-5);
+}*/
+
+
+//    return false;
 }
 
 

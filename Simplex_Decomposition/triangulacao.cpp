@@ -69,12 +69,14 @@ int Valido(Face F, vector<Face> Faces,Objeto *Obj, bool &intersept){
 //                Coord_3D P3 = *Obj->points.at(Faces.at(i).P3);
 //                P3.ImpCoord_3D();
 //            }
-            int intt = intersect(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3));
-//
-            if(intt != 1)
-                intersept = 0;
-            else
-                intersept = 1;
+
+            intersept = IntersecaoTriangulos(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3));
+//            int intt = intersect(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3));
+////
+//            if(intt != 1)
+//                intersept = 0;
+//            else
+//                intersept = 1;
 //            intersept = IntersecaoTriangulos(Obj->points.at(F.P1),Obj->points.at(F.P2),Obj->points.at(F.P3), Obj->points. at(Faces.at(i).P1), Obj->points.at(Faces.at(i).P2), Obj->points.at(Faces.at(i).P3));
 //            cout << intersept << endl;
         }

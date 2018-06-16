@@ -17,12 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->add, SIGNAL(pressed()), ui->GLwidget, SLOT(Add()));
 
     connect(ui->Faces, SIGNAL(clicked(bool)), ui->GLwidget, SLOT(attArestas(bool)));
-    connect(ui->La_x_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Lo_X(double)));
-    connect(ui->La_y_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Lo_Y(double)));
-    connect(ui->La_z_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Lo_Z(double)));
-    connect(ui->Av_x_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Av_X(double)));
-    connect(ui->Av_y_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Av_Y(double)));
-    connect(ui->Av_z_2,SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(Av_Z(double)));
+
 
     connect(ui->Imp, SIGNAL(pressed()), ui->GLwidget, SLOT(Importar()));
     connect(ui->Exp, SIGNAL(pressed()), ui->GLwidget, SLOT(Exportar()));
