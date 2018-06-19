@@ -135,9 +135,17 @@ bool IttTriangulos(Coord_2D *A,Coord_2D *B,Coord_2D *C,Coord_2D *D,Coord_2D *E,C
 
     bool ret = false;
 
-    if(Aux_Itt(A,B,D,E,F) || Aux_Itt(B,C,D,E,F) || Aux_Itt(C,A,D,E,F))
-        ret = true;
+    if(Aux_Itt(A,B,D,E,F) || Aux_Itt(B,C,D,E,F) || Aux_Itt(C,A,D,E,F)){
+        return true;
 
+    }
+//    A->ImpCoord_2D();
+//    B->ImpCoord_2D();
+//    C->ImpCoord_2D();
+//    D->ImpCoord_2D();
+//    E->ImpCoord_2D();
+//    F->ImpCoord_2D();
+//    cout << Aux_Itt(B,C,D,E,F) << endl;
 
     if(!ret){
         float u,v,w;
@@ -266,7 +274,7 @@ bool InttTriangulos2D(Coord_3D *A,Coord_3D *B,Coord_3D *C,Coord_3D *D,Coord_3D *
     if(A2>A3)
         return IttTriangulos(&Ayz, &Byz, &Cyz,&Dyz, &Eyz, &Fyz);
 
-    return IttTriangulos(&Axz, &Bxz, &Cyz,&Dxz, &Exz, &Fxz);
+    return IttTriangulos(&Axz, &Bxz, &Cxz,&Dxz, &Exz, &Fxz);
 }
 
 

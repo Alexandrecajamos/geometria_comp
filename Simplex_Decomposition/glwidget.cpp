@@ -300,10 +300,11 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
 
 //Slots para funções da interface:
 void GLWidget::GetSimplex(){
-    Triangulacao(Objs.at(0));
+    Objs.at(0)->simplex.clear();
+    Triangulacao(Objs.at(0),Ebusca);
     Current_Simplex = Objs.at(0)->simplex.size();
-
     updateGL();
+    cout << "FIm T" << endl;
 }
 void GLWidget::ASimplex(){
     int L = Objs.at(0)->simplex.size();
@@ -323,12 +324,16 @@ void GLWidget::PSimplex(){
 
 void GLWidget::Importar(){
     Objs.clear();
+
     Objs = ReadObjs(path+"/"+File+".obj");
-    //cout << Info;
     Points = true;
     attInfo();
-    Coord_3D c = Objs.at(0)->Centro();
-    Lox = c.x, Loy = c.y, Loz = c.z;
+    if(Objs.size()>0){
+        Coord_3D c = Objs.at(0)->Centro();
+        Lox = c.x, Loy = c.y, Loz = c.z;
+        Current_Simplex=0;
+    }
+
     updateGL();
 }
 void GLWidget::Exportar(){
@@ -452,6 +457,9 @@ void GLWidget::attInfo(){
 
     QString T = QString::fromStdString(Info);
     I->setText(T);
+}
+void GLWidget::EBusca(bool b){
+    Ebusca=b;
 }
 
 void GLWidget::New_X(double n){

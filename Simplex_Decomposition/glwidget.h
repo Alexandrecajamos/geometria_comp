@@ -26,6 +26,7 @@ public:
     bool expandir = false;
     float Fator_Exp = 1;
     float Eixo = 3;
+    bool Ebusca = 0;
 
 
     int Current_Simplex = 0;
@@ -58,7 +59,7 @@ public:
 signals:
 
 public slots:
-
+    void EBusca(bool);
     void PSimplex();
     void ASimplex();
 

@@ -51,6 +51,10 @@ int main(int argc, char *argv[])
       Obj->addPoint(10,10,-10);
       Obj->addPoint(0,10,-10);
 
+      Obj->addPoint(1,1,0);
+      Obj->addPoint(2,1,0);
+      Obj->addPoint(1,2,0);
+
 //      Obj->addFace(0,1,4); //0
 //      Obj->addFace(4,1,5);//1
 //      Obj->addFace(1,2,5);//2
@@ -67,18 +71,18 @@ int main(int argc, char *argv[])
 
 
 
-//      Coord_3D *A1 = Obj->points.at(2);
+//      Coord_3D *A1 = Obj->points.at(0);
 //      Coord_3D *A2 = Obj->points.at(1);
-//      Coord_3D *A3 = Obj->points.at(0);
+//      Coord_3D *A3 = Obj->points.at(4);
 
-//      Coord_3D *B1 = Obj->points.at(0);
-//      Coord_3D *B2 = Obj->points.at(1);
-//      Coord_3D *B3 = Obj->points.at(3);
+//      Coord_3D *B1 = Obj->points.at(8);
+//      Coord_3D *B2 = Obj->points.at(9);
+//      Coord_3D *B3 = Obj->points.at(10);
 
 //      std::cout << IntersecaoTriangulos(A1, A2, A3, B1, B2, B3) << std::endl;
 
-//    std::cout << intersectF(Obj->faces.at(12), Obj->faces.at(0), &Obj->points) << std::endl;
-//    std::cout << intersect(A1,A2,A3,B1,B2,B3) << std::endl;
+////    std::cout << intersectF(Obj->faces.at(12), Obj->faces.at(0), &Obj->points) << std::endl;
+////    std::cout << intersect(A1,A2,A3,B1,B2,B3) << std::endl;
 
     glutInit(&argc, argv);
     QApplication a(argc, argv);

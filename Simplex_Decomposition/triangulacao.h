@@ -4,7 +4,7 @@
 #include "vetor.h"
 #include "objeto.h"
 
-void Triangulacao(Objeto* Conv_Obj);
+void Triangulacao(Objeto* Conv_Obj, bool EBusca);
 
 
 #endif // TRIANGULACAO_H

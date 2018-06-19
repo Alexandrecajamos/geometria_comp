@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->fator, SIGNAL(valueChanged(double)), ui->GLwidget, SLOT(attFator(double)));
     connect(ui->eixo, SIGNAL(valueChanged(int)),ui->GLwidget, SLOT(attEixo(int)));
     connect(ui->Expandir, SIGNAL(pressed()), ui->GLwidget,SLOT(Expandir()));
-
+    connect(ui->busca, SIGNAL(clicked(bool)), ui->GLwidget,SLOT(EBusca(bool)));
 
     ui->GLwidget->I = ui->Inf;
 
