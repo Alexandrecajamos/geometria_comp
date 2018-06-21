@@ -34,9 +34,9 @@ void GLWidget::PintaFace(int iA, int iB,int iC, Objeto* Pol){
         glBegin(GL_LINE_LOOP);
     else
         glBegin(GL_TRIANGLES);
-    glVertex3f(Pol->points.at(iA)->x,Pol->points.at(iA)->y,Pol->points.at(iA)->z);
-    glVertex3f(Pol->points.at(iB)->x,Pol->points.at(iB)->y,Pol->points.at(iB)->z);
-    glVertex3f(Pol->points.at(iC)->x,Pol->points.at(iC)->y,Pol->points.at(iC)->z);
+    glVertex3f(Pol->points.at(iA-1)->x,Pol->points.at(iA-1)->y,Pol->points.at(iA-1)->z);
+    glVertex3f(Pol->points.at(iB-1)->x,Pol->points.at(iB-1)->y,Pol->points.at(iB-1)->z);
+    glVertex3f(Pol->points.at(iC-1)->x,Pol->points.at(iC-1)->y,Pol->points.at(iC-1)->z);
     glEnd();
 
 }
@@ -202,7 +202,7 @@ void GLWidget::paintGL()
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
 //        if((*i)->simplex.size() == 0)
-
+//        PintaFaces((*i));
 
         if(expandir)
             Expandir_Simplex((*i), Fator_Exp, Eixo);
@@ -231,7 +231,7 @@ void GLWidget::resizeGL(int w, int h)
 vector<Objeto*> GLWidget::ReadObjs (std::string filepath){
 
     ifstream readFile(filepath);
-    string identifier, x, y, z, line;
+    string identifier, x, y, z,alfa, line;
 
     vector<Objeto*> Objetos;
 
@@ -305,6 +305,7 @@ void GLWidget::GetSimplex(){
     Objs.at(0)->simplex.clear();
     Triangulacao(Objs.at(0),Ebusca, addPonto, Limite);
     Current_Simplex = Objs.at(0)->simplex.size();
+    attInfo();
     updateGL();
     cout << "FIm T" << endl;
 }
@@ -431,7 +432,7 @@ void GLWidget::attInfo(){
         mZ = Objs.at(i)->points.at(Objs.at(i)->MenorZ());
         MZ = Objs.at(i)->points.at(Objs.at(i)->MaiorZ());
 
-        S+= ("Informações Gerais P ("+to_string(i)+"): \nNº Pontos: " +to_string(Objs.at(i)->points.size()) + ", Nº Faces: " + to_string(Objs.at(i)->faces.size()) + "\n");
+        S+= ("Informações Gerais P ("+to_string(i)+"): \nNº Pontos: " +to_string(Objs.at(i)->points.size()) + ", Nº Simplex: " + to_string(Objs.at(i)->simplex.size()) + "\n");
         S+= ("Centro = " + to_string(C.x) + ", " + to_string(C.y) + ", " + to_string(C.z) + "\n");
         S+= ("Extremos: \n");
         S+= ("Menor X = " + to_string(mX->x));

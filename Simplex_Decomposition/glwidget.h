@@ -37,7 +37,7 @@ public:
     void WriteObjs(vector<Objeto*> Objs);
 
     int velocidade = 50;
-    float Ex=50, Ey=50, Ez=50, RY = 20;
+    float Ex=30, Ey=30, Ez=30, RY = 20;
     float Lox=0, Loy=0, Loz=0;
     float Avx=0, Avy=1, Avz=0;
 

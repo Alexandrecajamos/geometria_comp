@@ -51,7 +51,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>30.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Eye_y_2">
@@ -70,7 +70,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>30.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="Eye_z_2">
@@ -89,7 +89,7 @@
       <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <double>50.000000000000000</double>
+      <double>30.000000000000000</double>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
