@@ -23,8 +23,7 @@ SOURCES += main.cpp\
     ordmatriz.cpp \
     face.cpp \
     triangulacao.cpp \
-    simplex.cpp \
-    intersect3d.cpp
+    simplex.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -37,7 +36,6 @@ HEADERS  += mainwindow.h \
     face.h \
     triangulacao.h \
     simplex.h \
-    intersecet3d.h \
     intersect.h
 
 FORMS    += mainwindow.ui

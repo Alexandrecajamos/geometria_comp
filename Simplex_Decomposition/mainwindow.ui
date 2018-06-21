@@ -152,8 +152,8 @@
     <widget class="QPushButton" name="A">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>410</y>
+       <x>120</x>
+       <y>440</y>
        <width>31</width>
        <height>21</height>
       </rect>
@@ -303,21 +303,21 @@
     <widget class="QPushButton" name="advFront">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>10</x>
        <y>350</y>
-       <width>151</width>
+       <width>131</width>
        <height>22</height>
       </rect>
      </property>
      <property name="text">
-      <string>ADV_Front Completo</string>
+      <string>Avanço de Fronteira</string>
      </property>
     </widget>
     <widget class="QPushButton" name="P">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>410</y>
+       <x>160</x>
+       <y>440</y>
        <width>31</width>
        <height>21</height>
       </rect>
@@ -329,8 +329,8 @@
     <widget class="QLabel" name="label_51">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>410</y>
+       <x>40</x>
+       <y>440</y>
        <width>81</width>
        <height>21</height>
       </rect>
@@ -650,46 +650,38 @@
       <string>Y</string>
      </property>
     </widget>
-    <zorder>Eye_x_2</zorder>
-    <zorder>Eye_y_2</zorder>
-    <zorder>Eye_z_2</zorder>
-    <zorder>lineEdit</zorder>
-    <zorder>label</zorder>
-    <zorder>Exp</zorder>
-    <zorder>Imp</zorder>
-    <zorder>A</zorder>
-    <zorder>label_43</zorder>
-    <zorder>pushButton</zorder>
-    <zorder>Vel</zorder>
-    <zorder>label_45</zorder>
-    <zorder>label_2</zorder>
-    <zorder>panoramica</zorder>
-    <zorder>pasta</zorder>
-    <zorder>label_3</zorder>
-    <zorder>advFront</zorder>
-    <zorder>P</zorder>
-    <zorder>label_51</zorder>
-    <zorder>busca</zorder>
-    <zorder>t</zorder>
-    <zorder>label_52</zorder>
-    <zorder>f</zorder>
-    <zorder>label_49</zorder>
-    <zorder>add</zorder>
-    <zorder>label_50</zorder>
-    <zorder>label_47</zorder>
-    <zorder>NY</zorder>
-    <zorder>label_48</zorder>
-    <zorder>Part</zorder>
-    <zorder>NX</zorder>
-    <zorder>NZ</zorder>
-    <zorder>Expandir</zorder>
-    <zorder>eixo</zorder>
-    <zorder>fator</zorder>
-    <zorder>label_53</zorder>
-    <zorder>label_54</zorder>
-    <zorder>f</zorder>
-    <zorder>t</zorder>
-    <zorder>label_52</zorder>
+    <widget class="QCheckBox" name="Pontos">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>400</y>
+       <width>191</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Inserir Pontos</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="Lim">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>350</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-1</number>
+     </property>
+     <property name="maximum">
+      <number>9999999</number>
+     </property>
+     <property name="value">
+      <number>-1</number>
+     </property>
+    </widget>
    </widget>
    <widget class="GLWidget" name="GLwidget" native="true">
     <property name="geometry">
@@ -740,19 +732,6 @@
       <width>781</width>
       <height>171</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>560</y>
-      <width>191</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Atl. Informações Geométricas</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="Faces">

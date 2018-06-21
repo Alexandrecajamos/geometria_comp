@@ -30,7 +30,8 @@ public:
 
 
     int Current_Simplex = 0;
-
+    int Limite = -1;
+    bool addPonto = false;
 
     vector<Objeto*> ReadObjs (std::string filepath);
     void WriteObjs(vector<Objeto*> Objs);
@@ -77,8 +78,9 @@ public slots:
 
     void attFator(double);
     void attEixo(int);
+    void attLim(int);
     void Expandir();
-
+    void ADDPonto(bool);
 
 
 

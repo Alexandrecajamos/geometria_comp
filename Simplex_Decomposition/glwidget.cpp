@@ -201,13 +201,15 @@ void GLWidget::paintGL()
 
 
     for(vector<Objeto*>::iterator i = Objs.begin(); i!= Objs.end(); i++){
-        if((*i)->simplex.size() == 0)
-            PintaPontos((*i));
+//        if((*i)->simplex.size() == 0)
+
 
         if(expandir)
             Expandir_Simplex((*i), Fator_Exp, Eixo);
-        else
+        else{
             PAllSimplex((*i));
+            PintaPontos((*i));
+        }
     }
 
 
@@ -301,7 +303,7 @@ void GLWidget::WriteObjs(vector<Objeto*> Objs){
 //Slots para funções da interface:
 void GLWidget::GetSimplex(){
     Objs.at(0)->simplex.clear();
-    Triangulacao(Objs.at(0),Ebusca);
+    Triangulacao(Objs.at(0),Ebusca, addPonto, Limite);
     Current_Simplex = Objs.at(0)->simplex.size();
     updateGL();
     cout << "FIm T" << endl;
@@ -310,13 +312,13 @@ void GLWidget::ASimplex(){
     int L = Objs.at(0)->simplex.size();
     Current_Simplex--;
     if(Current_Simplex < 0)
-        Current_Simplex = L-1;
+        Current_Simplex = L;
     updateGL();
 }
 void GLWidget::PSimplex(){
     int L = Objs.at(0)->simplex.size();
     Current_Simplex++;
-    if(Current_Simplex >= L)
+    if(Current_Simplex > L)
         Current_Simplex = 0;
     updateGL();
 }
@@ -402,6 +404,13 @@ void GLWidget::T(){
 void GLWidget::attArestas(bool b){
     Arestas = b;
     updateGL();
+}
+void GLWidget::ADDPonto(bool b){
+    addPonto = b;
+}
+
+void GLWidget::attLim(int i){
+    Limite = i;
 }
 
 void GLWidget::attInfo(){

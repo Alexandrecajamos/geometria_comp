@@ -1,5 +1,4 @@
 #include "triangulacao.h"
-#include "intersecet3d.h"
 
 Coord_3D P_Otimo(Coord_3D *A, Coord_3D *B, Coord_3D *C){
     Coord_3D nF = Normal(A,B,C);
@@ -65,10 +64,6 @@ float** RankDistPontos(Face F, std::vector<Coord_3D*> *Pontos, bool Ord, int &nV
         QuickSortM(Rank,0, nV-1,0,2);
     return Rank;
 }
-
-
-
-
 
 int PValidos(Face F, std::vector<Coord_3D*> *Pontos, int *Candidatos){
 
@@ -209,9 +204,12 @@ int p_OtimoValido(Face F, vector<Face> *Faces, std::vector<Coord_3D*> *Pontos, i
         bool i1=0, i2=0, i3=0;
         Face T1(F.P1, F.P2, Temp), T2(F.P2, F.P3, Temp), T3(F.P3, F.P1, Temp);
 
-        int t1 = Valido2(T1, Faces,Livres, nLivres, Rejeitadas, Pontos, i1);
-        int t2 = Valido2(T2, Faces,Livres, nLivres, Rejeitadas, Pontos, i2);
-        int t3 = Valido2(T3, Faces,Livres, nLivres, Rejeitadas, Pontos, i3);
+//        int t1 = Valido2(T1, Faces,Livres, nLivres, Rejeitadas, Pontos, i1);
+//        int t2 = Valido2(T2, Faces,Livres, nLivres, Rejeitadas, Pontos, i2);
+//        int t3 = Valido2(T3, Faces,Livres, nLivres, Rejeitadas, Pontos, i3);
+        int t1 = Valido(T1, Faces, Pontos, i1);
+        int t2 = Valido(T2, Faces, Pontos, i2);
+        int t3 = Valido(T3, Faces, Pontos, i3);
 
         if(!i1 && !i2 && !i3){
             Otm = Temp;
@@ -244,7 +242,6 @@ void ImpFaces(vector<Face> Faces){
     }
 
 }
-
 
 void Triangulacao2(Objeto *Conv_Obj, bool EBusca){
     cout << EBusca << endl;
@@ -311,8 +308,7 @@ void Triangulacao2(Objeto *Conv_Obj, bool EBusca){
 
 }
 
-
-int Melhor_Ponto(Face F, vector<Face> *Faces, std::vector<Coord_3D*> *Pontos,  int *Livres, int nLivres, vector<int> Rejeitadas, bool EBusca){
+int Melhor_Ponto(Face F, vector<Face> *Faces, std::vector<Coord_3D*> *Pontos,  int *Livres, int nLivres, vector<int> Rejeitadas, bool EBusca, bool POtimo){
     int Otm = -1;
 
     if(EBusca){
@@ -330,25 +326,38 @@ int Melhor_Ponto(Face F, vector<Face> *Faces, std::vector<Coord_3D*> *Pontos,  i
 
             Face T1(F.P1, F.P2, Temp), T2(F.P2, F.P3, Temp), T3(F.P3, F.P1, Temp);
 
-            int t1 = Valido2(T1, Faces,Livres, nLivres, Rejeitadas, Pontos, i1);
-            int t2 = Valido2(T2, Faces,Livres, nLivres, Rejeitadas, Pontos, i2);
-            int t3 = Valido2(T3, Faces,Livres, nLivres, Rejeitadas, Pontos, i3);
+//            int t1 = Valido2(T1, Faces,Livres, nLivres, Rejeitadas, Pontos, i1);
+//            int t2 = Valido2(T2, Faces,Livres, nLivres, Rejeitadas, Pontos, i2);
+//            int t3 = Valido2(T3, Faces,Livres, nLivres, Rejeitadas, Pontos, i3);
+            int t1 = Valido(T1, Faces, Pontos, i1);
+            int t2 = Valido(T2, Faces, Pontos, i2);
+            int t3 = Valido(T3, Faces, Pontos, i3);
 
-            if(!i1 && !i2 && !i3){
+
+            if(!i1 && !i2 && !i3 && !(t1!=-1 && t2!=-1 && t3!=-1)){
+                if(F.P1 == 5 && F.P2 == 2 && F.P3 == 6){
+                    cout << "Otm " << Temp << endl;
+                    cout << t1 <<"," << t2 <<"," << t3 <<"," << i1 <<"," << i2 <<"," << i3 << endl;
+                    cout << "N Livres" << nLivres << endl;
+                }
                 Otm = Temp;
+                if(t1!=-1 && t2!=-1 && t3!=-1)
+                    cout << "Tetraedro existente" << endl << endl << endl;
 
-                if(t1 != -1)
-                    Faces->at(t1).Val = false;
-                else
+                if(t1 == -1)
                     Faces->push_back(T1);
-                if(t2 != -1)
-                    Faces->at(t2).Val = false;
+//                    Faces->at(t1).Val = false;
                 else
+                    Faces->at(t1).Val = false;
+
+                if(t2 == -1)
                     Faces->push_back(T2);
-                if(t3 != -1)
-                    Faces->at(t3).Val = false;
                 else
+                    Faces->at(t2).Val = false;
+                if(t3 == -1)
                     Faces->push_back(T3);
+                else
+                    Faces->at(t3).Val = false;
             }
             else{
                 Ind--;
@@ -362,13 +371,50 @@ int Melhor_Ponto(Face F, vector<Face> *Faces, std::vector<Coord_3D*> *Pontos,  i
 
     }
 
+
+
+    if(Otm == -1 && POtimo){
+
+        Coord_3D POTM = P_Otimo(Pontos->at(F.P1),Pontos->at(F.P2),Pontos->at(F.P3));
+        Pontos->push_back(&POTM);
+        int Temp = Pontos->size()-1;
+
+        Face T1(F.P1, F.P2, Temp), T2(F.P2, F.P3, Temp), T3(F.P3, F.P1, Temp);
+        bool i1=0, i2=0, i3=0;
+        int t1 = Valido(T1, Faces, Pontos, i1);
+        int t2 = Valido(T2, Faces, Pontos, i2);
+        int t3 = Valido(T3, Faces, Pontos, i3);
+
+        if(!i1 && !i2 && !i3 && !(t1!=-1 && t2!=-1 && t3!=-1)){
+
+
+            Otm = Temp;
+
+            if(t1 == -1)
+                Faces->push_back(T1);
+            else
+                Faces->at(t1).Val = false;
+
+            if(t2 == -1)
+                Faces->push_back(T2);
+            else
+                Faces->at(t2).Val = false;
+            if(t3 == -1)
+                Faces->push_back(T3);
+            else
+                Faces->at(t3).Val = false;
+        }else{
+            Pontos->pop_back();
+        }
+    }
+
     //EBusca -> 0:
 
     return Otm;
 
 }
 
-void Triangulacao(Objeto *Conv_Obj, bool EBusca){
+void Triangulacao(Objeto *Conv_Obj, bool EBusca,bool addPonto, int Limite){
 
     vector <Face> Faces;
     int NF = Conv_Obj->faces.size();
@@ -384,7 +430,10 @@ void Triangulacao(Objeto *Conv_Obj, bool EBusca){
    int nL = NF;
    int controle = 0;
 
-    while(nL>0 && controle < 100000){
+//   if(addPonto)
+//       Limite = 10;
+
+    while(nL>0 && controle != Limite){
 
 
         Face F = Faces.at(Livres[0]);
@@ -392,7 +441,7 @@ void Triangulacao(Objeto *Conv_Obj, bool EBusca){
         Faces.at(Livres[0]).Val = false;
 
         cout << "F -> " << F.P1 << F.P2 << F.P3 <<";"<< endl;
-        float Otimo = Melhor_Ponto(F, &Faces, &Conv_Obj->points, Livres, nL, Rejeitadas, EBusca);
+        float Otimo = Melhor_Ponto(F, &Faces, &Conv_Obj->points, Livres, nL, Rejeitadas, EBusca, addPonto);
         cout << Otimo << endl;
         if(Otimo != -1){
             Conv_Obj->addSimplex(F.P1, F.P2, F.P3, Otimo);
@@ -412,6 +461,6 @@ void Triangulacao(Objeto *Conv_Obj, bool EBusca){
        controle++;
 
     }
-    cout << "COntrole "<< controle << endl;
+    cout << "COntrole "<< controle << ", " << Conv_Obj->simplex.size() << endl;
 
 }
